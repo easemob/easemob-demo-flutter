@@ -49,6 +49,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    // 添加 demo 国际化内容
     _localization.defaultLocale = [
       ChatLocal(
         'zh',

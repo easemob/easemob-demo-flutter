@@ -1,4 +1,40 @@
 PODS:
+  - agora_rtc_engine (6.3.0):
+    - AgoraIrisRTC_iOS (= 4.3.0-build.2)
+    - AgoraRtcEngine_iOS (= 4.3.0)
+    - Flutter
+  - AgoraIrisRTC_iOS (4.3.0-build.2)
+  - AgoraRtcEngine_iOS (4.3.0):
+    - AgoraRtcEngine_iOS/AIAEC (= 4.3.0)
+    - AgoraRtcEngine_iOS/AINS (= 4.3.0)
+    - AgoraRtcEngine_iOS/AudioBeauty (= 4.3.0)
+    - AgoraRtcEngine_iOS/ClearVision (= 4.3.0)
+    - AgoraRtcEngine_iOS/ContentInspect (= 4.3.0)
+    - AgoraRtcEngine_iOS/FaceCapture (= 4.3.0)
+    - AgoraRtcEngine_iOS/FaceDetection (= 4.3.0)
+    - AgoraRtcEngine_iOS/ReplayKit (= 4.3.0)
+    - AgoraRtcEngine_iOS/RtcBasic (= 4.3.0)
+    - AgoraRtcEngine_iOS/SpatialAudio (= 4.3.0)
+    - AgoraRtcEngine_iOS/VideoAv1CodecDec (= 4.3.0)
+    - AgoraRtcEngine_iOS/VideoCodecDec (= 4.3.0)
+    - AgoraRtcEngine_iOS/VideoCodecEnc (= 4.3.0)
+    - AgoraRtcEngine_iOS/VirtualBackground (= 4.3.0)
+    - AgoraRtcEngine_iOS/VQA (= 4.3.0)
+  - AgoraRtcEngine_iOS/AIAEC (4.3.0)
+  - AgoraRtcEngine_iOS/AINS (4.3.0)
+  - AgoraRtcEngine_iOS/AudioBeauty (4.3.0)
+  - AgoraRtcEngine_iOS/ClearVision (4.3.0)
+  - AgoraRtcEngine_iOS/ContentInspect (4.3.0)
+  - AgoraRtcEngine_iOS/FaceCapture (4.3.0)
+  - AgoraRtcEngine_iOS/FaceDetection (4.3.0)
+  - AgoraRtcEngine_iOS/ReplayKit (4.3.0)
+  - AgoraRtcEngine_iOS/RtcBasic (4.3.0)
+  - AgoraRtcEngine_iOS/SpatialAudio (4.3.0)
+  - AgoraRtcEngine_iOS/VideoAv1CodecDec (4.3.0)
+  - AgoraRtcEngine_iOS/VideoCodecDec (4.3.0)
+  - AgoraRtcEngine_iOS/VideoCodecEnc (4.3.0)
+  - AgoraRtcEngine_iOS/VirtualBackground (4.3.0)
+  - AgoraRtcEngine_iOS/VQA (4.3.0)
   - audioplayers_darwin (0.0.1):
     - Flutter
   - DKImagePickerController/Core (4.3.4):
@@ -32,6 +68,8 @@ PODS:
   - DKPhotoGallery/Resource (0.0.17):
     - SDWebImage
     - SwiftyGif
+  - em_chat_callkit (0.0.1):
+    - Flutter
   - em_chat_uikit (0.0.1):
     - Flutter
   - file_picker (0.0.1):
@@ -50,6 +88,8 @@ PODS:
     - Flutter
     - TOCropViewController (~> 2.6.1)
   - image_picker_ios (0.0.1):
+    - Flutter
+  - iris_method_channel (0.0.1):
     - Flutter
   - libwebp (1.3.2):
     - libwebp/demux (= 1.3.2)
@@ -89,7 +129,9 @@ PODS:
     - libwebp
 
 DEPENDENCIES:
+  - agora_rtc_engine (from `.symlinks/plugins/agora_rtc_engine/ios`)
   - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
+  - em_chat_callkit (from `.symlinks/plugins/em_chat_callkit/ios`)
   - em_chat_uikit (from `.symlinks/plugins/em_chat_uikit/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
@@ -98,6 +140,7 @@ DEPENDENCIES:
   - im_flutter_sdk (from `.symlinks/plugins/im_flutter_sdk/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - iris_method_channel (from `.symlinks/plugins/iris_method_channel/ios`)
   - open_file (from `.symlinks/plugins/open_file/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -108,6 +151,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AgoraIrisRTC_iOS
+    - AgoraRtcEngine_iOS
     - DKImagePickerController
     - DKPhotoGallery
     - HyphenateChat
@@ -117,8 +162,12 @@ SPEC REPOS:
     - TOCropViewController
 
 EXTERNAL SOURCES:
+  agora_rtc_engine:
+    :path: ".symlinks/plugins/agora_rtc_engine/ios"
   audioplayers_darwin:
     :path: ".symlinks/plugins/audioplayers_darwin/ios"
+  em_chat_callkit:
+    :path: ".symlinks/plugins/em_chat_callkit/ios"
   em_chat_uikit:
     :path: ".symlinks/plugins/em_chat_uikit/ios"
   file_picker:
@@ -135,6 +184,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_cropper/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  iris_method_channel:
+    :path: ".symlinks/plugins/iris_method_channel/ios"
   open_file:
     :path: ".symlinks/plugins/open_file/ios"
   path_provider_foundation:
@@ -151,9 +202,13 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_thumbnail/ios"
 
 SPEC CHECKSUMS:
+  agora_rtc_engine: f737aeb9ac7fdfcfda875d0d0125eedaa09602f9
+  AgoraIrisRTC_iOS: 2caf892fa827777fe43b6ac7d12e9b42579eb865
+  AgoraRtcEngine_iOS: 267c0980c1fb97e056d05b850f8629b05b6e467a
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
+  em_chat_callkit: 08f67ef7c3f470991003f71ac34bf8b5eb519260
   em_chat_uikit: 92556d018d33a4e763e25609e3f12fda03d6b347
   file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
@@ -163,6 +218,7 @@ SPEC CHECKSUMS:
   im_flutter_sdk: 0012f5bb4bf59284f6b5e55059f96e60eb527328
   image_cropper: a3291c624a953049bc6a02e1f8c8ceb162a24b25
   image_picker_ios: 99dfe1854b4fa34d0364e74a78448a0151025425
+  iris_method_channel: 0617c689164d8154c020c50f63ca79f92b8a7b9d
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c

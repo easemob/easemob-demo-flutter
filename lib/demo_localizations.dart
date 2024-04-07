@@ -107,6 +107,12 @@ mixin DemoLocalizations {
   static String logoutConfirm = 'logoutConfirm';
   static String logoutCancel = 'logoutCancel';
 
+  static String videoCall = 'videoCall';
+  static String voiceCall = 'voiceCall';
+  static String selectCallee = 'selectCallee';
+  static String calleeSearch = 'calleeSearch';
+  static String call = 'call';
+
   static Map<String, dynamic> zh = {
     confirm: '确认',
 
@@ -216,6 +222,12 @@ mixin DemoLocalizations {
     logoutTitle: '退出登录',
     logoutConfirm: '退出',
     logoutCancel: '取消',
+
+    videoCall: '视频通话',
+    voiceCall: '语音通话',
+    calleeSearch: '搜索',
+    selectCallee: '选择成员',
+    call: '呼叫',
   };
   static Map<String, dynamic> en = {
     confirm: 'Confirm',
@@ -326,5 +338,11 @@ mixin DemoLocalizations {
     logoutTitle: 'Logout',
     logoutConfirm: 'Logout',
     logoutCancel: 'Cancel',
+
+    videoCall: 'Video Call',
+    voiceCall: 'Voice Call',
+    calleeSearch: 'Search',
+    selectCallee: 'Select Member',
+    call: 'Call',
   };
 }

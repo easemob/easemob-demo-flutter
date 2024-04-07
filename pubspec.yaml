@@ -51,12 +51,21 @@ dependencies:
 
   http_parser: ^4.0.2
 
+  lpinyin: ^2.0.2
+
+  em_chat_callkit:
+    path: ../../chat_uikit/em_chat_callkit
+
   em_chat_uikit:
     path: ../../chat_uikit/chatuikit-flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+
+dependency_overrides:
+  im_flutter_sdk:
+    path: ../../../im_flutter_sdk
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +102,9 @@ flutter:
     - assets/images/settings.png
     - assets/images/avatar_selected.png
     - assets/images/icon.png
+    - assets/images/video_call.png
+    - assets/images/voice_call.png
+    - assets/images/call.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

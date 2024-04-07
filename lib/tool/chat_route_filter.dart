@@ -1,4 +1,5 @@
 import 'package:chat_uikit_demo/demo_localizations.dart';
+import 'package:chat_uikit_demo/pages/call/group_member_select_view.dart';
 import 'package:chat_uikit_demo/pages/help/download_page.dart';
 import 'package:chat_uikit_demo/tool/app_server_helper.dart';
 import 'package:chat_uikit_demo/tool/user_data_store.dart';
@@ -125,6 +126,95 @@ class ChatRouteFilter {
         return (arguments.profile.type == ChatUIKitProfileType.group) &&
             model.message.from != ChatUIKit.instance.currentUserId;
       },
+      appBarTrailing: Builder(
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (arguments.profile.type == ChatUIKitProfileType.group)
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: InkWell(
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        ChatUIKitRoute.pushOrPushNamed(
+                          context,
+                          ChatUIKitRouteNames.threadsView,
+                          ThreadsViewArguments(
+                            profile: arguments.profile,
+                            attributes: arguments.attributes,
+                          ),
+                        );
+                      },
+                      child: ChatUIKitImageLoader.messageLongPressThread(),
+                    ),
+                  ),
+                const SizedBox(width: 12),
+                SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: InkWell(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      ChatUIKitColor color = ChatUIKitTheme.of(context).color;
+                      // 如果是单聊，弹出选择语音通话和视频通话
+                      if (arguments.profile.type == ChatUIKitProfileType.contact) {
+                        showChatUIKitBottomSheet(
+                          context: context,
+                          items: [
+                            ChatUIKitBottomSheetItem.normal(
+                              icon: Image.asset(
+                                'assets/images/voice_call.png',
+                                color: color.isDark ? color.primaryColor6 : color.primaryColor5,
+                              ),
+                              label: DemoLocalizations.voiceCall.localString(context),
+                              onTap: () async {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            ChatUIKitBottomSheetItem.normal(
+                              icon: Image.asset(
+                                'assets/images/video_call.png',
+                                color: color.isDark ? color.primaryColor6 : color.primaryColor5,
+                              ),
+                              label: DemoLocalizations.videoCall.localString(context),
+                              onTap: () async {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      } else {
+                        // 如果是群聊，直接选择联系人
+                        Navigator.of(context)
+                            .push(
+                          MaterialPageRoute(
+                            builder: (context) => GroupMemberSelectView(
+                              groupId: arguments.profile.id,
+                            ),
+                          ),
+                        )
+                            .then((value) {
+                          if (value is List<ChatUIKitProfile> && value.isNotEmpty) {
+                            debugPrint('start call');
+                          }
+                        });
+                      }
+                    },
+                    child: Image.asset('assets/images/call.png', fit: BoxFit.fill, width: 24, height: 24),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
       onItemTap: (ctx, messageModel) {
         if (messageModel.message.bodyType == MessageType.FILE) {
           Navigator.of(ctx).push(
