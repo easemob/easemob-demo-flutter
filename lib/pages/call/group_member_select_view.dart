@@ -13,7 +13,7 @@ class GroupMemberSelectView extends StatefulWidget {
 
 class _GroupMemberSelectViewState extends State<GroupMemberSelectView> {
   List<ChatUIKitProfile> selected = [];
-  ChatUIKitProfile? currentProfile;
+  late ChatUIKitProfile currentProfile;
 
   @override
   void initState() {
@@ -38,6 +38,7 @@ class _GroupMemberSelectViewState extends State<GroupMemberSelectView> {
               if (selected.length <= 1) {
                 return;
               }
+              selected.removeWhere((element) => element.id == currentProfile.id);
               Navigator.of(context).pop(selected);
             },
             child: Text(
@@ -57,7 +58,7 @@ class _GroupMemberSelectViewState extends State<GroupMemberSelectView> {
         itemBuilder: (context, model) {
           return InkWell(
             onTap: () {
-              if (currentProfile!.id == model.profile.id) {
+              if (currentProfile.id == model.profile.id) {
                 return;
               }
               setState(() {
@@ -104,7 +105,7 @@ class _GroupMemberSelectViewState extends State<GroupMemberSelectView> {
           searchHideText: DemoLocalizations.calleeSearch.localString(context),
           searchData: list,
           enableMulti: true,
-          cantChangeSelected: [currentProfile!]),
+          cantChangeSelected: [currentProfile]),
     ).then(
       (value) {
         if (value is List<ChatUIKitProfile>) {

@@ -53,6 +53,8 @@ dependencies:
 
   lpinyin: ^2.0.2
 
+  permission_handler: ^10.2.0
+
   em_chat_callkit:
     path: ../../chat_uikit/em_chat_callkit
 
@@ -105,6 +107,7 @@ flutter:
     - assets/images/video_call.png
     - assets/images/voice_call.png
     - assets/images/call.png
+    - assets/call/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

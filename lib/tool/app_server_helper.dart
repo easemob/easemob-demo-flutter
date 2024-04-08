@@ -1,4 +1,6 @@
-import 'package:chat_uikit_demo/welcome_page.dart';
+import 'dart:math';
+
+import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/foundation.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/foundation.dart';
 class AppServerHelper {
   static String? serverUrl = 'https://a1-appserver.easemob.com';
 
+  // 发送验证码
   static Future<void> sendSmsCodeRequest(String phone) async {
     String url = '$serverUrl/inside/app/sms/send/$phone';
     Response response = await Dio().post(url);
@@ -14,6 +17,7 @@ class AppServerHelper {
     }
   }
 
+  // 根据验证码获取登录信息
   static Future<LoginUserData> login(String phone, String smsCode) async {
     String url = '$serverUrl/inside/app/user/login/V2';
 
@@ -30,6 +34,7 @@ class AppServerHelper {
     );
   }
 
+  // 上传头像
   static Future<String> uploadAvatar(String currentUserId, String avatarPath) async {
     debugPrint('uploadAvatar: $currentUserId, $avatarPath');
     String url = '$serverUrl/inside/app/user/$currentUserId/avatar/upload';
@@ -42,6 +47,7 @@ class AppServerHelper {
     }
   }
 
+  // 获取群组头像
   static Future<String> fetchGroupAvatar(String groupId) async {
     String url = '$serverUrl/inside/app/group/$groupId/avatarurl';
     Response response = await Dio().get(url);
@@ -52,6 +58,7 @@ class AppServerHelper {
     }
   }
 
+  // 自动解散群组
   static Future<void> autoDestroyGroup(String groupId) async {
     String url = '$serverUrl/inside/app/group/$groupId';
     Response response = await Dio().post(url, queryParameters: {'appkey': appKey});
@@ -59,8 +66,52 @@ class AppServerHelper {
       throw Exception('Failed to auto destroy: ${response.statusCode}');
     }
   }
+
+  // 获取呼叫信息
+  static Future<AgoraInfo> fetchAgoraInfo(String userId, {String? channelName}) async {
+    String url = '$serverUrl/inside/token/rtc/channel/${channelName ?? Random().nextInt(99999999)}/user/$userId';
+    Response response = await Dio().get(url);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch agora info: ${response.statusCode}');
+    }
+    AgoraInfo agoraInfo = AgoraInfo.fromJson(response.data as Map<String, dynamic>);
+    agoraInfo.channelName = channelName;
+    return agoraInfo;
+  }
+
+  // 获取agora uid 和 user id 的映射信息
+  static Future<Map<String, String>> fetchAgoraUidMap(String channelName) async {
+    String url = '$serverUrl/inside/agora/channel/mapper';
+    Response response = await Dio().get(url, queryParameters: {'channelName': channelName});
+    if (response.statusCode != 200) {
+      throw Exception('Failed to fetch agora uid map: ${response.statusCode}');
+    }
+    /*
+    "result": {
+        "121006940": "tom",
+        "1138437225": "jack"
+    }
+    */
+    Map<String, dynamic> map = response.data['result'];
+    Map<String, String> resultMap = {};
+    map.forEach((key, value) {
+      resultMap[key] = value as String;
+    });
+    return resultMap;
+  }
 }
 
+class AgoraInfo {
+  AgoraInfo.fromJson(Map<String, dynamic> json)
+      : agoraToken = json['accessToken'],
+        agoraUid = json['agoraUid'];
+
+  final String agoraToken;
+  final String agoraUid;
+  String? channelName;
+}
+
+// 登录用户信息
 class LoginUserData {
   LoginUserData.fromJson(Map<String, dynamic> json)
       : token = json['token'],

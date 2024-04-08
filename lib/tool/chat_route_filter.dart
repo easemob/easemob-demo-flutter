@@ -1,12 +1,16 @@
 import 'package:chat_uikit_demo/demo_localizations.dart';
+import 'package:chat_uikit_demo/pages/call/call_pages/multi_call_page.dart';
+import 'package:chat_uikit_demo/pages/call/call_pages/single_call_page.dart';
 import 'package:chat_uikit_demo/pages/call/group_member_select_view.dart';
 import 'package:chat_uikit_demo/pages/help/download_page.dart';
 import 'package:chat_uikit_demo/tool/app_server_helper.dart';
 import 'package:chat_uikit_demo/tool/user_data_store.dart';
+import 'package:em_chat_callkit/chat_callkit.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ChatRouteFilter {
   static RouteSettings chatRouteSettings(RouteSettings settings) {
@@ -28,6 +32,7 @@ class ChatRouteFilter {
     GroupDetailsViewArguments arguments = settings.arguments as GroupDetailsViewArguments;
 
     arguments = arguments.copyWith(viewObserver: viewObserver);
+    // 更新群详情
     Future(() async {
       Group group = await ChatUIKit.instance.fetchGroupInfo(groupId: arguments.profile.id);
       ChatUIKitProfile profile = arguments.profile.copyWith(name: group.name, avatarUrl: group.extension);
@@ -46,7 +51,6 @@ class ChatRouteFilter {
   static RouteSettings contactDetail(RouteSettings settings) {
     ChatUIKitViewObserver? viewObserver = ChatUIKitViewObserver();
     ContactDetailsViewArguments arguments = settings.arguments as ContactDetailsViewArguments;
-
     arguments = arguments.copyWith(
       viewObserver: viewObserver,
       // 添加 remark 实现
@@ -176,6 +180,18 @@ class ChatRouteFilter {
                               label: DemoLocalizations.voiceCall.localString(context),
                               onTap: () async {
                                 Navigator.of(context).pop();
+                                [Permission.microphone, Permission.camera].request().then((value) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) {
+                                      return SingleCallPage.call(arguments.profile.id,
+                                          type: ChatCallKitCallType.audio_1v1);
+                                    }),
+                                  ).then((value) {
+                                    if (value != null) {
+                                      debugPrint('call end: $value');
+                                    }
+                                  });
+                                });
                               },
                             ),
                             ChatUIKitBottomSheetItem.normal(
@@ -186,6 +202,18 @@ class ChatRouteFilter {
                               label: DemoLocalizations.videoCall.localString(context),
                               onTap: () async {
                                 Navigator.of(context).pop();
+                                [Permission.microphone, Permission.camera].request().then((value) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) {
+                                      return SingleCallPage.call(arguments.profile.id,
+                                          type: ChatCallKitCallType.video_1v1);
+                                    }),
+                                  ).then((value) {
+                                    if (value != null) {
+                                      debugPrint('call end: $value');
+                                    }
+                                  });
+                                });
                               },
                             ),
                           ],
@@ -202,7 +230,21 @@ class ChatRouteFilter {
                         )
                             .then((value) {
                           if (value is List<ChatUIKitProfile> && value.isNotEmpty) {
-                            debugPrint('start call');
+                            List<String> userIds = value.map((e) => e.id).toList();
+                            [Permission.microphone, Permission.camera].request().then((value) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) {
+                                  return MultiCallPage.call(
+                                    userIds,
+                                    groupId: arguments.profile.id,
+                                  );
+                                }),
+                              ).then((value) {
+                                if (value != null) {
+                                  debugPrint('call end: $value');
+                                }
+                              });
+                            });
                           }
                         });
                       }

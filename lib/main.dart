@@ -1,4 +1,5 @@
 import 'package:chat_uikit_demo/debug_login_page.dart';
+import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/home_page.dart';
 import 'package:chat_uikit_demo/login_page.dart';
@@ -19,8 +20,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'pages/me/settings/advanced_page.dart';
-
-const appKey = 'easemob#easeim';
 
 const bool appDebug = false;
 
