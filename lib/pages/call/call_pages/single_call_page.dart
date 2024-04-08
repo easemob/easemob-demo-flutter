@@ -7,6 +7,7 @@ import 'package:em_chat_callkit/chat_callkit.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 enum SingleCallType {
   // 音频呼入等待
@@ -558,6 +559,7 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
     return CallButton(
       selected: false,
       callback: () async {
+        await FlutterRingtonePlayer().stop();
         await ChatCallKitManager.answer(widget.callId!);
         holding = false;
         setState(() {

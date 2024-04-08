@@ -78,6 +78,8 @@ PODS:
   - Flutter (1.0.0)
   - flutter_localization (0.0.1):
     - Flutter
+  - flutter_ringtone_player (0.0.1):
+    - Flutter
   - flutter_sound_record (0.0.1):
     - Flutter
   - HyphenateChat (4.5.0)
@@ -138,6 +140,7 @@ DEPENDENCIES:
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
   - flutter_localization (from `.symlinks/plugins/flutter_localization/ios`)
+  - flutter_ringtone_player (from `.symlinks/plugins/flutter_ringtone_player/ios`)
   - flutter_sound_record (from `.symlinks/plugins/flutter_sound_record/ios`)
   - im_flutter_sdk (from `.symlinks/plugins/im_flutter_sdk/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
@@ -179,6 +182,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_localization:
     :path: ".symlinks/plugins/flutter_localization/ios"
+  flutter_ringtone_player:
+    :path: ".symlinks/plugins/flutter_ringtone_player/ios"
   flutter_sound_record:
     :path: ".symlinks/plugins/flutter_sound_record/ios"
   im_flutter_sdk:
@@ -218,6 +223,7 @@ SPEC CHECKSUMS:
   file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_localization: f43b18844a2b3d2c71fd64f04ffd6b1e64dd54d4
+  flutter_ringtone_player: 15eba85187230b87b2512f0e1b92225618bc03e7
   flutter_sound_record: fa9800029599bccfaa8be22cc372550a5fa505ac
   HyphenateChat: bf4cfa65a83ffa210803fdc91263b4891fb510ee
   im_flutter_sdk: 843b5d02d6a557a8a2facabe283534c7550112be

@@ -1,6 +1,7 @@
 import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:chat_uikit_demo/pages/call/call_pages/multi_call_page.dart';
 import 'package:chat_uikit_demo/pages/call/call_pages/single_call_page.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:chat_uikit_demo/tool/app_server_helper.dart';
 import 'package:em_chat_callkit/chat_callkit.dart';
@@ -61,6 +62,11 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget> with ChatCallKitO
   }
 
   @override
+  void onCallEnd(String? callId, ChatCallKitCallEndReason reason) {
+    FlutterRingtonePlayer().stop();
+  }
+
+  @override
   void onReceiveCall(
     String userId,
     String callId,
@@ -68,10 +74,19 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget> with ChatCallKitO
     Map<String, String>? ext,
   ) async {
     debugPrint('----onReceiveCall: $userId, $callId, $callType, $ext');
+
+    FlutterRingtonePlayer().play(
+      android: AndroidSounds.ringtone,
+      ios: IosSounds.electronic,
+      looping: true,
+      volume: 0.1,
+      asAlarm: false,
+    );
+
     pushToCallPage(
       [userId],
       callType,
-      callId: callId,
+      callId,
       ext: ext,
     );
   }
@@ -84,26 +99,17 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget> with ChatCallKitO
 
   void pushToCallPage(
     List<String> userIds,
-    ChatCallKitCallType callType, {
-    String? callId,
+    ChatCallKitCallType callType,
+    String callId, {
     Map<String, String>? ext,
   }) async {
     Widget page;
     String? groupId = ext?['groupId'];
     if (callType == ChatCallKitCallType.multi) {
-      if (callId == null) {
-        page = MultiCallPage.call(userIds, groupId: groupId);
-      } else {
-        page = MultiCallPage.receive(callId, userIds.first, groupId: groupId);
-      }
+      page = MultiCallPage.receive(callId, userIds.first, groupId: groupId);
     } else {
-      if (callId == null) {
-        page = SingleCallPage.call(userIds.first, type: callType);
-      } else {
-        page = SingleCallPage.receive(userIds.first, callId, type: callType);
-      }
+      page = SingleCallPage.receive(userIds.first, callId, type: callType);
     }
-
     [Permission.microphone, Permission.camera].request().then((value) {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (context) {

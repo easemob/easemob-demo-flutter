@@ -7,6 +7,7 @@ import 'package:em_chat_callkit/chat_callkit.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 class MultiCallPage extends StatefulWidget {
   factory MultiCallPage.call(
@@ -338,6 +339,7 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
     return CallButton(
       selected: false,
       callback: () async {
+        await FlutterRingtonePlayer().stop();
         await ChatCallKitManager.answer(widget.callId!);
         setState(() => isCalling = true);
       },
