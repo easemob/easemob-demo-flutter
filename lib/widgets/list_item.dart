@@ -70,16 +70,19 @@ class ListItem extends StatelessWidget {
           Expanded(child: Container()),
           if (trailingWidget != null) trailingWidget!,
           if (trailingWidget == null)
-            Text(
-              trailingString ?? '',
-              textAlign: TextAlign.right,
-              textScaler: TextScaler.noScaling,
-              style: trailingStyle ??
-                  TextStyle(
-                    fontSize: theme.font.labelMedium.fontSize,
-                    fontWeight: theme.font.labelMedium.fontWeight,
-                    color: theme.color.isDark ? theme.color.neutralColor7 : theme.color.neutralColor5,
-                  ),
+            Expanded(
+              child: Text(
+                trailingString ?? '',
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.right,
+                textScaler: TextScaler.noScaling,
+                style: trailingStyle ??
+                    TextStyle(
+                      fontSize: theme.font.labelMedium.fontSize,
+                      fontWeight: theme.font.labelMedium.fontWeight,
+                      color: theme.color.isDark ? theme.color.neutralColor7 : theme.color.neutralColor5,
+                    ),
+              ),
             ),
           const SizedBox(width: 4),
           if (enableArrow)

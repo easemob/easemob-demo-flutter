@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/pages/call/call_pages/call_button.dart';
 import 'package:chat_uikit_demo/tool/format_time_tool.dart';
 import 'package:em_chat_callkit/chat_callkit.dart';
@@ -166,6 +167,9 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
         callId = await ChatCallKitManager.startSingleCall(
           widget.userId,
           type: widget.type,
+          inviteMessage: widget.type == ChatCallKitCallType.audio_1v1
+              ? DemoLocalizations.singleVoiceCallInviteMessage.localString(context)
+              : DemoLocalizations.singleVideoCallInviteMessage.localString(context),
         );
       } on ChatCallKitError {
         rethrow;

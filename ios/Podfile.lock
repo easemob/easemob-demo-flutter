@@ -222,7 +222,7 @@ SPEC CHECKSUMS:
   HyphenateChat: bf4cfa65a83ffa210803fdc91263b4891fb510ee
   im_flutter_sdk: 843b5d02d6a557a8a2facabe283534c7550112be
   image_cropper: a3291c624a953049bc6a02e1f8c8ceb162a24b25
-  image_picker_ios: 99dfe1854b4fa34d0364e74a78448a0151025425
+  image_picker_ios: b545a5f16c0fa88e3ecbbce3ed4de45567a8ec18
   iris_method_channel: 0617c689164d8154c020c50f63ca79f92b8a7b9d
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d

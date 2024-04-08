@@ -24,6 +24,10 @@ mixin DemoLocalizations {
   static String loginPrivacyPolicy = 'loginPrivacyPolicy';
   static String loginPleaseAgreeTermsOfServicePrivacyPolicy = 'loginPleaseAgreeTermsOfServicePrivacyPolicy';
 
+  static String multiCallInviteMessage = 'multiCallInviteMessage';
+  static String singleVideoCallInviteMessage = 'singleVideoCallInviteMessage';
+  static String singleVoiceCallInviteMessage = 'singleVoiceCallInviteMessage';
+
   // home
   static String chat = 'chat';
 
@@ -138,6 +142,10 @@ mixin DemoLocalizations {
     loginAnd: '与',
     loginPrivacyPolicy: '《环信隐私协议》',
     loginPleaseAgreeTermsOfServicePrivacyPolicy: '请同意环信服务条款和隐私协议',
+
+    multiCallInviteMessage: '邀请你加入多人通话',
+    singleVideoCallInviteMessage: '邀请你加入视频通话',
+    singleVoiceCallInviteMessage: '邀请你加入语音通话',
 
     // home
     chat: '会话',
@@ -254,6 +262,10 @@ mixin DemoLocalizations {
     loginAnd: ' and',
     loginPrivacyPolicy: ' Privacy Policy',
     loginPleaseAgreeTermsOfServicePrivacyPolicy: 'Please agree to the Terms of Service and Privacy Policy',
+
+    multiCallInviteMessage: 'Invite you to join a multi-call',
+    singleVideoCallInviteMessage: 'Invite you to join a video call',
+    singleVoiceCallInviteMessage: 'Invite you to join a voice call',
 
     // home
     chat: 'Chat',

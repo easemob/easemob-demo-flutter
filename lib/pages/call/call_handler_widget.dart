@@ -76,6 +76,12 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget> with ChatCallKitO
     );
   }
 
+  @override
+  void onInviteMessageWillSend(ChatCallKitMessage message) {
+    // ignore: invalid_use_of_protected_member
+    ChatUIKit.instance.onMessagesReceived([message]);
+  }
+
   void pushToCallPage(
     List<String> userIds,
     ChatCallKitCallType callType, {

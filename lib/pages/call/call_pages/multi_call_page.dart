@@ -1,3 +1,4 @@
+import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/pages/call/call_pages/call_button.dart';
 import 'package:chat_uikit_demo/pages/call/call_pages/multi_call_item_view.dart';
 import 'package:chat_uikit_demo/pages/call/call_pages/multi_call_view.dart';
@@ -94,7 +95,11 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
       if (widget.groupId != null) {
         ext = {'groupId': widget.groupId!};
       }
-      callId = await ChatCallKitManager.startInviteUsers(widget.userList!, ext: ext);
+      callId = await ChatCallKitManager.startInviteUsers(
+        widget.userList!,
+        inviteMessage: DemoLocalizations.multiCallInviteMessage.localString(context),
+        ext: ext,
+      );
     }
 
     currentList?.forEach((element) {
@@ -286,9 +291,9 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
               const TextStyle(fontWeight: FontWeight.w600, color: Colors.white, fontSize: 24),
         ),
         const SizedBox(height: 10),
-        const Text(
-          '邀请您加入多人通话',
-          style: TextStyle(
+        Text(
+          DemoLocalizations.multiCallInviteMessage.localString(context),
+          style: const TextStyle(
             fontWeight: FontWeight.w400,
             color: Colors.white,
             fontSize: 14,
@@ -403,7 +408,13 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
           .then((value) {
         if (value is List<ChatUIKitProfile> && value.isNotEmpty) {
           List<String> userIds = value.map((e) => e.id).toList();
-          ChatCallKitManager.startInviteUsers(userIds, ext: {'groupId': widget.groupId!}).then((value) {
+          ChatCallKitManager.startInviteUsers(
+            userIds,
+            inviteMessage: DemoLocalizations.multiCallInviteMessage.localString(context),
+            ext: {
+              'groupId': widget.groupId!,
+            },
+          ).then((value) {
             for (var element in userIds) {
               ChatUIKitProfile? profile = ChatUIKitProvider.instance.profilesCache[element];
               profile ??= ChatUIKitProfile.contact(id: element);
