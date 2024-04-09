@@ -49,10 +49,105 @@ class ChatRouteFilter {
 
   // 自定义 contact detail view
   static RouteSettings contactDetail(RouteSettings settings) {
-    ChatUIKitViewObserver? viewObserver = ChatUIKitViewObserver();
     ContactDetailsViewArguments arguments = settings.arguments as ContactDetailsViewArguments;
     arguments = arguments.copyWith(
-      viewObserver: viewObserver,
+      actionsBuilder: (context) {
+        List<ChatUIKitModelAction> moreActions = [];
+
+        moreActions.add(
+          ChatUIKitModelAction(
+            title: ChatUIKitLocal.contactDetailViewSend.localString(context),
+            icon: 'assets/images/chat.png',
+            iconSize: const Size(32, 32),
+            packageName: ChatUIKitImageLoader.packageName,
+            onTap: (ctx) {
+              Navigator.of(context).pushNamed(
+                ChatUIKitRouteNames.messagesView,
+                arguments: MessagesViewArguments(
+                  profile: arguments.profile,
+                  attributes: arguments.attributes,
+                ),
+              );
+            },
+          ),
+        );
+
+        moreActions.add(
+          ChatUIKitModelAction(
+            title: DemoLocalizations.voiceCall.localString(context),
+            icon: 'assets/images/voice_call.png',
+            iconSize: const Size(32, 32),
+            onTap: (context) {
+              [Permission.microphone, Permission.camera].request().then((value) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return SingleCallPage.call(arguments.profile.id, type: ChatCallKitCallType.audio_1v1);
+                  }),
+                ).then((value) {
+                  if (value != null) {
+                    debugPrint('call end: $value');
+                  }
+                });
+              });
+            },
+          ),
+        );
+
+        moreActions.add(
+          ChatUIKitModelAction(
+            title: DemoLocalizations.videoCall.localString(context),
+            icon: 'assets/images/video_call.png',
+            iconSize: const Size(32, 32),
+            onTap: (context) {
+              [Permission.microphone, Permission.camera].request().then((value) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return SingleCallPage.call(arguments.profile.id, type: ChatCallKitCallType.video_1v1);
+                  }),
+                ).then((value) {
+                  if (value != null) {
+                    debugPrint('call end: $value');
+                  }
+                });
+              });
+            },
+          ),
+        );
+
+        moreActions.add(ChatUIKitModelAction(
+          title: ChatUIKitLocal.contactDetailViewSearch.localString(context),
+          icon: 'assets/images/search_history.png',
+          iconSize: const Size(32, 32),
+          packageName: ChatUIKitImageLoader.packageName,
+          onTap: (context) {
+            ChatUIKitRoute.pushOrPushNamed(
+              context,
+              ChatUIKitRouteNames.searchHistoryView,
+              SearchHistoryViewArguments(
+                profile: arguments.profile,
+                attributes: arguments.attributes,
+              ),
+            ).then((value) {
+              if (value != null && value is Message) {
+                ChatUIKitRoute.pushOrPushNamed(
+                  context,
+                  ChatUIKitRouteNames.messagesView,
+                  MessagesViewArguments(
+                    profile: arguments.profile,
+                    attributes: arguments.attributes,
+                    controller: MessageListViewController(
+                      profile: arguments.profile,
+                      searchedMsg: value,
+                    ),
+                  ),
+                );
+              }
+            });
+          },
+        ));
+
+        return moreActions;
+      },
       // 添加 remark 实现
       contentWidgetBuilder: (context) {
         return InkWell(
@@ -78,8 +173,6 @@ class ChatRouteFilter {
                 // 更新数据，并设置到provider中
                 UserDataStore().saveUserData(profile);
                 ChatUIKitProvider.instance.addProfiles([profile]);
-                // 刷新当前页面
-                viewObserver.refresh();
               }).catchError((e) {
                 EasyLoading.showError(DemoLocalizations.contactRemarkFailed.localString(context));
               });
@@ -114,8 +207,6 @@ class ChatRouteFilter {
       } catch (e) {
         debugPrint('fetch user info error');
       }
-    }).then((value) {
-      viewObserver.refresh();
     }).catchError((e) {});
 
     return RouteSettings(name: settings.name, arguments: arguments);
@@ -124,139 +215,15 @@ class ChatRouteFilter {
   // 为 MessagesView 添加文件点击下载
   static RouteSettings messagesView(RouteSettings settings) {
     MessagesViewArguments arguments = settings.arguments as MessagesViewArguments;
+    MessageListViewController controller = MessageListViewController(profile: arguments.profile);
+
     arguments = arguments.copyWith(
+      controller: controller,
       showMessageItemNickname: (model) {
         // 只有群组消息并且不是自己发的消息显示昵称
         return (arguments.profile.type == ChatUIKitProfileType.group) &&
             model.message.from != ChatUIKit.instance.currentUserId;
       },
-      appBarTrailing: Builder(
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                if (arguments.profile.type == ChatUIKitProfileType.group)
-                  SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: InkWell(
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      onTap: () {
-                        ChatUIKitRoute.pushOrPushNamed(
-                          context,
-                          ChatUIKitRouteNames.threadsView,
-                          ThreadsViewArguments(
-                            profile: arguments.profile,
-                            attributes: arguments.attributes,
-                          ),
-                        );
-                      },
-                      child: ChatUIKitImageLoader.messageLongPressThread(),
-                    ),
-                  ),
-                const SizedBox(width: 12),
-                SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      ChatUIKitColor color = ChatUIKitTheme.of(context).color;
-                      // 如果是单聊，弹出选择语音通话和视频通话
-                      if (arguments.profile.type == ChatUIKitProfileType.contact) {
-                        showChatUIKitBottomSheet(
-                          context: context,
-                          items: [
-                            ChatUIKitBottomSheetItem.normal(
-                              icon: Image.asset(
-                                'assets/images/voice_call.png',
-                                color: color.isDark ? color.primaryColor6 : color.primaryColor5,
-                              ),
-                              label: DemoLocalizations.voiceCall.localString(context),
-                              onTap: () async {
-                                Navigator.of(context).pop();
-                                [Permission.microphone, Permission.camera].request().then((value) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) {
-                                      return SingleCallPage.call(arguments.profile.id,
-                                          type: ChatCallKitCallType.audio_1v1);
-                                    }),
-                                  ).then((value) {
-                                    if (value != null) {
-                                      debugPrint('call end: $value');
-                                    }
-                                  });
-                                });
-                              },
-                            ),
-                            ChatUIKitBottomSheetItem.normal(
-                              icon: Image.asset(
-                                'assets/images/video_call.png',
-                                color: color.isDark ? color.primaryColor6 : color.primaryColor5,
-                              ),
-                              label: DemoLocalizations.videoCall.localString(context),
-                              onTap: () async {
-                                Navigator.of(context).pop();
-                                [Permission.microphone, Permission.camera].request().then((value) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) {
-                                      return SingleCallPage.call(arguments.profile.id,
-                                          type: ChatCallKitCallType.video_1v1);
-                                    }),
-                                  ).then((value) {
-                                    if (value != null) {
-                                      debugPrint('call end: $value');
-                                    }
-                                  });
-                                });
-                              },
-                            ),
-                          ],
-                        );
-                      } else {
-                        // 如果是群聊，直接选择联系人
-                        Navigator.of(context)
-                            .push(
-                          MaterialPageRoute(
-                            builder: (context) => GroupMemberSelectView(
-                              groupId: arguments.profile.id,
-                            ),
-                          ),
-                        )
-                            .then((value) {
-                          if (value is List<ChatUIKitProfile> && value.isNotEmpty) {
-                            List<String> userIds = value.map((e) => e.id).toList();
-                            [Permission.microphone, Permission.camera].request().then((value) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) {
-                                  return MultiCallPage.call(
-                                    userIds,
-                                    groupId: arguments.profile.id,
-                                  );
-                                }),
-                              ).then((value) {
-                                if (value != null) {
-                                  debugPrint('call end: $value');
-                                }
-                              });
-                            });
-                          }
-                        });
-                      }
-                    },
-                    child: Image.asset('assets/images/call.png', fit: BoxFit.fill, width: 24, height: 24),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
       onItemTap: (ctx, messageModel) {
         if (messageModel.message.bodyType == MessageType.FILE) {
           Navigator.of(ctx).push(
@@ -270,6 +237,103 @@ class ChatRouteFilter {
           return true;
         }
         return false;
+      },
+      appBarTrailingActionsBuilder: (context, defaultList) {
+        List<ChatUIKitAppBarTrailingAction>? actions = [];
+        if (defaultList != null) {
+          actions.addAll(defaultList);
+        }
+        if (!controller.isMultiSelectMode) {
+          actions.add(
+            ChatUIKitAppBarTrailingAction(
+              onTap: (context) {
+                ChatUIKitColor color = ChatUIKitTheme.of(context).color;
+                // 如果是单聊，弹出选择语音通话和视频通话
+                if (arguments.profile.type == ChatUIKitProfileType.contact) {
+                  showChatUIKitBottomSheet(
+                    context: context,
+                    items: [
+                      ChatUIKitBottomSheetItem.normal(
+                        icon: Image.asset(
+                          'assets/images/voice_call.png',
+                          color: color.isDark ? color.primaryColor6 : color.primaryColor5,
+                        ),
+                        label: DemoLocalizations.voiceCall.localString(context),
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          [Permission.microphone, Permission.camera].request().then((value) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) {
+                                return SingleCallPage.call(arguments.profile.id, type: ChatCallKitCallType.audio_1v1);
+                              }),
+                            ).then((value) {
+                              if (value != null) {
+                                debugPrint('call end: $value');
+                              }
+                            });
+                          });
+                        },
+                      ),
+                      ChatUIKitBottomSheetItem.normal(
+                        icon: Image.asset(
+                          'assets/images/video_call.png',
+                          color: color.isDark ? color.primaryColor6 : color.primaryColor5,
+                        ),
+                        label: DemoLocalizations.videoCall.localString(context),
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          [Permission.microphone, Permission.camera].request().then((value) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) {
+                                return SingleCallPage.call(arguments.profile.id, type: ChatCallKitCallType.video_1v1);
+                              }),
+                            ).then((value) {
+                              if (value != null) {
+                                debugPrint('call end: $value');
+                              }
+                            });
+                          });
+                        },
+                      ),
+                    ],
+                  );
+                } else {
+                  // 如果是群聊，直接选择联系人
+                  Navigator.of(context)
+                      .push(
+                    MaterialPageRoute(
+                      builder: (context) => GroupMemberSelectView(
+                        groupId: arguments.profile.id,
+                      ),
+                    ),
+                  )
+                      .then((value) {
+                    if (value is List<ChatUIKitProfile> && value.isNotEmpty) {
+                      List<String> userIds = value.map((e) => e.id).toList();
+                      [Permission.microphone, Permission.camera].request().then((value) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) {
+                            return MultiCallPage.call(
+                              userIds,
+                              groupId: arguments.profile.id,
+                            );
+                          }),
+                        ).then((value) {
+                          if (value != null) {
+                            debugPrint('call end: $value');
+                          }
+                        });
+                      });
+                    }
+                  });
+                }
+              },
+              child: Image.asset('assets/images/call.png', fit: BoxFit.fill, width: 32, height: 32),
+            ),
+          );
+        }
+
+        return actions;
       },
     );
 
@@ -313,17 +377,13 @@ class ChatRouteFilter {
                 );
               } else {
                 Navigator.of(context).pop();
-
                 if (group != null) {
                   AppServerHelper.autoDestroyGroup(group.groupId);
                   ChatUIKitRoute.pushOrPushNamed(
                     context,
                     ChatUIKitRouteNames.messagesView,
                     MessagesViewArguments(
-                      profile: ChatUIKitProfile.group(
-                        id: group.groupId,
-                        groupName: group.name,
-                      ),
+                      profile: ChatUIKitProfile.group(id: group.groupId, groupName: group.name),
                     ),
                   );
                 }

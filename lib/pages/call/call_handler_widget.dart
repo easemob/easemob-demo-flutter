@@ -73,8 +73,6 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget> with ChatCallKitO
     ChatCallKitCallType callType,
     Map<String, String>? ext,
   ) async {
-    debugPrint('----onReceiveCall: $userId, $callId, $callType, $ext');
-
     FlutterRingtonePlayer().play(
       android: AndroidSounds.ringtone,
       ios: IosSounds.electronic,

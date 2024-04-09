@@ -29,6 +29,8 @@ class _UserProviderWidgetState extends State<UserProviderWidget> with GroupObser
   @override
   void dispose() {
     ChatUIKit.instance.removeObserver(this);
+    // 清空所有uikit缓存
+    ChatUIKitProvider.instance.clearAllCache();
     super.dispose();
   }
 
@@ -77,7 +79,10 @@ class _UserProviderWidgetState extends State<UserProviderWidget> with GroupObser
     }
 
     List<String> groupIds = profiles.where((e) => e.type == ChatUIKitProfileType.group).map((e) => e.id).toList();
-    updateGroupsProfile(groupIds);
+    if (groupIds.isNotEmpty) {
+      updateGroupsProfile(groupIds);
+    }
+
     return profiles;
   }
 

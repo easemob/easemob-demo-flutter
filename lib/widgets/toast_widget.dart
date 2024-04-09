@@ -2,15 +2,14 @@ import 'package:em_chat_uikit/chat_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-class ToastPage extends StatefulWidget {
-  const ToastPage({required this.child, super.key});
+class ToastWidget extends StatefulWidget {
+  const ToastWidget({required this.child, super.key});
   final Widget child;
   @override
-  State<ToastPage> createState() => _ToastPageState();
+  State<ToastWidget> createState() => _ToastWidgetState();
 }
 
-class _ToastPageState extends State<ToastPage>
-    with ChatSDKEventsObserver, ChatUIKitEventsObservers {
+class _ToastWidgetState extends State<ToastWidget> with ChatSDKEventsObserver, ChatUIKitEventsObservers {
   @override
   void initState() {
     super.initState();

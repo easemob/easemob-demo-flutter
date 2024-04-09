@@ -3,7 +3,7 @@ import 'package:chat_uikit_demo/pages/call/call_handler_widget.dart';
 import 'package:chat_uikit_demo/pages/contact/contact_page.dart';
 import 'package:chat_uikit_demo/pages/conversation/conversation_page.dart';
 import 'package:chat_uikit_demo/pages/me/my_page.dart';
-import 'package:chat_uikit_demo/tool/toast_page.dart';
+import 'package:chat_uikit_demo/widgets/toast_widget.dart';
 import 'package:chat_uikit_demo/widgets/user_provider_widget.dart';
 
 import 'package:em_chat_uikit/chat_uikit.dart';
@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage>
       ),
     );
 
-    content = ToastPage(child: content);
+    content = ToastWidget(child: content);
     // callkit 相关实现
     content = CallHandlerWidget(child: content);
     content = UserProviderWidget(child: content);

@@ -31,10 +31,9 @@ class _GroupMemberSelectViewState extends State<GroupMemberSelectView> {
       appBar: ChatUIKitAppBar(
         title: DemoLocalizations.selectCallee.localString(context),
         centerTitle: false,
-        trailing: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: InkWell(
-            onTap: () {
+        trailingActions: [
+          ChatUIKitAppBarTrailingAction(
+            onTap: (context) {
               if (selected.length <= 1) {
                 return;
               }
@@ -49,8 +48,8 @@ class _GroupMemberSelectViewState extends State<GroupMemberSelectView> {
                     : (theme.color.isDark ? theme.color.neutralColor4 : theme.color.neutralColor7),
               ),
             ),
-          ),
-        ),
+          )
+        ],
       ),
       body: GroupMemberListView(
         onSearchTap: onSearchTap,

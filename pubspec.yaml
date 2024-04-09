@@ -55,6 +55,8 @@ dependencies:
 
   flutter_ringtone_player: ^4.0.0+2
 
+  # vibration: ^1.8.4
+
   permission_handler: ^10.2.0
 
   em_chat_callkit:
