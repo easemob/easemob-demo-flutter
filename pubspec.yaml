@@ -110,6 +110,7 @@ flutter:
     - assets/images/video_call.png
     - assets/images/voice_call.png
     - assets/images/call.png
+    - assets/images/topic.png
     - assets/call/
 
 

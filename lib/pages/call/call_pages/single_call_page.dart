@@ -359,6 +359,7 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
     content = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const SizedBox(width: 17.5),
         content,
         const SizedBox(height: 10),
         nicknameWidget(),
@@ -385,6 +386,7 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
     content = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const SizedBox(width: 17.5),
         content,
         const SizedBox(height: 10),
         nicknameWidget(),
