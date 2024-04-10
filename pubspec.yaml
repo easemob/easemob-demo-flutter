@@ -106,7 +106,6 @@ flutter:
     - assets/images/personal.png
     - assets/images/secret.png
     - assets/images/settings.png
-    - assets/images/avatar_selected.png
     - assets/images/icon.png
     - assets/images/video_call.png
     - assets/images/voice_call.png

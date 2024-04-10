@@ -24,15 +24,17 @@ import 'pages/me/settings/advanced_page.dart';
 const bool appDebug = false;
 
 void main() async {
-  await ChatUIKit.instance.init(
+  return ChatUIKit.instance
+      .init(
     options: Options(
       appKey: appKey,
       deleteMessagesAsExitGroup: false,
     ),
-  );
-  SettingsDataStore().init();
-  // return runApp(const MyApp());
-  return SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => runApp(const MyApp()));
+  )
+      .then((value) {
+    SettingsDataStore().init();
+    return SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => runApp(const MyApp()));
+  });
 }
 
 class MyApp extends StatefulWidget {

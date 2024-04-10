@@ -71,19 +71,21 @@ class _UserProviderWidgetState extends State<UserProviderWidget> with GroupObser
     return PinyinHelper.getPinyinE(showName, defPinyin: '#', format: PinyinFormat.WITHOUT_TONE).substring(0, 1);
   }
 
-  // uikit 需要展示用户信息时，而缓存不存在时会回调该方法，需要通过用户属性请求并存储到db；
+  // uikit 需要展示用户信息时，而缓存不存在时会回调该方法，如果demo缓存中有数据，可以直接返回，如果没有则异步从服务器获取数据，同时把返回null。
   List<ChatUIKitProfile>? onProfilesRequest(List<ChatUIKitProfile> profiles) {
+    // 判断是否是用户信息，如果是用户信息，调用fetchUserInfos，具体实现查看 [fetchUserInfos]。
     List<String> userIds = profiles.where((e) => e.type == ChatUIKitProfileType.contact).map((e) => e.id).toList();
     if (userIds.isNotEmpty) {
       fetchUserInfos(userIds);
     }
 
+    // 判断是否是群组信息，如果是群组信息，调用updateGroupsProfile，具体实现查看 [updateGroupsProfile]。
     List<String> groupIds = profiles.where((e) => e.type == ChatUIKitProfileType.group).map((e) => e.id).toList();
     if (groupIds.isNotEmpty) {
       updateGroupsProfile(groupIds);
     }
 
-    return profiles;
+    return null;
   }
 
   @override
