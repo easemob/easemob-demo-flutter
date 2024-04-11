@@ -5,16 +5,17 @@ import 'package:em_chat_uikit/chat_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:lpinyin/lpinyin.dart';
 
-class UserProviderWidget extends StatefulWidget {
-  const UserProviderWidget({required this.child, super.key});
+class UserProviderHandlerWidget extends StatefulWidget {
+  const UserProviderHandlerWidget({required this.child, super.key});
 
   final Widget child;
 
   @override
-  State<UserProviderWidget> createState() => _UserProviderWidgetState();
+  State<UserProviderHandlerWidget> createState() => _UserProviderHandlerWidgetState();
 }
 
-class _UserProviderWidgetState extends State<UserProviderWidget> with GroupObserver, ChatUIKitProviderObserver {
+class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
+    with GroupObserver, ChatUIKitProviderObserver {
   @override
   void initState() {
     super.initState();

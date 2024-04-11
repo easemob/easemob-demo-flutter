@@ -3,9 +3,9 @@ import 'package:chat_uikit_demo/pages/call/call_handler_widget.dart';
 import 'package:chat_uikit_demo/pages/contact/contact_page.dart';
 import 'package:chat_uikit_demo/pages/conversation/conversation_page.dart';
 import 'package:chat_uikit_demo/pages/me/my_page.dart';
-import 'package:chat_uikit_demo/widgets/toast_widget.dart';
-import 'package:chat_uikit_demo/widgets/token_status_widget.dart';
-import 'package:chat_uikit_demo/widgets/user_provider_widget.dart';
+import 'package:chat_uikit_demo/widgets/toast_handler_widget.dart';
+import 'package:chat_uikit_demo/widgets/token_status_handler_widget.dart';
+import 'package:chat_uikit_demo/widgets/user_provider_handler_widget.dart';
 
 import 'package:em_chat_uikit/chat_uikit.dart';
 
@@ -121,13 +121,13 @@ class _HomePageState extends State<HomePage>
       ),
     );
 
-    content = ToastWidget(child: content);
+    content = ToastHandlerWidget(child: content);
     // callkit 相关实现
     content = CallHandlerWidget(child: content);
     // 用户属性相关实现
-    content = UserProviderWidget(child: content);
+    content = UserProviderHandlerWidget(child: content);
     // token状态相关实现
-    content = TokenStatusWidget(child: content);
+    content = TokenStatusHandlerWidget(child: content);
 
     return content;
   }
@@ -138,6 +138,13 @@ class _HomePageState extends State<HomePage>
   @override
   // 用于刷新消息未读数
   void onMessagesReceived(List<Message> messages) {
+    ChatUIKit.instance.getUnreadMessageCount().then((value) {
+      unreadMessageCount.value = value;
+    });
+  }
+
+  @override
+  void onMessagesRecalled(List<Message> recalled, List<Message> replaces) {
     ChatUIKit.instance.getUnreadMessageCount().then((value) {
       unreadMessageCount.value = value;
     });

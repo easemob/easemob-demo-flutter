@@ -1,6 +1,19 @@
 mixin DemoLocalizations {
   static String confirm = 'confirm';
 
+  // toast
+  static String copied = 'copied';
+  static String downloading = 'downloading';
+  static String noStoragePermission = 'noStoragePermission';
+  static String noMicrophonePermission = 'noRecordPermission';
+  static String noCameraPermission = 'noCameraPermission';
+  static String voiceTypeNotSupported = 'voiceTypeNotSupported';
+
+  // download file
+  static String openFile = 'openFile';
+  static String downloadFile = 'downloadFile';
+  static String downloadFailed = 'downloadFailed';
+
   // welcome
   static String welcome = 'welcome';
 
@@ -119,6 +132,19 @@ mixin DemoLocalizations {
 
   static Map<String, dynamic> zh = {
     confirm: '确认',
+
+    // toast
+    copied: '复制成功',
+    downloading: '下载中',
+    noStoragePermission: '无存储权限',
+    noMicrophonePermission: '无麦克风权限',
+    noCameraPermission: '无相机权限',
+    voiceTypeNotSupported: '语音格式不支持',
+
+    // download file
+    openFile: '打开文件',
+    downloadFile: '下载文件',
+    downloadFailed: '下载失败',
 
     // welcome
     welcome: '环信即时通讯云',
@@ -239,6 +265,19 @@ mixin DemoLocalizations {
   };
   static Map<String, dynamic> en = {
     confirm: 'Confirm',
+
+    // toast
+    copied: 'Copy Success',
+    downloading: 'Downloading',
+    noStoragePermission: 'No Storage Permission',
+    noMicrophonePermission: 'No Microphone Permission',
+    noCameraPermission: 'No Camera Permission',
+    voiceTypeNotSupported: 'Voice Type Not Supported',
+
+    // download file
+    openFile: 'Open File',
+    downloadFile: 'Download File',
+    downloadFailed: 'Download Failed',
 
     // welcome
     welcome: 'EaseMob IM',

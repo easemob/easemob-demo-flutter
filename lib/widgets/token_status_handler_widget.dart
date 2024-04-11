@@ -2,16 +2,16 @@ import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 import 'package:flutter/material.dart';
 
-class TokenStatusWidget extends StatefulWidget {
-  const TokenStatusWidget({required this.child, super.key});
+class TokenStatusHandlerWidget extends StatefulWidget {
+  const TokenStatusHandlerWidget({required this.child, super.key});
 
   final Widget child;
 
   @override
-  State<TokenStatusWidget> createState() => _TokenStatusWidgetState();
+  State<TokenStatusHandlerWidget> createState() => _TokenStatusHandlerWidgetState();
 }
 
-class _TokenStatusWidgetState extends State<TokenStatusWidget> with ConnectObserver {
+class _TokenStatusHandlerWidgetState extends State<TokenStatusHandlerWidget> with ConnectObserver {
   @override
   void initState() {
     super.initState();

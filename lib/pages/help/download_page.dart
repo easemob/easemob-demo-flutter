@@ -1,6 +1,7 @@
+import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:open_file/open_file.dart';
 
 class DownloadFileWidget extends StatefulWidget {
   const DownloadFileWidget({required this.message, super.key});
@@ -15,21 +16,20 @@ class _DownloadFileWidgetState extends State<DownloadFileWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.message.displayName ?? '文件下载'),
+        title: Text(widget.message.displayName ?? DemoLocalizations.downloadFile.localString(context)),
       ),
       body: ChatUIKitDownloadsHelperWidget(
         controller: controller,
         message: widget.message,
         builder: (context, path, name, state, progress) {
-          debugPrint(
-              'path: $path, name: $name, state: $state, progress: $progress');
+          debugPrint('path: $path, name: $name, state: $state, progress: $progress');
           if (state == ChatUIKitMessageDownloadState.success) {
             return Center(
               child: TextButton(
                 onPressed: () {
-                  EasyLoading.showToast('需要你根据后缀，实现打开文件的逻辑');
+                  OpenFile.open(path);
                 },
-                child: const Text('打开文件'),
+                child: Text(DemoLocalizations.openFile.localString(context)),
               ),
             );
           } else if (state == ChatUIKitMessageDownloadState.error) {
@@ -38,7 +38,7 @@ class _DownloadFileWidgetState extends State<DownloadFileWidget> {
                 onPressed: () {
                   controller.download();
                 },
-                child: const Text('下载失败，点击重试'),
+                child: Text(DemoLocalizations.downloadFailed.localString(context)),
               ),
             );
           }

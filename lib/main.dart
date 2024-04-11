@@ -1,8 +1,8 @@
 import 'package:chat_uikit_demo/debug_login_page.dart';
 import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
-import 'package:chat_uikit_demo/home_page.dart';
-import 'package:chat_uikit_demo/login_page.dart';
+import 'package:chat_uikit_demo/pages/home_page.dart';
+import 'package:chat_uikit_demo/pages/login_page.dart';
 import 'package:chat_uikit_demo/notifications/app_settings_notification.dart';
 import 'package:chat_uikit_demo/pages/me/about_page.dart';
 import 'package:chat_uikit_demo/pages/me/personal/personal_info_page.dart';
@@ -11,7 +11,7 @@ import 'package:chat_uikit_demo/pages/me/settings/language_page.dart';
 import 'package:chat_uikit_demo/pages/me/settings/translate_page.dart';
 import 'package:chat_uikit_demo/custom/chat_route_filter.dart';
 import 'package:chat_uikit_demo/tool/settings_data_store.dart';
-import 'package:chat_uikit_demo/welcome_page.dart';
+import 'package:chat_uikit_demo/pages/welcome_page.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/material.dart';
@@ -75,8 +75,11 @@ class _MyAppState extends State<MyApp> {
         return false;
       },
       child: MaterialApp(
+        // 设置demo国际化支持语言
         supportedLocales: _localization.supportedLocales,
+        // 提供语言包内容给demo
         localizationsDelegates: _localization.localizationsDelegates,
+        // 当国际化语言不支持时，提供语言默认实现
         localeResolutionCallback: _localization.localeResolutionCallback,
         locale: _localization.currentLocale,
         theme: ThemeData(
@@ -95,6 +98,7 @@ class _MyAppState extends State<MyApp> {
         ),
         home: const WelcomePage(),
         onGenerateRoute: (settings) {
+          // 设置路由拦截
           RouteSettings newSettings = ChatRouteFilter.chatRouteSettings(settings);
           return ChatUIKitRoute().generateRoute(newSettings) ??
               MaterialPageRoute(

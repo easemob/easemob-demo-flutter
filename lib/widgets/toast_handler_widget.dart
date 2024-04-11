@@ -1,15 +1,16 @@
+import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-class ToastWidget extends StatefulWidget {
-  const ToastWidget({required this.child, super.key});
+class ToastHandlerWidget extends StatefulWidget {
+  const ToastHandlerWidget({required this.child, super.key});
   final Widget child;
   @override
-  State<ToastWidget> createState() => _ToastWidgetState();
+  State<ToastHandlerWidget> createState() => _ToastHandlerWidgetState();
 }
 
-class _ToastWidgetState extends State<ToastWidget> with ChatSDKEventsObserver, ChatUIKitEventsObservers {
+class _ToastHandlerWidgetState extends State<ToastHandlerWidget> with ChatSDKEventsObserver, ChatUIKitEventsObservers {
   @override
   void initState() {
     super.initState();
@@ -32,15 +33,17 @@ class _ToastWidgetState extends State<ToastWidget> with ChatSDKEventsObserver, C
     if (event == ChatUIKitEvent.groupIdCopied ||
         event == ChatUIKitEvent.userIdCopied ||
         event == ChatUIKitEvent.messageCopied) {
-      EasyLoading.showSuccess('复制成功');
+      EasyLoading.showSuccess(DemoLocalizations.copied.localString(context));
     } else if (event == ChatUIKitEvent.messageDownloading) {
-      EasyLoading.showInfo('下载中');
-    } else if (event == ChatUIKitEvent.noCameraPermission ||
-        event == ChatUIKitEvent.noRecordPermission ||
-        event == ChatUIKitEvent.noStoragePermission) {
-      EasyLoading.showError('权限不足');
+      EasyLoading.showInfo(DemoLocalizations.downloading.localString(context));
+    } else if (event == ChatUIKitEvent.noStoragePermission) {
+      EasyLoading.showError(DemoLocalizations.noStoragePermission.localString(context));
+    } else if (event == ChatUIKitEvent.noMicrophonePermission) {
+      EasyLoading.showError(DemoLocalizations.noMicrophonePermission.localString(context));
+    } else if (event == ChatUIKitEvent.noCameraPermission) {
+      EasyLoading.showError(DemoLocalizations.noCameraPermission.localString(context));
     } else if (event == ChatUIKitEvent.voiceTypeNotSupported) {
-      EasyLoading.showError('语音格式不支持');
+      EasyLoading.showError(DemoLocalizations.voiceTypeNotSupported.localString(context));
     }
   }
 
@@ -69,7 +72,8 @@ class _ToastWidgetState extends State<ToastWidget> with ChatSDKEventsObserver, C
         event == ChatSDKEvent.declineContactRequest ||
         event == ChatSDKEvent.setSilentMode ||
         event == ChatSDKEvent.createGroup ||
-        event == ChatSDKEvent.clearSilentMode) {
+        event == ChatSDKEvent.clearSilentMode ||
+        event == ChatSDKEvent.addReaction) {
       EasyLoading.dismiss();
       if (error != null) {
         EasyLoading.showError(error.description);

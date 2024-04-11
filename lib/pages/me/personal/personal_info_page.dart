@@ -222,6 +222,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with ChatUIKitProvi
       await ChatUIKit.instance.updateUserInfo(nickname: data.name, avatarUrl: data.avatarUrl);
       UserDataStore().saveUserData(data);
       ChatUIKitProvider.instance.addProfiles([data]);
+      // 刷新会话列表，目的是刷新最后一条消息的显示
+      ChatUIKit.instance.onConversationsUpdate();
     } catch (e) {
       rethrow;
     } finally {

@@ -255,11 +255,8 @@ class ChatRouteFilter {
       },
       appBarTrailingActionsBuilder: (context, defaultList) {
         List<ChatUIKitAppBarTrailingAction>? actions = [];
-        if (defaultList != null) {
-          defaultList.first = defaultList.first.copyWith(
-            child: Image.asset('assets/images/topic.png', fit: BoxFit.fill, width: 24, height: 24),
-          );
-          actions.addAll(defaultList);
+        if (defaultList?.isNotEmpty == true) {
+          actions.addAll(defaultList!);
         }
         if (!controller.isMultiSelectMode) {
           actions.add(

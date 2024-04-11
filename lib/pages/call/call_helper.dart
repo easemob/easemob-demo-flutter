@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CallHelper {
+  // 弹出 1v1 通话选择框
   static void showSingleCallBottomSheet(BuildContext context, String callId, Color color) {
     showChatUIKitBottomSheet(
       context: context,
@@ -58,6 +59,7 @@ class CallHelper {
     );
   }
 
+  // 开始 1v1 通话
   static startSingleCall(BuildContext context, String callId, bool isVideoCall) {
     [Permission.microphone, Permission.camera].request().then((value) {
       Navigator.of(context).push(
@@ -75,6 +77,7 @@ class CallHelper {
     });
   }
 
+  // 弹出多人通话选择框
   static showMultiCallSelectView(BuildContext context, String groupId) {
     // 如果是群聊，直接选择联系人
     Navigator.of(context)

@@ -30,6 +30,7 @@ class UserDataStore {
   // 打开db
   Future<void> openDemoDB() async {
     String databasesPath = await getDatabasesPath();
+    // 路径中添加appkey
     String path = '$databasesPath/${ChatUIKit.instance.currentUserId!}.db';
 
     await openDatabase(

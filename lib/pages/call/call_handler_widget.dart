@@ -57,15 +57,17 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget> with ChatCallKitO
 
   @override
   Widget build(BuildContext context) {
-    // 添加call kit相关监听初始化
+    // 添加call kit相关初始化
     return ChatCallKit(agoraAppId: rtcAppId, child: widget.child);
   }
 
+  // 呼叫结束
   @override
   void onCallEnd(String? callId, ChatCallKitCallEndReason reason) {
     FlutterRingtonePlayer().stop();
   }
 
+  // 收到呼叫邀请
   @override
   void onReceiveCall(
     String userId,
@@ -89,6 +91,7 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget> with ChatCallKitO
     );
   }
 
+  // 邀请信息将要发送
   @override
   void onInviteMessageWillSend(ChatCallKitMessage message) {
     // ignore: invalid_use_of_protected_member
