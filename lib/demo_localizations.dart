@@ -151,12 +151,12 @@ mixin DemoLocalizations {
 
     // login
     login: '登录',
-    loginEaseMob: '登录环信IM',
+    loginEaseMob: '环信IM',
     loginFailed: '登录失败',
     loginSuccess: '登录成功',
-    loginInputPhoneHint: '请输入手机号',
-    loginInputSmsHint: '请输入验证码',
-    loginSendSms: '发送验证码',
+    loginInputPhoneHint: '手机号',
+    loginInputSmsHint: '验证码',
+    loginSendSms: '获取验证码',
     loginSendSmsSuccess: '发送成功',
     loginSendSmsFailed: '发送失败',
     loginPleaseInputPhone: '请输入手机号',
@@ -198,7 +198,7 @@ mixin DemoLocalizations {
     settings: '设置',
     personalInfo: '个人信息',
     general: '通用',
-    notification: '通知',
+    notification: '消息通知',
     about: '关于',
     logout: '退出登录',
 
@@ -207,16 +207,16 @@ mixin DemoLocalizations {
     nickname: '昵称',
 
     // change personal info
-    changeNickname: '修改昵称',
+    changeNickname: '昵称',
     changeAvatarCamera: '相机',
     changeAvatarGallery: '相册',
 
     // general
-    darkMode: '深色模式',
-    advancedSettings: '特性设置',
+    darkMode: '暗黑模式',
+    advancedSettings: '特性开关',
     colorSettings: '颜色设置',
     featureSettings: '功能设置',
-    languageSettings: '语言设置',
+    languageSettings: '系统语言',
     translateTargetLanguage: '翻译目标语言',
 
     // general switch theme
@@ -234,9 +234,9 @@ mixin DemoLocalizations {
     featureSettingsTranslation: '消息翻译',
     featureSettingsTranslationDesc: '通过长按将消息翻译为指定语言',
     featureSettingsThread: '群组话题',
-    featureSettingsThreadDesc: '通过长按群内的一条消息创建一个话题',
-    featureSettingsReaction: '消息表情回应',
-    featureSettingsReactionDesc: '通过长按消息为消息添加表情回应',
+    featureSettingsThreadDesc: '长按消息创建话题',
+    featureSettingsReaction: '表情回复',
+    featureSettingsReactionDesc: '长按消息添加表情回应',
 
     // general translate target language
     translateTargetLanguageChinese: '简体中文',
@@ -246,11 +246,11 @@ mixin DemoLocalizations {
     offlineMessagePush: '离线消息推送',
 
     // about
-    visitWebsite: '访问网站',
-    contactUs: '联系我们',
+    visitWebsite: '官网网站',
+    contactUs: '服务热线',
     businessCooperation: '商务合作',
     channelCooperation: '渠道合作',
-    feedback: '反馈',
+    feedback: '投诉建议',
 
     // logout
     logoutTitle: '退出登录',
@@ -258,7 +258,7 @@ mixin DemoLocalizations {
     logoutCancel: '取消',
 
     videoCall: '视频通话',
-    voiceCall: '语音通话',
+    voiceCall: '音频通话',
     calleeSearch: '搜索',
     selectCallee: '选择成员',
     call: '呼叫',
@@ -284,10 +284,10 @@ mixin DemoLocalizations {
 
     // login
     login: 'Login',
-    loginEaseMob: 'Login EaseMob IM',
+    loginEaseMob: 'EaseMob IM',
     loginFailed: 'Login failed',
     loginSuccess: 'Login success',
-    loginInputPhoneHint: 'Please enter the phone number',
+    loginInputPhoneHint: 'Phone number',
     loginInputSmsHint: 'Verification code',
     loginSendSms: 'Get Code',
     loginSendSmsSuccess: 'Send Success',
@@ -296,10 +296,10 @@ mixin DemoLocalizations {
     loginPleaseInputSms: 'Please enter the verification code',
     loginResendSms: 'Resend',
     loggingIn: 'Logging in...',
-    loginCheck: 'By joining, you agree to the',
-    loginTermsOfService: ' Terms of Service',
-    loginAnd: ' and',
-    loginPrivacyPolicy: ' Privacy Policy',
+    loginCheck: 'Agree to ',
+    loginTermsOfService: 'Easemob Terms',
+    loginAnd: ' & ',
+    loginPrivacyPolicy: 'Privacy',
     loginPleaseAgreeTermsOfServicePrivacyPolicy: 'Please agree to the Terms of Service and Privacy Policy',
 
     multiCallInviteMessage: 'Invite you to join a multi-call',
@@ -307,7 +307,7 @@ mixin DemoLocalizations {
     singleVoiceCallInviteMessage: 'Invite you to join a voice call',
 
     // home
-    chat: 'Chat',
+    chat: 'Chats',
 
     // home create group
     createGroupName: 'Create Group',
@@ -329,27 +329,27 @@ mixin DemoLocalizations {
 
     // me
     settings: 'Settings',
-    personalInfo: 'Personal info',
+    personalInfo: 'Profile',
     general: 'General',
-    notification: 'Notification',
+    notification: 'Notifications',
     about: 'About',
-    logout: 'Logout',
+    logout: 'Log Out',
 
     // personalInfo
     avatar: 'Avatar',
     nickname: 'Nickname',
 
     // change personal info
-    changeNickname: 'Change Nickname',
+    changeNickname: 'Nickname',
     changeAvatarCamera: 'Camera',
     changeAvatarGallery: 'Gallery',
 
     // general
     darkMode: 'Dark mode',
-    advancedSettings: 'Advanced',
+    advancedSettings: 'Advanced Features',
     colorSettings: 'Color settings',
     featureSettings: 'Feature',
-    languageSettings: 'Language',
+    languageSettings: 'System Language',
     translateTargetLanguage: 'Translate Target Language',
 
     // general switch theme
@@ -367,8 +367,8 @@ mixin DemoLocalizations {
     featureSettingsTranslation: 'Translation',
     featureSettingsTranslationDesc: 'Long press to translate message to specified language',
     featureSettingsThread: 'Thread',
-    featureSettingsThreadDesc: 'Long press a message in a group to create a thread',
-    featureSettingsReaction: 'Reaction',
+    featureSettingsThreadDesc: 'Create a thread from a message within the group',
+    featureSettingsReaction: 'Emoji Reaction',
     featureSettingsReactionDesc: 'Long press a message to add emoji reactions',
 
     // general translate target language
@@ -379,10 +379,10 @@ mixin DemoLocalizations {
     offlineMessagePush: 'Offline message push',
 
     // about
-    visitWebsite: 'Visit Website',
+    visitWebsite: 'Official Website',
     contactUs: 'Contact Us',
     businessCooperation: 'Business Cooperation',
-    channelCooperation: 'Channel Cooperation',
+    channelCooperation: 'Channel Partnership',
     feedback: 'Feedback',
 
     // logout
@@ -393,7 +393,7 @@ mixin DemoLocalizations {
     videoCall: 'Video Call',
     voiceCall: 'Voice Call',
     calleeSearch: 'Search',
-    selectCallee: 'Select Member',
+    selectCallee: 'Select Members',
     call: 'Call',
   };
 }

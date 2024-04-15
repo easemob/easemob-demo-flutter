@@ -36,9 +36,6 @@ class ChatRouteFilter {
       ChatUIKitProfile profile = arguments.profile.copyWith(name: group.name, avatarUrl: group.extension);
       ChatUIKitProvider.instance.addProfiles([profile]);
       UserDataStore().saveUserData(profile);
-    }).then((value) {
-      // 刷新ui
-      viewObserver.refresh();
     }).catchError((e) {
       debugPrint('fetch group info error');
     });
@@ -49,27 +46,8 @@ class ChatRouteFilter {
   static RouteSettings contactDetail(RouteSettings settings) {
     ContactDetailsViewArguments arguments = settings.arguments as ContactDetailsViewArguments;
     arguments = arguments.copyWith(
-      actionsBuilder: (context) {
-        List<ChatUIKitModelAction> moreActions = [];
-
-        moreActions.add(
-          ChatUIKitModelAction(
-            title: ChatUIKitLocal.contactDetailViewSend.localString(context),
-            icon: 'assets/images/chat.png',
-            iconSize: const Size(32, 32),
-            packageName: ChatUIKitImageLoader.packageName,
-            onTap: (ctx) {
-              Navigator.of(context).pushNamed(
-                ChatUIKitRouteNames.messagesView,
-                arguments: MessagesViewArguments(
-                  profile: arguments.profile,
-                  attributes: arguments.attributes,
-                ),
-              );
-            },
-          ),
-        );
-
+      actionsBuilder: (context, defaultList) {
+        List<ChatUIKitModelAction> moreActions = List.from(defaultList ?? []);
         moreActions.add(
           ChatUIKitModelAction(
             title: DemoLocalizations.voiceCall.localString(context),
@@ -91,39 +69,6 @@ class ChatRouteFilter {
             },
           ),
         );
-
-        moreActions.add(ChatUIKitModelAction(
-          title: ChatUIKitLocal.contactDetailViewSearch.localString(context),
-          icon: 'assets/images/search_history.png',
-          iconSize: const Size(32, 32),
-          packageName: ChatUIKitImageLoader.packageName,
-          onTap: (context) {
-            ChatUIKitRoute.pushOrPushNamed(
-              context,
-              ChatUIKitRouteNames.searchHistoryView,
-              SearchHistoryViewArguments(
-                profile: arguments.profile,
-                attributes: arguments.attributes,
-              ),
-            ).then((value) {
-              if (value != null && value is Message) {
-                ChatUIKitRoute.pushOrPushNamed(
-                  context,
-                  ChatUIKitRouteNames.messagesView,
-                  MessagesViewArguments(
-                    profile: arguments.profile,
-                    attributes: arguments.attributes,
-                    controller: MessageListViewController(
-                      profile: arguments.profile,
-                      searchedMsg: value,
-                    ),
-                  ),
-                );
-              }
-            });
-          },
-        ));
-
         return moreActions;
       },
       // 添加 remark 实现
@@ -193,8 +138,11 @@ class ChatRouteFilter {
   // 为 MessagesView 添加文件点击下载
   static RouteSettings messagesView(RouteSettings settings) {
     MessagesViewArguments arguments = settings.arguments as MessagesViewArguments;
-    MessageListViewController controller = MessageListViewController(profile: arguments.profile);
-
+    MessageListViewController controller = MessageListViewController(
+      profile: arguments.profile,
+      searchedMsg: arguments.controller?.searchedMsg,
+      willSendHandler: arguments.controller?.willSendHandler,
+    );
     arguments = arguments.copyWith(
       controller: controller,
       bubbleContentBuilder: (context, model) {

@@ -1,3 +1,4 @@
+import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,8 @@ class ContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('ContactPage build');
-    return const ContactsView();
+    return ContactsView(
+      title: DemoLocalizations.contacts.localString(context),
+    );
   }
 }
