@@ -180,17 +180,21 @@ packages:
   em_chat_callkit:
     dependency: "direct main"
     description:
-      path: "../../chat_uikit/em_chat_callkit"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: "450e77d4c58613feb5c7d0a899b1502229fe82cc"
+      url: "https://github.com/easemob/ease-callkit-flutter.git"
+    source: git
     version: "0.0.1"
   em_chat_uikit:
     dependency: "direct main"
     description:
-      path: "../../chat_uikit/chatuikit-flutter"
-      relative: true
-    source: path
-    version: "1.0.0"
+      path: "."
+      ref: dev2
+      resolved-ref: "82d97d1e3efa0ebd54b5434459ebef4524837847"
+      url: "https://github.com/easemob/chatuikit-flutter.git"
+    source: git
+    version: "2.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -390,10 +394,12 @@ packages:
   im_flutter_sdk:
     dependency: "direct overridden"
     description:
-      path: "../../../im_flutter_sdk"
-      relative: true
-    source: path
-    version: "4.2.0"
+      path: "."
+      ref: "dev_4.5.0"
+      resolved-ref: "97d84a2bba1a2561fa91cd91f2ea3a8dfe4e6860"
+      url: "https://github.com/easemob/im_flutter_sdk.git"
+    source: git
+    version: "4.5.0"
   image_cropper:
     dependency: "direct main"
     description:

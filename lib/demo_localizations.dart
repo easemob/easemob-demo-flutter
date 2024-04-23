@@ -37,10 +37,6 @@ mixin DemoLocalizations {
   static String loginPrivacyPolicy = 'loginPrivacyPolicy';
   static String loginPleaseAgreeTermsOfServicePrivacyPolicy = 'loginPleaseAgreeTermsOfServicePrivacyPolicy';
 
-  static String multiCallInviteMessage = 'multiCallInviteMessage';
-  static String singleVideoCallInviteMessage = 'singleVideoCallInviteMessage';
-  static String singleVoiceCallInviteMessage = 'singleVoiceCallInviteMessage';
-
   // home
   static String chat = 'chat';
 
@@ -124,13 +120,18 @@ mixin DemoLocalizations {
   static String logoutConfirm = 'logoutConfirm';
   static String logoutCancel = 'logoutCancel';
 
+  // call
   static String videoCall = 'videoCall';
   static String voiceCall = 'voiceCall';
   static String selectCallee = 'selectCallee';
   static String calleeSearch = 'calleeSearch';
   static String call = 'call';
+  static String multiCallInviteMessageDelete = 'multiCallInviteMessageDelete';
+  static String multiCallInviteMessage = 'multiCallInviteMessage';
+  static String singleVideoCallInviteMessage = 'singleVideoCallInviteMessage';
+  static String singleVoiceCallInviteMessage = 'singleVoiceCallInviteMessage';
 
-  static Map<String, dynamic> zh = {
+  static Map<String, String> zh = {
     confirm: '确认',
 
     // toast
@@ -168,10 +169,6 @@ mixin DemoLocalizations {
     loginAnd: '与',
     loginPrivacyPolicy: '《环信隐私协议》',
     loginPleaseAgreeTermsOfServicePrivacyPolicy: '请同意环信服务条款和隐私协议',
-
-    multiCallInviteMessage: '邀请你加入多人通话',
-    singleVideoCallInviteMessage: '邀请你加入视频通话',
-    singleVoiceCallInviteMessage: '邀请你加入语音通话',
 
     // home
     chat: '会话',
@@ -257,13 +254,18 @@ mixin DemoLocalizations {
     logoutConfirm: '退出',
     logoutCancel: '取消',
 
+    // call
     videoCall: '视频通话',
     voiceCall: '音频通话',
     calleeSearch: '搜索',
     selectCallee: '选择成员',
     call: '呼叫',
+    multiCallInviteMessageDelete: '删除',
+    multiCallInviteMessage: '邀请你加入多人通话',
+    singleVideoCallInviteMessage: '邀请你加入视频通话',
+    singleVoiceCallInviteMessage: '邀请你加入语音通话',
   };
-  static Map<String, dynamic> en = {
+  static Map<String, String> en = {
     confirm: 'Confirm',
 
     // toast
@@ -302,10 +304,6 @@ mixin DemoLocalizations {
     loginPrivacyPolicy: 'Privacy',
     loginPleaseAgreeTermsOfServicePrivacyPolicy: 'Please agree to the Terms of Service and Privacy Policy',
 
-    multiCallInviteMessage: 'Invite you to join a multi-call',
-    singleVideoCallInviteMessage: 'Invite you to join a video call',
-    singleVoiceCallInviteMessage: 'Invite you to join a voice call',
-
     // home
     chat: 'Chats',
 
@@ -319,11 +317,11 @@ mixin DemoLocalizations {
     contacts: 'Contacts',
 
     // home contact remark
-    contactRemark: 'Remark',
-    contactRemarkDesc: 'Please enter the remark',
+    contactRemark: 'Remarks',
+    contactRemarkDesc: 'Please enter the remarks',
     contactRemarkConfirm: 'Confirm',
     contactRemarkCancel: 'Cancel',
-    contactRemarkFailed: 'Update failed',
+    contactRemarkFailed: 'Update Failed',
 
     me: 'Me',
 
@@ -345,7 +343,7 @@ mixin DemoLocalizations {
     changeAvatarGallery: 'Gallery',
 
     // general
-    darkMode: 'Dark mode',
+    darkMode: 'Dark Mode',
     advancedSettings: 'Advanced Features',
     colorSettings: 'Color settings',
     featureSettings: 'Feature',
@@ -390,10 +388,15 @@ mixin DemoLocalizations {
     logoutConfirm: 'Logout',
     logoutCancel: 'Cancel',
 
+    // call
     videoCall: 'Video Call',
     voiceCall: 'Voice Call',
     calleeSearch: 'Search',
     selectCallee: 'Select Members',
     call: 'Call',
+    multiCallInviteMessageDelete: 'Delete',
+    multiCallInviteMessage: 'Invite you to join a multi-call',
+    singleVideoCallInviteMessage: 'Invite you to join a video call',
+    singleVoiceCallInviteMessage: 'Invite you to join a voice call',
   };
 }

@@ -57,6 +57,8 @@ class _ToastHandlerWidgetState extends State<ToastHandlerWidget> with ChatSDKEve
         event == ChatSDKEvent.declineContactRequest ||
         event == ChatSDKEvent.setSilentMode ||
         event == ChatSDKEvent.createGroup ||
+        event == ChatSDKEvent.fetchChatThreadMembers ||
+        event == ChatSDKEvent.reportMessage ||
         event == ChatSDKEvent.clearSilentMode) {
       EasyLoading.show();
     }
@@ -73,7 +75,9 @@ class _ToastHandlerWidgetState extends State<ToastHandlerWidget> with ChatSDKEve
         event == ChatSDKEvent.setSilentMode ||
         event == ChatSDKEvent.createGroup ||
         event == ChatSDKEvent.clearSilentMode ||
+        event == ChatSDKEvent.fetchChatThreadMembers ||
         event == ChatSDKEvent.addReaction ||
+        event == ChatSDKEvent.reportMessage ||
         event == ChatSDKEvent.modifyMessage) {
       EasyLoading.dismiss();
       if (error != null) {

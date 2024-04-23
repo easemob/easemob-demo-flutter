@@ -145,6 +145,22 @@ class ChatRouteFilter {
     );
     arguments = arguments.copyWith(
       controller: controller,
+      // 拦截长按事件，如果是呼叫相关的cell，只可以弹出删除选项
+      onItemLongPress: (context, model) {
+        if (model.message.attributes?.containsValue('rtcCallWithAgora') ?? false) {
+          showChatUIKitBottomSheet(context: context, items: [
+            ChatUIKitBottomSheetItem.normal(
+              label: DemoLocalizations.multiCallInviteMessageDelete.localString(context),
+              onTap: () async {
+                Navigator.of(context).pop();
+                controller.deleteMessage(model.message.msgId);
+              },
+            )
+          ]);
+          return true;
+        }
+        return false;
+      },
       bubbleContentBuilder: (context, model) {
         // 表明是呼叫相关cell
         if (model.message.attributes?.containsValue('rtcCallWithAgora') ?? false) {

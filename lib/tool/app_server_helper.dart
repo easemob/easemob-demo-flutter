@@ -6,8 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class AppServerHelper {
-  static String? serverUrl = 'https://a1-appserver.easemob.com';
-
   // 发送验证码
   static Future<void> sendSmsCodeRequest(String phone) async {
     String url = '$serverUrl/inside/app/sms/send/$phone';

@@ -60,10 +60,15 @@ dependencies:
   permission_handler: ^10.2.0
 
   em_chat_callkit:
-    path: ../../chat_uikit/em_chat_callkit
+    git: 
+      url: https://github.com/easemob/ease-callkit-flutter.git
+      ref: main
+
 
   em_chat_uikit:
-    path: ../../chat_uikit/chatuikit-flutter
+    git:
+      url: https://github.com/easemob/chatuikit-flutter.git
+      ref: dev2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -71,7 +76,9 @@ dependencies:
 
 dependency_overrides:
   im_flutter_sdk:
-    path: ../../../im_flutter_sdk
+    git:
+      url: https://github.com/easemob/im_flutter_sdk.git
+      ref: 'dev_4.5.0'
 
 dev_dependencies:
   flutter_test:
