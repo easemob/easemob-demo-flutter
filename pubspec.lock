@@ -190,8 +190,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: dev2
-      resolved-ref: "82d97d1e3efa0ebd54b5434459ebef4524837847"
+      ref: c95ac8a
+      resolved-ref: c95ac8a79263aee5909efe1a47c689a1b18dee6f
       url: "https://github.com/easemob/chatuikit-flutter.git"
     source: git
     version: "2.0.0"
