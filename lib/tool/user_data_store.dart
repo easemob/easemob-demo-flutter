@@ -51,16 +51,9 @@ class UserDataStore {
 
   // 插入或更新数据
   Future<void> saveUserData(ChatUIKitProfile profile) async {
-    await _db?.insert(
-      ChatUIKit.instance.currentUserId!,
-      {
-        'id': profile.id,
-        'nickname': profile.name,
-        'avatar': profile.avatarUrl,
-        'remark': profile.remark,
-        'type': profile.type.index,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
+    await _db?.rawInsert(
+      'INSERT OR REPLACE INTO "${ChatUIKit.instance.currentUserId!}" (id, nickname, avatar, remark, type) VALUES (?, ?, ?, ?, ?)',
+      [profile.id, profile.name, profile.avatarUrl, profile.remark, profile.type.index],
     );
   }
 
@@ -103,7 +96,8 @@ class UserDataStore {
   }
 
   Future<List<ChatUIKitProfile>> loadAllProfiles() async {
-    List<Map<String, dynamic>>? maps = await _db?.query(ChatUIKit.instance.currentUserId!);
+    debugPrint('${ChatUIKit.instance.currentUserId}');
+    List<Map<String, dynamic>>? maps = await _db?.rawQuery('SELECT * FROM "${ChatUIKit.instance.currentUserId}"');
     return List.generate(maps?.length ?? 0, (i) {
       final info = maps?[i];
       return ChatUIKitProfile(
