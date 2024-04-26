@@ -1,4 +1,4 @@
-import 'package:chat_uikit_demo/debug_login_page.dart';
+
 import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/pages/home_page.dart';
@@ -107,8 +107,6 @@ class _MyAppState extends State<MyApp> {
                     return const HomePage();
                   } else if (settings.name == '/login') {
                     return const LoginPage();
-                  } else if (settings.name == '/debug_login') {
-                    return const DebugLoginPage();
                   } else if (settings.name == '/personal_info') {
                     return const PersonalInfoPage();
                   } else if (settings.name == '/general_page') {

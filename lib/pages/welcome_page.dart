@@ -1,5 +1,4 @@
 import 'package:chat_uikit_demo/demo_localizations.dart';
-import 'package:chat_uikit_demo/main.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/material.dart';
@@ -23,11 +22,7 @@ class _WelcomePageState extends State<WelcomePage> {
       if (ChatUIKit.instance.isLogged()) {
         Navigator.of(context).pushReplacementNamed('/home');
       } else {
-        if (appDebug) {
-          Navigator.of(context).pushReplacementNamed('/debug_login');
-        } else {
-          Navigator.of(context).pushReplacementNamed('/login');
-        }
+        Navigator.of(context).pushReplacementNamed('/login');
       }
     });
   }
