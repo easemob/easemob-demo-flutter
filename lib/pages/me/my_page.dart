@@ -4,6 +4,7 @@ import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class MyPage extends StatefulWidget {
   const MyPage({super.key});
@@ -229,7 +230,9 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
           label: DemoLocalizations.logoutConfirm.localString(context),
           onTap: () async {
             Navigator.of(context).pop();
+            EasyLoading.show();
             ChatUIKit.instance.logout().then((value) {
+              EasyLoading.dismiss();
               Navigator.of(context).popAndPushNamed('/login');
             });
           },

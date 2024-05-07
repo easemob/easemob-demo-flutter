@@ -1,4 +1,3 @@
-
 import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/pages/home_page.dart';

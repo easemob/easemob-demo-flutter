@@ -155,17 +155,24 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
 
   Future<void> updateGroupsProfile(List<String> groupIds) async {
     List<ChatUIKitProfile> list = [];
-    try {
-      for (var groupId in groupIds) {
+    for (var groupId in groupIds) {
+      try {
         Group group = await ChatUIKit.instance.fetchGroupInfo(groupId: groupId);
         ChatUIKitProfile profile =
             ChatUIKitProfile.group(id: group.groupId, groupName: group.name, avatarUrl: group.extension);
         list.add(profile);
+
+        UserDataStore().saveUserDatas(list);
+        ChatUIKitProvider.instance.addProfiles(list);
+      } on ChatError catch (e) {
+        if (e.code == 600) {
+          ChatUIKitProfile profile = ChatUIKitProfile.group(id: groupId);
+          UserDataStore().saveUserDatas([profile]);
+          ChatUIKitProvider.instance.addProfiles([profile]);
+        } else {
+          debugPrint('loadGroupInfo error: $e');
+        }
       }
-      UserDataStore().saveUserDatas(list);
-      ChatUIKitProvider.instance.addProfiles(list);
-    } catch (e) {
-      debugPrint('loadGroupInfo error: $e');
     }
   }
 

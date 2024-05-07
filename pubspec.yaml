@@ -1,5 +1,6 @@
 name: chat_uikit_demo
-description: A new Flutter project.
+
+description: A demo built using em_chat_callkit and em_chat_uikit.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -67,20 +68,15 @@ dependencies:
   # em_chat_uikit:
   #   path: ../../chat_uikit/chatuikit-flutter
 
-  em_chat_uikit:
-    git:
-      url: https://github.com/easemob/chatuikit-flutter.git
-      ref: 'e0eacd6'
+  em_chat_uikit: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
 dependency_overrides:
-  im_flutter_sdk:
-    git:
-      url: https://github.com/easemob/im_flutter_sdk.git
-      ref: 'dev_4.5.0'
+
+  im_flutter_sdk: ^4.5.0
 
 dev_dependencies:
   flutter_test:
