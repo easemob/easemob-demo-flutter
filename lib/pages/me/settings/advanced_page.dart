@@ -92,6 +92,30 @@ class _AdvancedPageState extends State<AdvancedPage> {
             ),
           ),
         ),
+        ListItem(
+          title: DemoLocalizations.featureSettingsTypingIndicator.localString(context),
+          trailingWidget: CupertinoSwitch(
+              value: SettingsDataStore().enableTyping,
+              onChanged: (value) async {
+                await SettingsDataStore().saveTyping(value);
+                setState(() {});
+              }),
+        ),
+        Container(
+          padding: const EdgeInsets.only(top: 4, bottom: 4, left: 16, right: 16),
+          color: theme.color.isDark ? theme.color.neutralColor3 : theme.color.neutralColor95,
+          child: Text(
+            DemoLocalizations.featureSettingsTypingIndicatorDesc.localString(context),
+            textAlign: TextAlign.left,
+            textScaler: TextScaler.noScaling,
+            style: TextStyle(
+              height: 0.9,
+              fontSize: theme.font.bodyMedium.fontSize,
+              fontWeight: theme.font.bodyMedium.fontWeight,
+              color: theme.color.isDark ? theme.color.neutralColor7 : theme.color.neutralColor5,
+            ),
+          ),
+        ),
       ],
     );
     return Scaffold(

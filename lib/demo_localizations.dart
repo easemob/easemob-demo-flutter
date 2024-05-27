@@ -104,6 +104,8 @@ mixin DemoLocalizations {
   static String featureSettingsThreadDesc = 'featureSettingsThreadDesc';
   static String featureSettingsReaction = 'featureSettingsReaction';
   static String featureSettingsReactionDesc = 'featureSettingsReactionDesc';
+  static String featureSettingsTypingIndicator = 'featureSettingsTypingIndicator';
+  static String featureSettingsTypingIndicatorDesc = 'featureSettingsTypingIndicatorDesc';
 
   // notification
   static String offlineMessagePush = 'offlineMessagePush';
@@ -130,6 +132,16 @@ mixin DemoLocalizations {
   static String multiCallInviteMessage = 'multiCallInviteMessage';
   static String singleVideoCallInviteMessage = 'singleVideoCallInviteMessage';
   static String singleVoiceCallInviteMessage = 'singleVoiceCallInviteMessage';
+
+  // custom
+
+  static String saveImage = 'saveImage';
+  static String saveImageSuccess = 'saveImageSuccess';
+  static String saveImageFailed = 'saveImageFailed';
+
+  static String saveVideo = 'saveVideo';
+  static String saveVideoSuccess = 'saveVideoSuccess';
+  static String saveVideoFailed = 'saveVideoFailed';
 
   static Map<String, String> zh = {
     confirm: '确认',
@@ -234,6 +246,8 @@ mixin DemoLocalizations {
     featureSettingsThreadDesc: '长按消息创建话题',
     featureSettingsReaction: '表情回复',
     featureSettingsReactionDesc: '长按消息添加表情回应',
+    featureSettingsTypingIndicator: '输入状态',
+    featureSettingsTypingIndicatorDesc: '显示正在输入状态',
 
     // general translate target language
     translateTargetLanguageChinese: '简体中文',
@@ -264,6 +278,14 @@ mixin DemoLocalizations {
     multiCallInviteMessage: '邀请你加入多人通话',
     singleVideoCallInviteMessage: '邀请你加入视频通话',
     singleVoiceCallInviteMessage: '邀请你加入语音通话',
+
+    saveImage: '保存图片',
+    saveImageSuccess: '保存图片成功',
+    saveImageFailed: '保存图片失败',
+
+    saveVideo: '保存视频',
+    saveVideoSuccess: '保存视频成功',
+    saveVideoFailed: '保存视频失败',
   };
   static Map<String, String> en = {
     confirm: 'Confirm',
@@ -368,6 +390,8 @@ mixin DemoLocalizations {
     featureSettingsThreadDesc: 'Create a thread from a message within the group',
     featureSettingsReaction: 'Emoji Reaction',
     featureSettingsReactionDesc: 'Long press a message to add emoji reactions',
+    featureSettingsTypingIndicator: 'Typing Indicator',
+    featureSettingsTypingIndicatorDesc: 'Show typing indicator when someone is typing',
 
     // general translate target language
     translateTargetLanguageChinese: 'Simplified Chinese',
@@ -398,5 +422,13 @@ mixin DemoLocalizations {
     multiCallInviteMessage: 'Invite you to join a multi-call',
     singleVideoCallInviteMessage: 'Invite you to join a video call',
     singleVoiceCallInviteMessage: 'Invite you to join a voice call',
+
+    saveImage: 'Save Image',
+    saveImageSuccess: 'Save Image Success',
+    saveImageFailed: 'Save Image Failed',
+
+    saveVideo: 'Save Video',
+    saveVideoSuccess: 'Save Video Success',
+    saveVideoFailed: 'Save Video Failed',
   };
 }

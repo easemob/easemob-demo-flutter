@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/pages/call/call_helper.dart';
 
@@ -9,6 +11,7 @@ import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 class ChatRouteFilter {
   static RouteSettings chatRouteSettings(RouteSettings settings) {
@@ -21,8 +24,37 @@ class ChatRouteFilter {
       return contactDetail(settings);
     } else if (settings.name == ChatUIKitRouteNames.groupDetailsView) {
       return groupDetail(settings);
+    } else if (settings.name == ChatUIKitRouteNames.showImageView) {
+      return showImageView(settings);
     }
     return settings;
+  }
+
+  static RouteSettings showImageView(RouteSettings settings) {
+    ShowImageViewArguments arguments = settings.arguments as ShowImageViewArguments;
+    arguments = arguments.copyWith(
+      onLongPressed: (context, message) {
+        showChatUIKitBottomSheet(
+          context: context,
+          items: [
+            ChatUIKitBottomSheetItem.normal(
+              label: DemoLocalizations.saveImage.localString(context),
+              onTap: () async {
+                Navigator.of(context).pop();
+                File file = File(((message.body) as ImageMessageBody).localPath);
+                if (file.existsSync()) {
+                  ImageGallerySaver.saveFile(file.path).then(
+                      (value) => {EasyLoading.showSuccess(DemoLocalizations.saveImageSuccess.localString(context))});
+                } else {
+                  EasyLoading.showError(DemoLocalizations.saveImageFailed.localString(context));
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+    return RouteSettings(name: settings.name, arguments: arguments);
   }
 
   static RouteSettings groupDetail(RouteSettings settings) {
