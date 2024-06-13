@@ -1,13 +1,16 @@
 import 'dart:io';
 
+import 'package:chat_uikit_demo/custom/demo_helper.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
-import 'package:chat_uikit_demo/pages/call/call_helper.dart';
+import 'package:chat_uikit_demo/custom/call_helper.dart';
 
 import 'package:chat_uikit_demo/pages/help/download_page.dart';
 import 'package:chat_uikit_demo/tool/app_server_helper.dart';
+import 'package:chat_uikit_demo/tool/settings_data_store.dart';
 import 'package:chat_uikit_demo/tool/user_data_store.dart';
 
 import 'package:em_chat_uikit/chat_uikit.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -77,7 +80,9 @@ class ChatRouteFilter {
   // 自定义 contact detail view
   static RouteSettings contactDetail(RouteSettings settings) {
     ContactDetailsViewArguments arguments = settings.arguments as ContactDetailsViewArguments;
+    ChatUIKitViewObserver? viewObserver = ChatUIKitViewObserver();
     arguments = arguments.copyWith(
+      viewObserver: viewObserver,
       actionsBuilder: (context, defaultList) {
         List<ChatUIKitModelAction> moreActions = List.from(defaultList ?? []);
         moreActions.add(
@@ -104,40 +109,99 @@ class ChatRouteFilter {
         return moreActions;
       },
       // 添加 remark 实现
-      contentWidgetBuilder: (context) {
-        return InkWell(
-          onTap: () async {
-            String? remark = await showChatUIKitDialog(
-              context: context,
-              title: DemoLocalizations.contactRemark.localString(context),
-              hintsText: [DemoLocalizations.contactRemarkDesc.localString(context)],
-              items: [
-                ChatUIKitDialogItem.inputsConfirm(
-                  label: DemoLocalizations.contactRemarkConfirm.localString(context),
-                  onInputsTap: (inputs) async {
-                    Navigator.of(context).pop(inputs.first);
-                  },
-                ),
-                ChatUIKitDialogItem.cancel(label: DemoLocalizations.contactRemarkCancel.localString(context)),
-              ],
-            );
-
-            if (remark?.isNotEmpty == true) {
-              ChatUIKit.instance.updateContactRemark(arguments.profile.id, remark!).then((value) {
-                ChatUIKitProfile profile = arguments.profile.copyWith(remark: remark);
-                // 更新数据，并设置到provider中
-                UserDataStore().saveUserData(profile);
-                ChatUIKitProvider.instance.addProfiles([profile]);
-              }).catchError((e) {
-                EasyLoading.showError(DemoLocalizations.contactRemarkFailed.localString(context));
-              });
-            }
-          },
-          child: ChatUIKitDetailsListViewItem(
+      detailsListViewItemsBuilder: (context, profile, defaultItems) {
+        return [
+          ChatUIKitDetailsListViewItemModel(
             title: DemoLocalizations.contactRemark.localString(context),
             trailing: Text(ChatUIKitProvider.instance.getProfile(arguments.profile).remark ?? ''),
+            onTap: () async {
+              String? remark = await showChatUIKitDialog(
+                context: context,
+                title: DemoLocalizations.contactRemark.localString(context),
+                hintsText: [DemoLocalizations.contactRemarkDesc.localString(context)],
+                items: [
+                  ChatUIKitDialogItem.inputsConfirm(
+                    label: DemoLocalizations.contactRemarkConfirm.localString(context),
+                    onInputsTap: (inputs) async {
+                      Navigator.of(context).pop(inputs.first);
+                    },
+                  ),
+                  ChatUIKitDialogItem.cancel(label: DemoLocalizations.contactRemarkCancel.localString(context)),
+                ],
+              );
+
+              if (remark?.isNotEmpty == true) {
+                ChatUIKit.instance.updateContactRemark(arguments.profile.id, remark!).then((value) {
+                  ChatUIKitProfile profile = arguments.profile.copyWith(remark: remark);
+                  // 更新数据，并设置到provider中
+                  UserDataStore().saveUserData(profile);
+                  ChatUIKitProvider.instance.addProfiles([profile]);
+                }).catchError((e) {
+                  EasyLoading.showError(DemoLocalizations.contactRemarkFailed.localString(context));
+                });
+              }
+            },
           ),
-        );
+          ...() {
+            List<ChatUIKitDetailsListViewItemModel> list = [];
+            list.add(defaultItems.first);
+            if (SettingsDataStore().enableBlockList) {
+              bool isBlocked = DemoHelper.blockList.contains(profile!.id);
+              final theme = ChatUIKitTheme.of(context);
+              list.add(
+                ChatUIKitDetailsListViewItemModel(
+                  title: DemoLocalizations.blockContact.localString(context),
+                  trailing: CupertinoSwitch(
+                    activeColor: theme.color.isDark ? theme.color.primaryColor6 : theme.color.primaryColor5,
+                    trackColor: theme.color.isDark ? theme.color.neutralColor3 : theme.color.neutralColor9,
+                    value: isBlocked,
+                    onChanged: (value) async {
+                      if (isBlocked) {
+                        EasyLoading.show();
+                        DemoHelper.blockUsers(profile.id, false).then((value) {
+                          EasyLoading.showSuccess(DemoLocalizations.unblocked.localString(context));
+                          viewObserver.refresh();
+                        }).catchError((e) {
+                          EasyLoading.showError(DemoLocalizations.unblockFailed.localString(context));
+                        }).whenComplete(() {
+                          EasyLoading.dismiss();
+                        });
+                      } else {
+                        showChatUIKitDialog(
+                            context: context,
+                            title: DemoLocalizations.blockContact.localString(context),
+                            content: "${DemoLocalizations.blockContent.localString(context)}${profile.showName}?",
+                            items: [
+                              ChatUIKitDialogItem.cancel(
+                                label: DemoLocalizations.blockCancel.localString(context),
+                              ),
+                              ChatUIKitDialogItem.confirm(
+                                label: DemoLocalizations.blockConfirm.localString(context),
+                                onTap: () async {
+                                  Navigator.of(context).pop();
+                                  EasyLoading.show();
+                                  DemoHelper.blockUsers(profile.id, true).then((value) {
+                                    EasyLoading.showSuccess(DemoLocalizations.blocked.localString(context));
+                                    viewObserver.refresh();
+                                  }).catchError((e) {
+                                    EasyLoading.showError(DemoLocalizations.blockFailed.localString(context));
+                                  }).whenComplete(() {
+                                    EasyLoading.dismiss();
+                                  });
+                                },
+                              ),
+                            ]);
+                      }
+                    },
+                  ),
+                ),
+              );
+            }
+
+            list.addAll(defaultItems.sublist(1));
+            return list;
+          }(),
+        ];
       },
     );
 
@@ -177,10 +241,9 @@ class ChatRouteFilter {
     );
     arguments = arguments.copyWith(
       controller: controller,
-      // 拦截长按事件，如果是呼叫相关的cell，只可以弹出删除选项
-      onItemLongPress: (context, model) {
+      onItemLongPressHandler: (context, model, defaultActions) {
         if (model.message.attributes?.containsValue('rtcCallWithAgora') ?? false) {
-          showChatUIKitBottomSheet(context: context, items: [
+          return [
             ChatUIKitBottomSheetItem.normal(
               label: DemoLocalizations.multiCallInviteMessageDelete.localString(context),
               onTap: () async {
@@ -188,10 +251,10 @@ class ChatRouteFilter {
                 controller.deleteMessage(model.message.msgId);
               },
             )
-          ]);
-          return true;
+          ];
+        } else {
+          return defaultActions;
         }
-        return false;
       },
       bubbleContentBuilder: (context, model) {
         // 表明是呼叫相关cell

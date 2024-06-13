@@ -7,6 +7,13 @@ class ConversationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConversationsView(
+      appBarLeading: Container(
+        margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+        child: ChatUIKitAvatar.current(
+          size: 32,
+          avatarUrl: ChatUIKitProvider.instance.currentUserProfile?.avatarUrl,
+        ),
+      ),
       title: DemoLocalizations.chat.localString(context),
     );
   }

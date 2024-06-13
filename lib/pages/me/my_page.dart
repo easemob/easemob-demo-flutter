@@ -130,6 +130,12 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
           child: Text(DemoLocalizations.settings.localString(context), textScaler: TextScaler.noScaling),
         ),
         ListItem(
+          imageWidget: Image.asset('assets/images/online.png'),
+          title: DemoLocalizations.onlineStatus.localString(context),
+          enableArrow: true,
+          onTap: onlineStatusPage,
+        ),
+        ListItem(
           imageWidget: Image.asset('assets/images/personal.png'),
           title: DemoLocalizations.personalInfo.localString(context),
           enableArrow: true,
@@ -145,6 +151,12 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
           imageWidget: Image.asset('assets/images/notifications.png'),
           title: DemoLocalizations.notification.localString(context),
           onTap: nonsupport,
+        ),
+        ListItem(
+          imageWidget: Image.asset('assets/images/secret.png'),
+          title: DemoLocalizations.secret.localString(context),
+          enableArrow: true,
+          onTap: secret,
         ),
         ListItem(
           imageWidget: Image.asset('assets/images/info.png'),
@@ -176,6 +188,14 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
     return content;
   }
 
+  void onlineStatusPage() {
+    Navigator.of(context).pushNamed('/online_status_page').then(
+      (value) {
+        setState(() {});
+      },
+    );
+  }
+
   void pushToPersonalInfoPage() {
     Navigator.of(context).pushNamed('/personal_info').then(
       (value) {
@@ -194,6 +214,14 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
 
   void about() {
     Navigator.of(context).pushNamed('/about_page').then(
+      (value) {
+        setState(() {});
+      },
+    );
+  }
+
+  void secret() {
+    Navigator.of(context).pushNamed('/privacy_page').then(
       (value) {
         setState(() {});
       },

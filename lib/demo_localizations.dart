@@ -56,13 +56,26 @@ mixin DemoLocalizations {
   static String contactRemarkCancel = 'contactRemarkCancel';
   static String contactRemarkFailed = 'contactRemarkFailed';
 
+  // block contact
+  static String blockContact = 'blockContact';
+  static String blockContent = 'blockContent';
+  static String blockList = 'blockList';
+  static String blocked = 'block';
+  static String blockFailed = 'blockFailed';
+  static String blockConfirm = 'blockConfirm';
+  static String blockCancel = 'blockCancel';
+  static String unblocked = 'unblocked';
+  static String unblockFailed = 'unblockedFailed';
+
   static String me = 'me';
 
   // me
   static String settings = 'settings';
+  static String onlineStatus = 'onlineStatus';
   static String personalInfo = 'personalInfo';
   static String general = 'general';
   static String notification = 'notification';
+  static String secret = 'secret';
   static String about = 'about';
   static String logout = 'logout';
 
@@ -106,6 +119,8 @@ mixin DemoLocalizations {
   static String featureSettingsReactionDesc = 'featureSettingsReactionDesc';
   static String featureSettingsTypingIndicator = 'featureSettingsTypingIndicator';
   static String featureSettingsTypingIndicatorDesc = 'featureSettingsTypingIndicatorDesc';
+  static String featureSettingsBlock = 'featureSettingsBlock';
+  static String featureSettingsBlockDesc = 'featureSettingsBlockDesc';
 
   // notification
   static String offlineMessagePush = 'offlineMessagePush';
@@ -201,13 +216,26 @@ mixin DemoLocalizations {
     contactRemarkCancel: '取消',
     contactRemarkFailed: '更新失败',
 
+    // block contact
+    blockContact: '拉黑联系人',
+    blockContent: '确认拉黑联系人',
+    blockList: '黑名单',
+    blocked: '已拉黑',
+    blockFailed: '拉黑失败',
+    blockConfirm: '确认',
+    blockCancel: '取消',
+    unblocked: '已解除拉黑',
+    unblockFailed: '解除拉黑失败',
+
     me: '我',
 
     // me
     settings: '设置',
+    onlineStatus: '在线状态',
     personalInfo: '个人信息',
     general: '通用',
     notification: '消息通知',
+    secret: '隐私',
     about: '关于',
     logout: '退出登录',
 
@@ -248,6 +276,8 @@ mixin DemoLocalizations {
     featureSettingsReactionDesc: '长按消息添加表情回应',
     featureSettingsTypingIndicator: '输入状态',
     featureSettingsTypingIndicatorDesc: '显示正在输入状态',
+    featureSettingsBlock: '通讯录黑名单',
+    featureSettingsBlockDesc: '将通讯录联系人添加进黑名单',
 
     // general translate target language
     translateTargetLanguageChinese: '简体中文',
@@ -345,13 +375,26 @@ mixin DemoLocalizations {
     contactRemarkCancel: 'Cancel',
     contactRemarkFailed: 'Update Failed',
 
+    // block contact
+    blockContact: 'Block Contact',
+    blockContent: 'Confirm blocking user ',
+    blockList: 'Block List',
+    blocked: 'Blocked',
+    blockFailed: 'Block Failed',
+    blockConfirm: 'Confirm',
+    blockCancel: 'Cancel',
+    unblocked: 'Unblocked',
+    unblockFailed: 'Unblock Failed',
+
     me: 'Me',
 
     // me
     settings: 'Settings',
+    onlineStatus: 'Online Status',
     personalInfo: 'Profile',
     general: 'General',
     notification: 'Notifications',
+    secret: 'Privacy',
     about: 'About',
     logout: 'Log Out',
 
@@ -392,6 +435,8 @@ mixin DemoLocalizations {
     featureSettingsReactionDesc: 'Long press a message to add emoji reactions',
     featureSettingsTypingIndicator: 'Typing Indicator',
     featureSettingsTypingIndicatorDesc: 'Show typing indicator when someone is typing',
+    featureSettingsBlock: 'block list',
+    featureSettingsBlockDesc: 'Add contacts to block list',
 
     // general translate target language
     translateTargetLanguageChinese: 'Simplified Chinese',

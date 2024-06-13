@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage>
   }
 
   List<Widget> _pages(BuildContext context) {
-    return const [ConversationPage(), ContactPage(), MyPage()];
+    return [const ConversationPage(), ContactPage(), const MyPage()];
   }
 
   @override

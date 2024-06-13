@@ -4,7 +4,10 @@ import 'package:chat_uikit_demo/pages/home_page.dart';
 import 'package:chat_uikit_demo/pages/login_page.dart';
 import 'package:chat_uikit_demo/notifications/app_settings_notification.dart';
 import 'package:chat_uikit_demo/pages/me/about_page.dart';
+import 'package:chat_uikit_demo/pages/me/online/online_status_page.dart';
 import 'package:chat_uikit_demo/pages/me/personal/personal_info_page.dart';
+import 'package:chat_uikit_demo/pages/me/privacy/block_list_page.dart';
+import 'package:chat_uikit_demo/pages/me/privacy/privacy_page.dart';
 import 'package:chat_uikit_demo/pages/me/settings/general_page.dart';
 import 'package:chat_uikit_demo/pages/me/settings/language_page.dart';
 import 'package:chat_uikit_demo/pages/me/settings/translate_page.dart';
@@ -118,6 +121,12 @@ class _MyAppState extends State<MyApp> {
                     return const AdvancedPage();
                   } else if (settings.name == '/about_page') {
                     return const AboutPage();
+                  } else if (settings.name == '/online_status_page') {
+                    return const OnlineStatusPage();
+                  } else if (settings.name == '/privacy_page') {
+                    return const PrivacyPage();
+                  } else if (settings.name == '/block_list_page') {
+                    return const BlockListPage();
                   } else {
                     return const SizedBox();
                   }

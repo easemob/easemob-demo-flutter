@@ -9,6 +9,7 @@ const String translationKey = 'translationKey';
 const String reactionKey = 'reactionKey';
 const String targetLanguageKey = 'targetLanguageKey';
 const String typingKey = 'typing';
+const String blockListKey = 'blockList';
 
 class SettingsDataStore {
   static SettingsDataStore? _instance;
@@ -92,5 +93,14 @@ class SettingsDataStore {
     _sharedPreferences ??= await SharedPreferences.getInstance();
     _sharedPreferences?.setBool(typingKey, enable);
     ChatUIKitSettings.enableTypingIndicator = enable;
+  }
+
+  bool get enableBlockList {
+    return _sharedPreferences?.getBool(blockListKey) ?? false;
+  }
+
+  Future<void> saveBlockList(bool enable) async {
+    _sharedPreferences ??= await SharedPreferences.getInstance();
+    _sharedPreferences?.setBool(blockListKey, enable);
   }
 }
