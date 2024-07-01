@@ -67,10 +67,10 @@ dependencies:
       url: https://github.com/easemob/ease-callkit-flutter.git
       ref: main
 
-  # em_chat_uikit:
-  #   path: ../../chat_uikit/chatuikit-flutter
+  em_chat_uikit:
+    path: ../../chat_uikit/chatuikit-flutter
 
-  em_chat_uikit: ^2.0.2
+  # em_chat_uikit: ^2.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -118,7 +118,15 @@ flutter:
     - assets/images/voice_call.png
     - assets/images/call.png
     - assets/images/topic.png
+    - assets/images/online_away.png
+    - assets/images/online_offline.png
+    - assets/images/online_busy.png
+    - assets/images/online_custom.png
+    - assets/images/online_dnd.png
+    - assets/images/online_online.png
     - assets/call/
+
+    
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -4,7 +4,6 @@ import 'package:chat_uikit_demo/pages/home_page.dart';
 import 'package:chat_uikit_demo/pages/login_page.dart';
 import 'package:chat_uikit_demo/notifications/app_settings_notification.dart';
 import 'package:chat_uikit_demo/pages/me/about_page.dart';
-import 'package:chat_uikit_demo/pages/me/online/online_status_page.dart';
 import 'package:chat_uikit_demo/pages/me/personal/personal_info_page.dart';
 import 'package:chat_uikit_demo/pages/me/privacy/block_list_page.dart';
 import 'package:chat_uikit_demo/pages/me/privacy/privacy_page.dart';
@@ -12,6 +11,7 @@ import 'package:chat_uikit_demo/pages/me/settings/general_page.dart';
 import 'package:chat_uikit_demo/pages/me/settings/language_page.dart';
 import 'package:chat_uikit_demo/pages/me/settings/translate_page.dart';
 import 'package:chat_uikit_demo/custom/chat_route_filter.dart';
+import 'package:chat_uikit_demo/tool/online_status_helper.dart';
 import 'package:chat_uikit_demo/tool/settings_data_store.dart';
 import 'package:chat_uikit_demo/pages/welcome_page.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
@@ -23,8 +23,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'pages/me/settings/advanced_page.dart';
 
-const bool appDebug = false;
-
 void main() async {
   return ChatUIKit.instance
       .init(
@@ -35,6 +33,7 @@ void main() async {
   )
       .then((value) {
     SettingsDataStore().init();
+    OnlineStatusHelper();
     return SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => runApp(const MyApp()));
   });
 }
@@ -121,8 +120,6 @@ class _MyAppState extends State<MyApp> {
                     return const AdvancedPage();
                   } else if (settings.name == '/about_page') {
                     return const AboutPage();
-                  } else if (settings.name == '/online_status_page') {
-                    return const OnlineStatusPage();
                   } else if (settings.name == '/privacy_page') {
                     return const PrivacyPage();
                   } else if (settings.name == '/block_list_page') {

@@ -189,10 +189,9 @@ packages:
   em_chat_uikit:
     dependency: "direct main"
     description:
-      name: em_chat_uikit
-      sha256: "357300488d275e79672b5624b2690c9285a6647ffb3bd8d4c15d2d5467079e3f"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../../chat_uikit/chatuikit-flutter"
+      relative: true
+    source: path
     version: "2.0.2"
   fake_async:
     dependency: transitive

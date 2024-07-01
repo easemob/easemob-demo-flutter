@@ -1,5 +1,7 @@
 import 'package:chat_uikit_demo/demo_localizations.dart';
+import 'package:chat_uikit_demo/tool/online_status_helper.dart';
 import 'package:chat_uikit_demo/widgets/list_item.dart';
+import 'package:chat_uikit_demo/widgets/online_icon_status_widget.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/material.dart';
@@ -60,9 +62,17 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
 
   Widget _buildContent() {
     final theme = ChatUIKitTheme.of(context);
-    Widget avatar = ChatUIKitAvatar.current(
-      avatarUrl: _userProfile?.avatarUrl,
-      size: 100,
+    Widget avatar = ValueListenableBuilder(
+      valueListenable: OnlineStatusHelper().onlineStatus,
+      builder: (context, value, child) {
+        return OnlineIconStatusWidget(
+          onlineStatus: value,
+          child: ChatUIKitAvatar.current(
+            avatarUrl: _userProfile?.avatarUrl,
+            size: 100,
+          ),
+        );
+      },
     );
 
     Widget name = Text(
@@ -111,9 +121,14 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
     );
 
     Widget content = Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 20),
-        avatar,
+        SizedBox(
+          width: 100,
+          height: 100,
+          child: avatar,
+        ),
         const SizedBox(height: 12),
         name,
         const SizedBox(height: 4),
@@ -133,7 +148,7 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
           imageWidget: Image.asset('assets/images/online.png'),
           title: DemoLocalizations.onlineStatus.localString(context),
           enableArrow: true,
-          onTap: onlineStatusPage,
+          onTap: onlineStatus,
         ),
         ListItem(
           imageWidget: Image.asset('assets/images/personal.png'),
@@ -188,13 +203,69 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
     return content;
   }
 
-  void onlineStatusPage() {
-    Navigator.of(context).pushNamed('/online_status_page').then(
-      (value) {
-        setState(() {});
-      },
+  void onlineStatus() {
+    showChatUIKitBottomSheet(
+      context: context,
+      items: [
+        ChatUIKitBottomSheetAction.normal(
+          label: '在线',
+          onTap: () async {
+            Navigator.of(context).pop();
+            OnlineStatusHelper().changeOnlineStatus(PresenceStatus.online);
+          },
+        ),
+        ChatUIKitBottomSheetAction.normal(
+          label: '离开',
+          onTap: () async {
+            Navigator.of(context).pop();
+            OnlineStatusHelper().changeOnlineStatus(PresenceStatus.away);
+          },
+        ),
+        ChatUIKitBottomSheetAction.normal(
+          label: '忙碌',
+          onTap: () async {
+            Navigator.of(context).pop();
+            OnlineStatusHelper().changeOnlineStatus(PresenceStatus.busy);
+          },
+        ),
+        ChatUIKitBottomSheetAction.normal(
+          label: '请勿打扰',
+          onTap: () async {
+            Navigator.of(context).pop();
+            OnlineStatusHelper().changeOnlineStatus(PresenceStatus.notDisturb);
+          },
+        ),
+        ChatUIKitBottomSheetAction.normal(
+          label: '自定义',
+          onTap: () async {
+            Navigator.of(context).pop();
+            showChatUIKitDialog(
+              context: context,
+              title: '自定义在线状态',
+              hintsText: [''],
+              items: [
+                ChatUIKitDialogItem.cancel(
+                  label: '取消',
+                  onTap: () async {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                ChatUIKitDialogItem.inputsConfirm(
+                  label: '确认',
+                  onInputsTap: (inputs) async {
+                    OnlineStatusHelper().changeOnlineStatus(PresenceStatus.custom, custom: inputs[0]);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        ),
+      ],
     );
   }
+
+  void changeOnlineState() {}
 
   void pushToPersonalInfoPage() {
     Navigator.of(context).pushNamed('/personal_info').then(

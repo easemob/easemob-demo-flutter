@@ -32,7 +32,7 @@ class _GroupMemberSelectViewState extends State<GroupMemberSelectView> {
         title: DemoLocalizations.selectCallee.localString(context),
         centerTitle: false,
         trailingActions: [
-          ChatUIKitAppBarTrailingAction(
+          ChatUIKitAppBarAction(
             onTap: (context) {
               if (selected.length <= 1) {
                 return;

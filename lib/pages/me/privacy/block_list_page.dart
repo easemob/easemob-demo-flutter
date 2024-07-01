@@ -31,17 +31,17 @@ class BlockListPage extends StatelessWidget {
       list.add(item);
     }
 
-    ChatUIKitRoute.pushOrPushNamed(
-      context,
-      ChatUIKitRouteNames.searchUsersView,
-      SearchViewArguments(
-        onTap: (ctx, profile) {
-          Navigator.of(ctx).pop(profile);
-        },
-        searchHideText: ChatUIKitLocal.conversationsViewSearchHint.localString(context),
-        searchData: list,
-      ),
-    ).then((value) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) {
+        return SearchView(
+          onTap: (ctx, profile) {
+            Navigator.of(ctx).pop(profile);
+          },
+          searchHideText: ChatUIKitLocal.conversationsViewSearchHint.localString(context),
+          searchData: list,
+        );
+      },
+    )).then((value) {
       if (value != null && value is ChatUIKitProfile) {
         tapContactInfo(context, value);
       }

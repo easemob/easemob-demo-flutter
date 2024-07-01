@@ -81,15 +81,15 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with ChatUIKitProvi
   }
 
   void changeAvatar() {
-    List<ChatUIKitBottomSheetItem> items = [
-      ChatUIKitBottomSheetItem.normal(
+    List<ChatUIKitBottomSheetAction> items = [
+      ChatUIKitBottomSheetAction.normal(
         label: DemoLocalizations.changeAvatarCamera.localString(context),
         onTap: () async {
           Navigator.of(context).pop();
           takePhoto();
         },
       ),
-      ChatUIKitBottomSheetItem.normal(
+      ChatUIKitBottomSheetAction.normal(
         label: DemoLocalizations.changeAvatarGallery.localString(context),
         onTap: () async {
           Navigator.of(context).pop();
@@ -183,7 +183,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> with ChatUIKitProvi
       context,
       ChatUIKitRouteNames.changeInfoView,
       ChangeInfoViewArguments(
-        title: DemoLocalizations.changeNickname.localString(context),
+        appBarModel: ChatUIKitAppBarModel(title: DemoLocalizations.changeNickname.localString(context)),
         inputTextCallback: () {
           return Future(
             () {
