@@ -10,7 +10,8 @@ class ToastHandlerWidget extends StatefulWidget {
   State<ToastHandlerWidget> createState() => _ToastHandlerWidgetState();
 }
 
-class _ToastHandlerWidgetState extends State<ToastHandlerWidget> with ChatSDKEventsObserver, ChatUIKitEventsObservers {
+class _ToastHandlerWidgetState extends State<ToastHandlerWidget>
+    with ChatSDKEventsObserver, ChatUIKitEventsObservers {
   @override
   void initState() {
     super.initState();
@@ -37,13 +38,17 @@ class _ToastHandlerWidgetState extends State<ToastHandlerWidget> with ChatSDKEve
     } else if (event == ChatUIKitEvent.messageDownloading) {
       EasyLoading.showInfo(DemoLocalizations.downloading.localString(context));
     } else if (event == ChatUIKitEvent.noStoragePermission) {
-      EasyLoading.showError(DemoLocalizations.noStoragePermission.localString(context));
+      EasyLoading.showError(
+          DemoLocalizations.noStoragePermission.localString(context));
     } else if (event == ChatUIKitEvent.noMicrophonePermission) {
-      EasyLoading.showError(DemoLocalizations.noMicrophonePermission.localString(context));
+      EasyLoading.showError(
+          DemoLocalizations.noMicrophonePermission.localString(context));
     } else if (event == ChatUIKitEvent.noCameraPermission) {
-      EasyLoading.showError(DemoLocalizations.noCameraPermission.localString(context));
+      EasyLoading.showError(
+          DemoLocalizations.noCameraPermission.localString(context));
     } else if (event == ChatUIKitEvent.voiceTypeNotSupported) {
-      EasyLoading.showError(DemoLocalizations.voiceTypeNotSupported.localString(context));
+      EasyLoading.showError(
+          DemoLocalizations.voiceTypeNotSupported.localString(context));
     }
   }
 
@@ -59,7 +64,8 @@ class _ToastHandlerWidgetState extends State<ToastHandlerWidget> with ChatSDKEve
         event == ChatSDKEvent.createGroup ||
         event == ChatSDKEvent.fetchChatThreadMembers ||
         event == ChatSDKEvent.reportMessage ||
-        event == ChatSDKEvent.clearSilentMode) {
+        event == ChatSDKEvent.clearSilentMode ||
+        event == ChatSDKEvent.fetchPinnedMessages) {
       EasyLoading.show();
     }
   }
@@ -78,7 +84,8 @@ class _ToastHandlerWidgetState extends State<ToastHandlerWidget> with ChatSDKEve
         event == ChatSDKEvent.fetchChatThreadMembers ||
         event == ChatSDKEvent.addReaction ||
         event == ChatSDKEvent.reportMessage ||
-        event == ChatSDKEvent.modifyMessage) {
+        event == ChatSDKEvent.modifyMessage ||
+        event == ChatSDKEvent.fetchPinnedMessages) {
       EasyLoading.dismiss();
       if (error != null) {
         EasyLoading.showError(error.description);

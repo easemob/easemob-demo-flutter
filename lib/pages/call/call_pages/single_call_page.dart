@@ -32,7 +32,8 @@ class SingleCallPage extends StatefulWidget {
     Widget? backgroundWidget,
     TextStyle? nicknameTextStyle,
   }) {
-    assert(type != ChatCallKitCallType.multi, "SingleCallPage must video_1v1 or audio_1v1 type.");
+    assert(type != ChatCallKitCallType.multi,
+        "SingleCallPage must video_1v1 or audio_1v1 type.");
 
     return SingleCallPage(
       userId,
@@ -49,7 +50,8 @@ class SingleCallPage extends StatefulWidget {
     Widget? backgroundWidget,
     TextStyle? nicknameTextStyle,
   }) {
-    assert(type != ChatCallKitCallType.multi, "SingleCallPage must video_1v1 or audio_1v1 type.");
+    assert(type != ChatCallKitCallType.multi,
+        "SingleCallPage must video_1v1 or audio_1v1 type.");
 
     return SingleCallPage(
       userId,
@@ -81,7 +83,8 @@ class SingleCallPage extends StatefulWidget {
   State<SingleCallPage> createState() => _SingleCallPageState();
 }
 
-class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserver, ChatUIKitProviderObserver {
+class _SingleCallPageState extends State<SingleCallPage>
+    with ChatCallKitObserver, ChatUIKitProviderObserver {
   bool holding = true;
   bool speakerOn = false;
   bool mute = false;
@@ -107,7 +110,8 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
   void initState() {
     super.initState();
     profile = ChatUIKitProvider.instance.profilesCache[widget.userId];
-    profile ??= ChatUIKitProvider.instance.getProfile(ChatUIKitProfile.contact(id: widget.userId));
+    profile ??= ChatUIKitProvider.instance
+        .getProfile(ChatUIKitProfile.contact(id: widget.userId));
     ChatUIKitProvider.instance.addObserver(this);
     addListener();
 
@@ -169,8 +173,10 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
           widget.userId,
           type: widget.type,
           inviteMessage: widget.type == ChatCallKitCallType.audio_1v1
-              ? DemoLocalizations.singleVoiceCallInviteMessage.localString(context)
-              : DemoLocalizations.singleVideoCallInviteMessage.localString(context),
+              ? DemoLocalizations.singleVoiceCallInviteMessage
+                  .localString(context)
+              : DemoLocalizations.singleVideoCallInviteMessage
+                  .localString(context),
         );
       } on ChatCallKitError {
         rethrow;
@@ -283,7 +289,7 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
       Positioned.fill(child: backgroundWidget()),
       Positioned.fill(child: backgroundMaskWidget()),
       Positioned.fill(
-        top: 55,
+        top: 143,
         bottom: 60,
         child: content,
       ),
@@ -350,7 +356,8 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
 
   Widget localWidget() {
     return cameraOn
-        ? ChatCallKitManager.getLocalVideoView() ?? Container(color: Colors.black)
+        ? ChatCallKitManager.getLocalVideoView() ??
+            Container(color: Colors.black)
         : Container(color: Colors.black);
   }
 
@@ -415,7 +422,9 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
       content = Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [content, const SizedBox(width: 17.5)]),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [content, const SizedBox(width: 17.5)]),
           avatarWidget(),
           const SizedBox(height: 10),
           nicknameWidget(),
@@ -427,9 +436,13 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
       content = Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [content, const SizedBox(width: 17.5)]),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [content, const SizedBox(width: 17.5)]),
           const SizedBox(height: 10),
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [floatWidget(), const SizedBox(width: 17.5)]),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [floatWidget(), const SizedBox(width: 17.5)]),
         ],
       );
     }
@@ -439,7 +452,8 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
     );
 
     Widget bottom;
-    if (currentType == SingleCallType.videoCallCalling || currentType == SingleCallType.videoCallOutHolding) {
+    if (currentType == SingleCallType.videoCallCalling ||
+        currentType == SingleCallType.videoCallOutHolding) {
       bottom = bottomWidget([cameraButton(), muteButton(), hangupButton()]);
     } else {
       bottom = bottomWidget([cameraButton(), hangupButton(), answerButton()]);
@@ -470,7 +484,8 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
                   child: SizedBox(
                     width: 20,
                     height: 20,
-                    child: Image.asset('assets/call/mic_off.png', color: Colors.white),
+                    child: Image.asset('assets/call/mic_off.png',
+                        color: Colors.white),
                   ),
                 )
               : const Offstage(),
@@ -525,7 +540,8 @@ class _SingleCallPageState extends State<SingleCallPage> with ChatCallKitObserve
       },
       selectImage: Image.asset("assets/call/video_on.png"),
       unselectImage: Image.asset("assets/call/video_off.png"),
-      backgroundColor: cameraOn ? const Color.fromRGBO(255, 255, 255, 0.2) : Colors.white,
+      backgroundColor:
+          cameraOn ? const Color.fromRGBO(255, 255, 255, 0.2) : Colors.white,
     );
   }
 

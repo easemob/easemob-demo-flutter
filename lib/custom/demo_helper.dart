@@ -1,21 +1,30 @@
 import 'package:em_chat_uikit/chat_uikit.dart';
+import 'package:flutter/widgets.dart';
 
 class DemoHelper {
   static List<String> blockList = [];
 
   static Future<void> fetchBlockList() async {
-    blockList.clear();
-    List<String> list = await ChatUIKit.instance.fetchAllBlockedContactIds();
-    blockList.addAll(list);
+    try {
+      blockList.clear();
+      List<String> list = await ChatUIKit.instance.fetchAllBlockedContactIds();
+      blockList.addAll(list);
+    } catch (e) {
+      debugPrint('fetchBlockList error: $e');
+    }
   }
 
   static Future<void> blockUsers(String userId, bool add) async {
-    if (add) {
-      await ChatUIKit.instance.addBlockedContact(userId: userId);
-    } else {
-      await ChatUIKit.instance.deleteBlockedContact(userId: userId);
+    try {
+      if (add) {
+        await ChatUIKit.instance.addBlockedContact(userId: userId);
+      } else {
+        await ChatUIKit.instance.deleteBlockedContact(userId: userId);
+      }
+      updateBlockList(userId, add);
+    } catch (e) {
+      debugPrint('blockUsers error: $e');
     }
-    updateBlockList(userId, add);
   }
 
   static void updateBlockList(String userId, bool add) {

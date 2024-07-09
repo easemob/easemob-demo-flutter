@@ -325,20 +325,23 @@ class ChatRouteFilter {
                     : theme.color.primaryColor5,
               );
             },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: Image.asset(
-                    'assets/images/voice_call.png',
-                    color: color,
+            child: Text.rich(
+              TextSpan(children: [
+                WidgetSpan(
+                  child: SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: Image.asset(
+                      'assets/images/voice_call.png',
+                      color: color,
+                    ),
                   ),
                 ),
-                Text(model.message.textContent,
-                    style: theme.titleMedium(color: color)),
-              ],
+                TextSpan(
+                  text: model.message.textContent,
+                  style: theme.titleMedium(color: color),
+                ),
+              ]),
             ),
           );
         }
@@ -395,11 +398,11 @@ class ChatRouteFilter {
           if (defaultList?.isNotEmpty == true) {
             actions.addAll(defaultList!);
           }
+          ChatUIKitColor color = ChatUIKitTheme.of(context).color;
           if (!controller.isMultiSelectMode) {
             actions.add(
               ChatUIKitAppBarAction(
                 onTap: (context) {
-                  ChatUIKitColor color = ChatUIKitTheme.of(context).color;
                   // 如果是单聊，弹出选择语音通话和视频通话
                   if (arguments.profile.type == ChatUIKitProfileType.contact) {
                     CallHelper.showSingleCallBottomSheet(
@@ -412,8 +415,14 @@ class ChatRouteFilter {
                         context, arguments.profile.id);
                   }
                 },
-                child: Image.asset('assets/images/call.png',
-                    fit: BoxFit.fill, width: 24, height: 24),
+                child: Image.asset(
+                  'assets/images/call.png',
+                  fit: BoxFit.fill,
+                  width: 24,
+                  height: 24,
+                  color:
+                      color.isDark ? color.neutralColor9 : color.neutralColor3,
+                ),
               ),
             );
           }

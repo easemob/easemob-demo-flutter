@@ -34,7 +34,8 @@ void main() async {
       .then((value) {
     SettingsDataStore().init();
     OnlineStatusHelper();
-    return SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => runApp(const MyApp()));
+    return SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+        .then((value) => runApp(const MyApp()));
   });
 }
 
@@ -92,7 +93,9 @@ class _MyAppState extends State<MyApp> {
         builder: EasyLoading.init(
           builder: (context, child) {
             return ChatUIKitTheme(
-              color: AppSettingsNotification.isLight ? ChatUIKitColor.light() : ChatUIKitColor.dark(),
+              color: AppSettingsNotification.isLight
+                  ? ChatUIKitColor.light()
+                  : ChatUIKitColor.dark(),
               child: child!,
             );
           },
@@ -100,7 +103,8 @@ class _MyAppState extends State<MyApp> {
         home: const WelcomePage(),
         onGenerateRoute: (settings) {
           // 设置路由拦截
-          RouteSettings newSettings = ChatRouteFilter.chatRouteSettings(settings);
+          RouteSettings newSettings =
+              ChatRouteFilter.chatRouteSettings(settings);
           return ChatUIKitRoute().generateRoute(newSettings) ??
               MaterialPageRoute(
                 builder: (context) {
