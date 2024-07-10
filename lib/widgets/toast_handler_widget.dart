@@ -48,7 +48,12 @@ class _ToastHandlerWidgetState extends State<ToastHandlerWidget>
           DemoLocalizations.noCameraPermission.localString(context));
     } else if (event == ChatUIKitEvent.voiceTypeNotSupported) {
       EasyLoading.showError(
-          DemoLocalizations.voiceTypeNotSupported.localString(context));
+        DemoLocalizations.voiceTypeNotSupported.localString(context),
+      );
+    } else if (event == ChatUIKitEvent.recordDurationTooShort) {
+      EasyLoading.showError(
+        DemoLocalizations.recordDurationTooShort.localString(context),
+      );
     }
   }
 

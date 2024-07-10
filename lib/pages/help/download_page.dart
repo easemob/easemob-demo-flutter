@@ -16,35 +16,36 @@ class _DownloadFileWidgetState extends State<DownloadFileWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.message.displayName ?? DemoLocalizations.downloadFile.localString(context)),
+        title: Text(widget.message.displayName ??
+            DemoLocalizations.downloadFile.localString(context)),
       ),
       body: ChatUIKitDownloadsHelperWidget(
+        onDownloadResult: (msg, path, error) {
+          if (error == null) {
+            OpenFile.open(path);
+          }
+        },
         controller: controller,
         message: widget.message,
         builder: (context, path, name, state, progress) {
-          debugPrint('path: $path, name: $name, state: $state, progress: $progress');
+          debugPrint(
+              'path: $path, name: $name, state: $state, progress: $progress');
           if (state == ChatUIKitMessageDownloadState.success) {
-            return Center(
-              child: TextButton(
-                onPressed: () {
-                  OpenFile.open(path);
-                },
-                child: Text(DemoLocalizations.openFile.localString(context)),
-              ),
-            );
+            return const SizedBox();
           } else if (state == ChatUIKitMessageDownloadState.error) {
             return Center(
               child: TextButton(
                 onPressed: () {
                   controller.download();
                 },
-                child: Text(DemoLocalizations.downloadFailed.localString(context)),
+                child:
+                    Text(DemoLocalizations.downloadFailed.localString(context)),
               ),
             );
           }
           return Center(
             child: CircularProgressIndicator(
-              value: progress.toDouble(),
+              value: progress.toDouble() / 100,
             ),
           );
         },

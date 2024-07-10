@@ -8,6 +8,7 @@ mixin DemoLocalizations {
   static String noMicrophonePermission = 'noRecordPermission';
   static String noCameraPermission = 'noCameraPermission';
   static String voiceTypeNotSupported = 'voiceTypeNotSupported';
+  static String recordDurationTooShort = 'recordDurationTooShort';
 
   // download file
   static String openFile = 'openFile';
@@ -35,7 +36,8 @@ mixin DemoLocalizations {
   static String loginTermsOfService = 'loginTermsOfService';
   static String loginAnd = 'loginAnd';
   static String loginPrivacyPolicy = 'loginPrivacyPolicy';
-  static String loginPleaseAgreeTermsOfServicePrivacyPolicy = 'loginPleaseAgreeTermsOfServicePrivacyPolicy';
+  static String loginPleaseAgreeTermsOfServicePrivacyPolicy =
+      'loginPleaseAgreeTermsOfServicePrivacyPolicy';
 
   // home
   static String chat = 'chat';
@@ -96,8 +98,10 @@ mixin DemoLocalizations {
   static String languageSettings = 'languageSettings';
   static String translateTargetLanguage = 'translateSettings';
   // general translate target language
-  static String translateTargetLanguageChinese = 'translateTargetLanguageChinese';
-  static String translateTargetLanguageEnglish = 'translateTargetLanguageEnglish';
+  static String translateTargetLanguageChinese =
+      'translateTargetLanguageChinese';
+  static String translateTargetLanguageEnglish =
+      'translateTargetLanguageEnglish';
 
   // general switch theme
   static String switchThemeClassic = 'switchThemeClassic';
@@ -112,13 +116,16 @@ mixin DemoLocalizations {
 
   // general feature settings
   static String featureSettingsTranslation = 'featureSettingsTranslation';
-  static String featureSettingsTranslationDesc = 'featureSettingsTranslationDesc';
+  static String featureSettingsTranslationDesc =
+      'featureSettingsTranslationDesc';
   static String featureSettingsThread = 'featureSettingsThread';
   static String featureSettingsThreadDesc = 'featureSettingsThreadDesc';
   static String featureSettingsReaction = 'featureSettingsReaction';
   static String featureSettingsReactionDesc = 'featureSettingsReactionDesc';
-  static String featureSettingsTypingIndicator = 'featureSettingsTypingIndicator';
-  static String featureSettingsTypingIndicatorDesc = 'featureSettingsTypingIndicatorDesc';
+  static String featureSettingsTypingIndicator =
+      'featureSettingsTypingIndicator';
+  static String featureSettingsTypingIndicatorDesc =
+      'featureSettingsTypingIndicatorDesc';
   static String featureSettingsBlock = 'featureSettingsBlock';
   static String featureSettingsBlockDesc = 'featureSettingsBlockDesc';
 
@@ -168,6 +175,7 @@ mixin DemoLocalizations {
     noMicrophonePermission: '无麦克风权限',
     noCameraPermission: '无相机权限',
     voiceTypeNotSupported: '语音格式不支持',
+    recordDurationTooShort: '录音时长过短',
 
     // download file
     openFile: '打开文件',
@@ -327,6 +335,7 @@ mixin DemoLocalizations {
     noMicrophonePermission: 'No Microphone Permission',
     noCameraPermission: 'No Camera Permission',
     voiceTypeNotSupported: 'Voice Type Not Supported',
+    recordDurationTooShort: 'Record Duration Too Short',
 
     // download file
     openFile: 'Open File',
@@ -354,7 +363,8 @@ mixin DemoLocalizations {
     loginTermsOfService: 'Easemob Terms',
     loginAnd: ' & ',
     loginPrivacyPolicy: 'Privacy',
-    loginPleaseAgreeTermsOfServicePrivacyPolicy: 'Please agree to the Terms of Service and Privacy Policy',
+    loginPleaseAgreeTermsOfServicePrivacyPolicy:
+        'Please agree to the Terms of Service and Privacy Policy',
 
     // home
     chat: 'Chats',
@@ -428,13 +438,16 @@ mixin DemoLocalizations {
 
     // general feature settings
     featureSettingsTranslation: 'Translation',
-    featureSettingsTranslationDesc: 'Long press to translate message to specified language',
+    featureSettingsTranslationDesc:
+        'Long press to translate message to specified language',
     featureSettingsThread: 'Thread',
-    featureSettingsThreadDesc: 'Create a thread from a message within the group',
+    featureSettingsThreadDesc:
+        'Create a thread from a message within the group',
     featureSettingsReaction: 'Emoji Reaction',
     featureSettingsReactionDesc: 'Long press a message to add emoji reactions',
     featureSettingsTypingIndicator: 'Typing Indicator',
-    featureSettingsTypingIndicatorDesc: 'Show typing indicator when someone is typing',
+    featureSettingsTypingIndicatorDesc:
+        'Show typing indicator when someone is typing',
     featureSettingsBlock: 'block list',
     featureSettingsBlockDesc: 'Add contacts to block list',
 
