@@ -17,6 +17,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatRouteFilter {
   static RouteSettings chatRouteSettings(RouteSettings settings) {
@@ -301,6 +302,18 @@ class ChatRouteFilter {
         }
       },
       bubbleContentBuilder: (context, model) {
+        if (model.message.bodyType == MessageType.TXT) {
+          return ChatUIKitTextBubbleWidget(
+            model: model,
+            onExpTap: (expStr) async {
+              if (!expStr.startsWith('http')) {
+                expStr = 'https://$expStr';
+              }
+              await launchUrl(Uri.parse(expStr));
+            },
+          );
+        }
+
         // 表明是呼叫相关cell
         if (model.message.attributes?.containsValue('rtcCallWithAgora') ??
             false) {

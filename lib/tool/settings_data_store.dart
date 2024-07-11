@@ -1,3 +1,4 @@
+import 'package:chat_uikit_demo/custom/demo_helper.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/widgets.dart';
@@ -15,8 +16,6 @@ class SettingsDataStore {
   static SettingsDataStore? _instance;
   SharedPreferences? _sharedPreferences;
 
-  List<String> unNotifyGroupIds = [];
-
   factory SettingsDataStore() {
     _instance ??= SettingsDataStore._();
     return _instance!;
@@ -33,6 +32,7 @@ class SettingsDataStore {
     ChatUIKitSettings.enableMessageReaction = enableReaction;
     ChatUIKitSettings.translateTargetLanguage = translateTargetLanguage;
     ChatUIKitSettings.enableTypingIndicator = enableTyping;
+    SettingsDataStore().enableBlockList;
   }
 
   String get currentLanguage {
@@ -56,7 +56,8 @@ class SettingsDataStore {
   }
 
   bool get enableThread {
-    return _sharedPreferences?.getBool(threadKey) ?? ChatUIKitSettings.enableMessageThread;
+    return _sharedPreferences?.getBool(threadKey) ??
+        ChatUIKitSettings.enableMessageThread;
   }
 
   Future<void> saveThread(bool enable) async {
@@ -66,7 +67,8 @@ class SettingsDataStore {
   }
 
   bool get enableTranslation {
-    return _sharedPreferences?.getBool(translationKey) ?? ChatUIKitSettings.enableMessageTranslation;
+    return _sharedPreferences?.getBool(translationKey) ??
+        ChatUIKitSettings.enableMessageTranslation;
   }
 
   Future<void> saveTranslation(bool enable) async {
@@ -76,7 +78,8 @@ class SettingsDataStore {
   }
 
   bool get enableReaction {
-    return _sharedPreferences?.getBool(reactionKey) ?? ChatUIKitSettings.enableMessageReaction;
+    return _sharedPreferences?.getBool(reactionKey) ??
+        ChatUIKitSettings.enableMessageReaction;
   }
 
   Future<void> saveReaction(bool enable) async {
@@ -86,7 +89,8 @@ class SettingsDataStore {
   }
 
   bool get enableTyping {
-    return _sharedPreferences?.getBool(typingKey) ?? ChatUIKitSettings.enableTypingIndicator;
+    return _sharedPreferences?.getBool(typingKey) ??
+        ChatUIKitSettings.enableTypingIndicator;
   }
 
   Future<void> saveTyping(bool enable) async {
@@ -102,5 +106,8 @@ class SettingsDataStore {
   Future<void> saveBlockList(bool enable) async {
     _sharedPreferences ??= await SharedPreferences.getInstance();
     _sharedPreferences?.setBool(blockListKey, enable);
+    if (enable) {
+      DemoHelper.fetchBlockList();
+    }
   }
 }

@@ -1,8 +1,10 @@
+import 'package:chat_uikit_demo/custom/demo_helper.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/pages/call/call_handler_widget.dart';
 import 'package:chat_uikit_demo/pages/contact/contact_page.dart';
 import 'package:chat_uikit_demo/pages/conversation/conversation_page.dart';
 import 'package:chat_uikit_demo/pages/me/my_page.dart';
+import 'package:chat_uikit_demo/tool/settings_data_store.dart';
 import 'package:chat_uikit_demo/widgets/toast_handler_widget.dart';
 import 'package:chat_uikit_demo/widgets/token_status_handler_widget.dart';
 import 'package:chat_uikit_demo/widgets/user_provider_handler_widget.dart';
@@ -31,6 +33,15 @@ class _HomePageState extends State<HomePage>
     ChatUIKit.instance.addObserver(this);
     // 更新未读消息
     onConversationsUpdate();
+    updateSettings();
+  }
+
+    void updateSettings() async {
+    await SettingsDataStore().init();
+    // 获取一遍blockList。目的是为了在点开详情时能准确的显示用户是否在黑名单中。
+    if (SettingsDataStore().enableBlockList) {
+      DemoHelper.fetchBlockList();
+    }
   }
 
   @override
@@ -40,7 +51,7 @@ class _HomePageState extends State<HomePage>
   }
 
   List<Widget> _pages(BuildContext context) {
-    return [const ConversationPage(), ContactPage(), const MyPage()];
+    return [const ConversationPage(), const ContactPage(), const MyPage()];
   }
 
   @override
