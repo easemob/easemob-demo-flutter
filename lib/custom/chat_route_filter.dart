@@ -135,18 +135,21 @@ class ChatRouteFilter {
               String? remark = await showChatUIKitDialog(
                 context: context,
                 title: DemoLocalizations.contactRemark.localString(context),
-                hintsText: [
-                  DemoLocalizations.contactRemarkDesc.localString(context)
+                inputItems: [
+                  ChatUIKitDialogInputContentItem(
+                    hintText: DemoLocalizations.contactRemarkDesc
+                        .localString(context),
+                  )
                 ],
-                items: [
-                  ChatUIKitDialogItem.inputsConfirm(
+                actionItems: [
+                  ChatUIKitDialogAction.inputsConfirm(
                     label: DemoLocalizations.contactRemarkConfirm
                         .localString(context),
                     onInputsTap: (inputs) async {
                       Navigator.of(context).pop(inputs.first);
                     },
                   ),
-                  ChatUIKitDialogItem.cancel(
+                  ChatUIKitDialogAction.cancel(
                       label: DemoLocalizations.contactRemarkCancel
                           .localString(context)),
                 ],
@@ -205,12 +208,12 @@ class ChatRouteFilter {
                                 .localString(context),
                             content:
                                 "${DemoLocalizations.blockContent.localString(context)}${profile.showName}?",
-                            items: [
-                              ChatUIKitDialogItem.cancel(
+                            actionItems: [
+                              ChatUIKitDialogAction.cancel(
                                 label: DemoLocalizations.blockCancel
                                     .localString(context),
                               ),
-                              ChatUIKitDialogItem.confirm(
+                              ChatUIKitDialogAction.confirm(
                                 label: DemoLocalizations.blockConfirm
                                     .localString(context),
                                 onTap: () async {
@@ -457,15 +460,19 @@ class ChatRouteFilter {
         String? groupName = await showChatUIKitDialog(
           context: context,
           title: DemoLocalizations.createGroupName.localString(context),
-          hintsText: [DemoLocalizations.createGroupDesc.localString(context)],
-          items: [
-            ChatUIKitDialogItem.inputsConfirm(
+          inputItems: [
+            ChatUIKitDialogInputContentItem(
+              hintText: DemoLocalizations.createGroupDesc.localString(context),
+            )
+          ],
+          actionItems: [
+            ChatUIKitDialogAction.inputsConfirm(
               label: DemoLocalizations.createGroupConfirm.localString(context),
               onInputsTap: (inputs) async {
                 Navigator.of(context).pop(inputs.first);
               },
             ),
-            ChatUIKitDialogItem.cancel(
+            ChatUIKitDialogAction.cancel(
               label: DemoLocalizations.createGroupCancel.localString(context),
             ),
           ],
@@ -481,8 +488,8 @@ class ChatRouteFilter {
                   title:
                       DemoLocalizations.createGroupFailed.localString(context),
                   content: error.description,
-                  items: [
-                    ChatUIKitDialogItem.confirm(
+                  actionItems: [
+                    ChatUIKitDialogAction.confirm(
                         label: DemoLocalizations.createGroupConfirm
                             .localString(context)),
                   ],

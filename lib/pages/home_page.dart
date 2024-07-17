@@ -5,9 +5,9 @@ import 'package:chat_uikit_demo/pages/contact/contact_page.dart';
 import 'package:chat_uikit_demo/pages/conversation/conversation_page.dart';
 import 'package:chat_uikit_demo/pages/me/my_page.dart';
 import 'package:chat_uikit_demo/tool/settings_data_store.dart';
-import 'package:chat_uikit_demo/widgets/toast_handler_widget.dart';
-import 'package:chat_uikit_demo/widgets/token_status_handler_widget.dart';
-import 'package:chat_uikit_demo/widgets/user_provider_handler_widget.dart';
+import 'package:chat_uikit_demo/tool/toast_handler_widget.dart';
+import 'package:chat_uikit_demo/tool/token_status_handler_widget.dart';
+import 'package:chat_uikit_demo/tool/user_provider_handler_widget.dart';
 
 import 'package:em_chat_uikit/chat_uikit.dart';
 

@@ -448,7 +448,7 @@ mixin DemoLocalizations {
     featureSettingsTypingIndicator: 'Typing Indicator',
     featureSettingsTypingIndicatorDesc:
         'Show typing indicator when someone is typing',
-    featureSettingsBlock: 'block list',
+    featureSettingsBlock: 'Block list',
     featureSettingsBlockDesc: 'Add contacts to block list',
 
     // general translate target language
