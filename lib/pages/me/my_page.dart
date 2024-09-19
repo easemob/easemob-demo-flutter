@@ -353,7 +353,9 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
             EasyLoading.show();
             ChatUIKit.instance.logout().then((value) {
               EasyLoading.dismiss();
-              Navigator.of(context).popAndPushNamed('/login');
+              if (mounted) {
+                Navigator.of(context).popAndPushNamed('/login');
+              }
             });
           },
         ),

@@ -2,17 +2,26 @@ import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 import 'package:flutter/material.dart';
 
-class BlockListPage extends StatelessWidget {
+class BlockListPage extends StatefulWidget {
   const BlockListPage({super.key});
 
+  @override
+  State<BlockListPage> createState() => _BlockListPageState();
+}
+
+class _BlockListPageState extends State<BlockListPage> {
   @override
   Widget build(BuildContext context) {
     final theme = ChatUIKitTheme.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: theme.color.isDark ? theme.color.neutralColor1 : theme.color.neutralColor98,
+      backgroundColor: theme.color.isDark
+          ? theme.color.neutralColor1
+          : theme.color.neutralColor98,
       appBar: ChatUIKitAppBar(
-        backgroundColor: theme.color.isDark ? theme.color.neutralColor1 : theme.color.neutralColor98,
+        backgroundColor: theme.color.isDark
+            ? theme.color.neutralColor1
+            : theme.color.neutralColor98,
         centerTitle: false,
         title: DemoLocalizations.blockList.localString(context),
       ),
@@ -20,7 +29,7 @@ class BlockListPage extends StatelessWidget {
         onSearchTap: (data) {
           onSearchTap(context, data);
         },
-        onTap: (context, model) => tapContactInfo(context, model.profile),
+        onTap: (context, model) => tapContactInfo(model.profile),
       ),
     );
   }
@@ -37,18 +46,19 @@ class BlockListPage extends StatelessWidget {
           onTap: (ctx, profile) {
             Navigator.of(ctx).pop(profile);
           },
-          searchHideText: ChatUIKitLocal.conversationsViewSearchHint.localString(context),
+          searchHideText:
+              ChatUIKitLocal.conversationsViewSearchHint.localString(context),
           searchData: list,
         );
       },
     )).then((value) {
       if (value != null && value is ChatUIKitProfile) {
-        tapContactInfo(context, value);
+        tapContactInfo(value);
       }
     });
   }
 
-  void tapContactInfo(BuildContext context, ChatUIKitProfile profile) {
+  void tapContactInfo(ChatUIKitProfile profile) {
     ChatUIKitRoute.pushOrPushNamed(
         context,
         ChatUIKitRouteNames.contactDetailsView,

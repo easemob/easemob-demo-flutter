@@ -111,7 +111,9 @@ class _TokenStatusHandlerWidgetState extends State<TokenStatusHandlerWidget>
             onTap: () async {
               Navigator.of(context).pop();
               ChatUIKit.instance.logout().then((value) {}).whenComplete(() {
-                Navigator.of(context).popAndPushNamed('/login');
+                if (mounted) {
+                  Navigator.of(context).popAndPushNamed('/login');
+                }
               });
             },
           ),

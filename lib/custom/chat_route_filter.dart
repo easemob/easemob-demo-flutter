@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:chat_uikit_demo/custom/demo_helper.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/custom/call_helper.dart';
@@ -16,7 +14,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+// import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ChatRouteFilter {
@@ -37,6 +35,8 @@ class ChatRouteFilter {
   }
 
   static RouteSettings showImageView(RouteSettings settings) {
+    /*
+
     ShowImageViewArguments arguments =
         settings.arguments as ShowImageViewArguments;
     arguments = arguments.copyWith(
@@ -52,9 +52,12 @@ class ChatRouteFilter {
                     File(((message.body) as ImageMessageBody).localPath);
                 if (file.existsSync()) {
                   ImageGallerySaver.saveFile(file.path).then((value) => {
-                        EasyLoading.showSuccess(DemoLocalizations
-                            .saveImageSuccess
-                            .localString(context))
+                        if (context.mounted)
+                          {
+                            EasyLoading.showSuccess(DemoLocalizations
+                                .saveImageSuccess
+                                .localString(context))
+                          }
                       });
                 } else {
                   EasyLoading.showError(
@@ -66,7 +69,8 @@ class ChatRouteFilter {
         );
       },
     );
-    return RouteSettings(name: settings.name, arguments: arguments);
+    */
+    return RouteSettings(name: settings.name, arguments: settings.arguments);
   }
 
   static RouteSettings groupDetail(RouteSettings settings) {
@@ -165,8 +169,10 @@ class ChatRouteFilter {
                   UserDataStore().saveUserData(profile);
                   ChatUIKitProvider.instance.addProfiles([profile]);
                 }).catchError((e) {
-                  EasyLoading.showError(DemoLocalizations.contactRemarkFailed
-                      .localString(context));
+                  if (context.mounted) {
+                    EasyLoading.showError(DemoLocalizations.contactRemarkFailed
+                        .localString(context));
+                  }
                 });
               }
             },
@@ -192,12 +198,18 @@ class ChatRouteFilter {
                       if (isBlocked) {
                         EasyLoading.show();
                         DemoHelper.blockUsers(profile.id, false).then((value) {
-                          EasyLoading.showSuccess(
-                              DemoLocalizations.unblocked.localString(context));
+                          if (context.mounted) {
+                            EasyLoading.showSuccess(
+                              DemoLocalizations.unblocked.localString(context),
+                            );
+                          }
                           viewObserver.refresh();
                         }).catchError((e) {
-                          EasyLoading.showError(DemoLocalizations.unblockFailed
-                              .localString(context));
+                          if (context.mounted) {
+                            EasyLoading.showError(DemoLocalizations
+                                .unblockFailed
+                                .localString(context));
+                          }
                         }).whenComplete(() {
                           EasyLoading.dismiss();
                         });
@@ -221,14 +233,18 @@ class ChatRouteFilter {
                                   EasyLoading.show();
                                   DemoHelper.blockUsers(profile.id, true)
                                       .then((value) {
-                                    EasyLoading.showSuccess(DemoLocalizations
-                                        .blocked
-                                        .localString(context));
+                                    if (context.mounted) {
+                                      EasyLoading.showSuccess(DemoLocalizations
+                                          .blocked
+                                          .localString(context));
+                                    }
                                     viewObserver.refresh();
                                   }).catchError((e) {
-                                    EasyLoading.showError(DemoLocalizations
-                                        .blockFailed
-                                        .localString(context));
+                                    if (context.mounted) {
+                                      EasyLoading.showError(DemoLocalizations
+                                          .blockFailed
+                                          .localString(context));
+                                    }
                                   }).whenComplete(() {
                                     EasyLoading.dismiss();
                                   });

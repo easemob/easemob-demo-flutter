@@ -169,20 +169,24 @@ class _SingleCallPageState extends State<SingleCallPage>
   void call() async {
     Future(() async {
       try {
-        callId = await ChatCallKitManager.startSingleCall(
-          widget.userId,
-          type: widget.type,
-          inviteMessage: widget.type == ChatCallKitCallType.audio_1v1
-              ? DemoLocalizations.singleVoiceCallInviteMessage
-                  .localString(context)
-              : DemoLocalizations.singleVideoCallInviteMessage
-                  .localString(context),
-        );
+        if (mounted) {
+          callId = await ChatCallKitManager.startSingleCall(
+            widget.userId,
+            type: widget.type,
+            inviteMessage: widget.type == ChatCallKitCallType.audio_1v1
+                ? DemoLocalizations.singleVoiceCallInviteMessage
+                    .localString(context)
+                : DemoLocalizations.singleVideoCallInviteMessage
+                    .localString(context),
+          );
+        }
       } on ChatCallKitError {
         rethrow;
       }
     }).catchError((e) {
-      Navigator.of(context).pop();
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     });
   }
 

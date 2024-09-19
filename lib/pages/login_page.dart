@@ -260,8 +260,10 @@ class _LoginPageState extends State<LoginPage> {
 
     EasyLoading.show();
     AppServerHelper.sendSmsCodeRequest(phoneController.text).then((value) {
-      EasyLoading.showSuccess(
-          DemoLocalizations.loginSendSmsSuccess.localString(context));
+      if (mounted) {
+        EasyLoading.showSuccess(
+            DemoLocalizations.loginSendSmsSuccess.localString(context));
+      }
       timer = 60;
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         setState(() {
@@ -272,8 +274,10 @@ class _LoginPageState extends State<LoginPage> {
         });
       });
     }).catchError((e) {
-      EasyLoading.showError(
-          DemoLocalizations.loginSendSmsFailed.localString(context));
+      if (mounted) {
+        EasyLoading.showError(
+            DemoLocalizations.loginSendSmsFailed.localString(context));
+      }
     }).whenComplete(() {
       EasyLoading.dismiss();
     });
@@ -300,16 +304,20 @@ class _LoginPageState extends State<LoginPage> {
           userId: data.userId,
           token: data.token,
         );
-
       } catch (e) {
         debugPrint(e.toString());
         rethrow;
       }
     }).then((value) {
       EasyLoading.dismiss();
-      Navigator.of(context).pushReplacementNamed('/home');
+      if (mounted) {
+        Navigator.of(context).pushReplacementNamed('/home');
+      }
     }).catchError((e) {
-      EasyLoading.showError(DemoLocalizations.loginFailed.localString(context));
+      if (mounted) {
+        EasyLoading.showError(
+            DemoLocalizations.loginFailed.localString(context));
+      }
     });
   }
 

@@ -18,11 +18,15 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   void startShowTimer() async {
-    await Future.delayed(const Duration(seconds: 2)).then((value) {
-      if (ChatUIKit.instance.isLogged()) {
-        Navigator.of(context).pushReplacementNamed('/home');
-      } else {
-        Navigator.of(context).pushReplacementNamed('/login');
+    Future.delayed(const Duration(seconds: 2)).then((value) {
+      return ChatUIKit.instance.isLoginBefore();
+    }).then((value) {
+      if (mounted) {
+        if (value) {
+          Navigator.of(context).pushReplacementNamed('/home');
+        } else {
+          Navigator.of(context).pushReplacementNamed('/login');
+        }
       }
     });
   }

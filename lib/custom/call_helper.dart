@@ -9,7 +9,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 class CallHelper {
   // 弹出 1v1 通话选择框
-  static void showSingleCallBottomSheet(BuildContext context, String callId, Color color) {
+  static void showSingleCallBottomSheet(
+      BuildContext context, String callId, Color color) {
     showChatUIKitBottomSheet(
       context: context,
       items: [
@@ -22,15 +23,18 @@ class CallHelper {
           onTap: () async {
             Navigator.of(context).pop();
             [Permission.microphone, Permission.camera].request().then((value) {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) {
-                  return SingleCallPage.call(callId, type: ChatCallKitCallType.audio_1v1);
-                }),
-              ).then((value) {
-                if (value != null) {
-                  debugPrint('call end: $value');
-                }
-              });
+              if (context.mounted) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return SingleCallPage.call(callId,
+                        type: ChatCallKitCallType.audio_1v1);
+                  }),
+                ).then((value) {
+                  if (value != null) {
+                    debugPrint('call end: $value');
+                  }
+                });
+              }
             });
           },
         ),
@@ -43,15 +47,18 @@ class CallHelper {
           onTap: () async {
             Navigator.of(context).pop();
             [Permission.microphone, Permission.camera].request().then((value) {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) {
-                  return SingleCallPage.call(callId, type: ChatCallKitCallType.video_1v1);
-                }),
-              ).then((value) {
-                if (value != null) {
-                  debugPrint('call end: $value');
-                }
-              });
+              if (context.mounted) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return SingleCallPage.call(callId,
+                        type: ChatCallKitCallType.video_1v1);
+                  }),
+                ).then((value) {
+                  if (value != null) {
+                    debugPrint('call end: $value');
+                  }
+                });
+              }
             });
           },
         ),
@@ -60,20 +67,25 @@ class CallHelper {
   }
 
   // 开始 1v1 通话
-  static startSingleCall(BuildContext context, String callId, bool isVideoCall) {
+  static startSingleCall(
+      BuildContext context, String callId, bool isVideoCall) {
     [Permission.microphone, Permission.camera].request().then((value) {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) {
-          return SingleCallPage.call(
-            callId,
-            type: isVideoCall ? ChatCallKitCallType.video_1v1 : ChatCallKitCallType.audio_1v1,
-          );
-        }),
-      ).then((value) {
-        if (value != null) {
-          debugPrint('call end: $value');
-        }
-      });
+      if (context.mounted) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) {
+            return SingleCallPage.call(
+              callId,
+              type: isVideoCall
+                  ? ChatCallKitCallType.video_1v1
+                  : ChatCallKitCallType.audio_1v1,
+            );
+          }),
+        ).then((value) {
+          if (value != null) {
+            debugPrint('call end: $value');
+          }
+        });
+      }
     });
   }
 
@@ -92,18 +104,20 @@ class CallHelper {
       if (value is List<ChatUIKitProfile> && value.isNotEmpty) {
         List<String> userIds = value.map((e) => e.id).toList();
         [Permission.microphone, Permission.camera].request().then((value) {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) {
-              return MultiCallPage.call(
-                userIds,
-                groupId: groupId,
-              );
-            }),
-          ).then((value) {
-            if (value != null) {
-              debugPrint('call end: $value');
-            }
-          });
+          if (context.mounted) {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) {
+                return MultiCallPage.call(
+                  userIds,
+                  groupId: groupId,
+                );
+              }),
+            ).then((value) {
+              if (value != null) {
+                debugPrint('call end: $value');
+              }
+            });
+          }
         });
       }
     });

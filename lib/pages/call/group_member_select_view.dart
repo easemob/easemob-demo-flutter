@@ -37,15 +37,20 @@ class _GroupMemberSelectViewState extends State<GroupMemberSelectView> {
               if (selected.length <= 1) {
                 return;
               }
-              selected.removeWhere((element) => element.id == currentProfile.id);
+              selected
+                  .removeWhere((element) => element.id == currentProfile.id);
               Navigator.of(context).pop(selected);
             },
             child: Text(
               '${DemoLocalizations.call.localString(context)}(${selected.length})',
               style: ChatUIKitTheme.of(context).titleMedium(
                 color: selected.length > 1
-                    ? (theme.color.isDark ? theme.color.primaryColor6 : theme.color.primaryColor5)
-                    : (theme.color.isDark ? theme.color.neutralColor4 : theme.color.neutralColor7),
+                    ? (theme.color.isDark
+                        ? theme.color.primaryColor6
+                        : theme.color.primaryColor5)
+                    : (theme.color.isDark
+                        ? theme.color.neutralColor4
+                        : theme.color.neutralColor7),
               ),
             ),
           )
@@ -62,7 +67,8 @@ class _GroupMemberSelectViewState extends State<GroupMemberSelectView> {
               }
               setState(() {
                 if (selected.any((element) => element.id == model.profile.id)) {
-                  selected.removeWhere((element) => element.id == model.profile.id);
+                  selected
+                      .removeWhere((element) => element.id == model.profile.id);
                 } else {
                   selected.add(model.profile);
                 }
@@ -98,7 +104,7 @@ class _GroupMemberSelectViewState extends State<GroupMemberSelectView> {
     }
     ChatUIKitRoute.pushOrPushNamed(
       context,
-      ChatUIKitRouteNames.searchUsersView,
+      ChatUIKitRouteNames.searchView,
       SearchViewArguments(
           canChangeSelected: selected,
           searchHideText: DemoLocalizations.calleeSearch.localString(context),
