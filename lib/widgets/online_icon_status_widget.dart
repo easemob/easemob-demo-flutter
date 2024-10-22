@@ -17,16 +17,15 @@ class OnlineIconStatusWidget extends StatefulWidget {
   State<OnlineIconStatusWidget> createState() => _OnlineIconStatusWidgetState();
 }
 
-class _OnlineIconStatusWidgetState extends State<OnlineIconStatusWidget> {
+class _OnlineIconStatusWidgetState extends State<OnlineIconStatusWidget>
+    with ChatUIKitThemeMixin {
   @override
   void initState() {
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = ChatUIKitTheme.of(context);
-
+  Widget themeBuilder(BuildContext context, ChatUIKitTheme theme) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final size = constraints.maxHeight / 30.0;
@@ -47,7 +46,9 @@ class _OnlineIconStatusWidgetState extends State<OnlineIconStatusWidget> {
                     Positioned.fill(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: theme.color.isDark ? theme.color.neutralColor1 : theme.color.neutralColor98,
+                          color: theme.color.isDark
+                              ? theme.color.neutralColor1
+                              : theme.color.neutralColor98,
                           borderRadius: BorderRadius.circular(100),
                         ),
                       ),
@@ -56,7 +57,9 @@ class _OnlineIconStatusWidgetState extends State<OnlineIconStatusWidget> {
                         child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: theme.color.isDark ? theme.color.neutralColor1 : theme.color.neutralColor98,
+                          color: theme.color.isDark
+                              ? theme.color.neutralColor1
+                              : theme.color.neutralColor98,
                           width: size,
                         ),
                         borderRadius: BorderRadius.circular(100),
@@ -64,9 +67,11 @@ class _OnlineIconStatusWidgetState extends State<OnlineIconStatusWidget> {
                       child: () {
                         switch (widget.onlineStatus) {
                           case PresenceStatus.online:
-                            return Image.asset('assets/images/online_online.png');
+                            return Image.asset(
+                                'assets/images/online_online.png');
                           case PresenceStatus.offline:
-                            return Image.asset('assets/images/online_offline.png');
+                            return Image.asset(
+                                'assets/images/online_offline.png');
                           case PresenceStatus.away:
                             return Image.asset('assets/images/online_away.png');
                           case PresenceStatus.busy:
@@ -74,7 +79,8 @@ class _OnlineIconStatusWidgetState extends State<OnlineIconStatusWidget> {
                           case PresenceStatus.notDisturb:
                             return Image.asset('assets/images/online_dnd.png');
                           case PresenceStatus.custom:
-                            return Image.asset('assets/images/online_custom.png');
+                            return Image.asset(
+                                'assets/images/online_custom.png');
                           default:
                             return const SizedBox();
                         }

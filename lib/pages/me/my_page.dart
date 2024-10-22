@@ -15,7 +15,8 @@ class MyPage extends StatefulWidget {
   State<MyPage> createState() => _MyPageState();
 }
 
-class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
+class _MyPageState extends State<MyPage>
+    with ChatUIKitProviderObserver, ChatUIKitThemeMixin {
   ChatUIKitProfile? _userProfile;
   bool isLight = true;
   @override
@@ -41,8 +42,7 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = ChatUIKitTheme.of(context);
+  Widget themeBuilder(BuildContext context, ChatUIKitTheme theme) {
     Widget content = Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: theme.color.isDark
@@ -65,7 +65,6 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
   }
 
   Widget _buildContent() {
-    final theme = ChatUIKitTheme.of(context);
     Widget avatar = ValueListenableBuilder(
       valueListenable: OnlineStatusHelper().onlineStatus,
       builder: (context, value, child) {
@@ -221,35 +220,35 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
     showChatUIKitBottomSheet(
       context: context,
       items: [
-        ChatUIKitBottomSheetAction.normal(
+        ChatUIKitEventAction.normal(
           label: '在线',
           onTap: () async {
             Navigator.of(context).pop();
             OnlineStatusHelper().changeOnlineStatus(PresenceStatus.online);
           },
         ),
-        ChatUIKitBottomSheetAction.normal(
+        ChatUIKitEventAction.normal(
           label: '离开',
           onTap: () async {
             Navigator.of(context).pop();
             OnlineStatusHelper().changeOnlineStatus(PresenceStatus.away);
           },
         ),
-        ChatUIKitBottomSheetAction.normal(
+        ChatUIKitEventAction.normal(
           label: '忙碌',
           onTap: () async {
             Navigator.of(context).pop();
             OnlineStatusHelper().changeOnlineStatus(PresenceStatus.busy);
           },
         ),
-        ChatUIKitBottomSheetAction.normal(
+        ChatUIKitEventAction.normal(
           label: '请勿打扰',
           onTap: () async {
             Navigator.of(context).pop();
             OnlineStatusHelper().changeOnlineStatus(PresenceStatus.notDisturb);
           },
         ),
-        ChatUIKitBottomSheetAction.normal(
+        ChatUIKitEventAction.normal(
           label: '自定义',
           onTap: () async {
             Navigator.of(context).pop();

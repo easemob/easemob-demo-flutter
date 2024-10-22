@@ -17,7 +17,7 @@ class PresenceIconStatusWidget extends StatefulWidget {
 }
 
 class _PresenceIconStatusWidgetState extends State<PresenceIconStatusWidget>
-    with PresenceObserver {
+    with PresenceObserver, ChatUIKitThemeMixin {
   final ValueNotifier<PresenceStatus> _onlineStatus =
       ValueNotifier(PresenceStatus.none);
 
@@ -60,9 +60,7 @@ class _PresenceIconStatusWidgetState extends State<PresenceIconStatusWidget>
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = ChatUIKitTheme.of(context);
-
+  Widget themeBuilder(BuildContext context, ChatUIKitTheme theme) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final size = constraints.maxHeight / 30.0;

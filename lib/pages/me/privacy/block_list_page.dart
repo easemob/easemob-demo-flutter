@@ -9,10 +9,10 @@ class BlockListPage extends StatefulWidget {
   State<BlockListPage> createState() => _BlockListPageState();
 }
 
-class _BlockListPageState extends State<BlockListPage> {
+class _BlockListPageState extends State<BlockListPage>
+    with ChatUIKitThemeMixin {
   @override
-  Widget build(BuildContext context) {
-    final theme = ChatUIKitTheme.of(context);
+  Widget themeBuilder(BuildContext context, ChatUIKitTheme theme) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: theme.color.isDark

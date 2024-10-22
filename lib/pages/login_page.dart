@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> with ChatUIKitThemeMixin {
   int timer = 0;
   Timer? _timer;
   final String serviceAgreementURL = 'https://www.easemob.com/agreement';
@@ -36,9 +36,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = ChatUIKitTheme.of(context);
-
+  Widget themeBuilder(BuildContext context, ChatUIKitTheme theme) {
     TextStyle linkStyle = TextStyle(
       color: Colors.blue,
       decoration: TextDecoration.underline,
@@ -82,9 +80,8 @@ class _LoginPageState extends State<LoginPage> {
                       const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
                   child: TextField(
                     controller: phoneController,
-                    keyboardAppearance: ChatUIKitTheme.of(context).color.isDark
-                        ? Brightness.dark
-                        : Brightness.light,
+                    keyboardAppearance:
+                        theme.color.isDark ? Brightness.dark : Brightness.light,
                     autofocus: true,
                     style: TextStyle(
                         fontWeight: theme.font.bodyLarge.fontWeight,
@@ -115,9 +112,8 @@ class _LoginPageState extends State<LoginPage> {
                       const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
                   child: TextField(
                     controller: codeController,
-                    keyboardAppearance: ChatUIKitTheme.of(context).color.isDark
-                        ? Brightness.dark
-                        : Brightness.light,
+                    keyboardAppearance:
+                        theme.color.isDark ? Brightness.dark : Brightness.light,
                     autofocus: true,
                     style: TextStyle(
                         fontWeight: theme.font.bodyLarge.fontWeight,

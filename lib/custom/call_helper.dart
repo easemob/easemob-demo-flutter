@@ -14,7 +14,7 @@ class CallHelper {
     showChatUIKitBottomSheet(
       context: context,
       items: [
-        ChatUIKitBottomSheetAction.normal(
+        ChatUIKitEventAction.normal(
           icon: Image.asset(
             'assets/images/voice_call.png',
             color: color,
@@ -38,7 +38,7 @@ class CallHelper {
             });
           },
         ),
-        ChatUIKitBottomSheetAction.normal(
+        ChatUIKitEventAction.normal(
           icon: Image.asset(
             'assets/images/video_call.png',
             color: color,

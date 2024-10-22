@@ -127,7 +127,7 @@ class ChatRouteFilter {
         return moreActions;
       },
       // 添加 remark 实现
-      detailsListViewItemsBuilder: (context, profile, defaultItems) {
+      itemsBuilder: (context, profile, defaultItems) {
         return [
           ChatUIKitDetailsListViewItemModel(
             title: DemoLocalizations.contactRemark.localString(context),
@@ -182,7 +182,7 @@ class ChatRouteFilter {
             list.add(defaultItems.first);
             if (SettingsDataStore().enableBlockList) {
               bool isBlocked = DemoHelper.blockList.contains(profile!.id);
-              final theme = ChatUIKitTheme.of(context);
+              final theme = ChatUIKitTheme.instance;
               list.add(
                 ChatUIKitDetailsListViewItemModel(
                   title: DemoLocalizations.blockContact.localString(context),
@@ -303,11 +303,11 @@ class ChatRouteFilter {
     );
     arguments = arguments.copyWith(
       controller: controller,
-      onItemLongPressHandler: (context, model, defaultActions) {
+      onItemLongPressHandler: (context, model, rect, defaultActions) {
         if (model.message.attributes?.containsValue('rtcCallWithAgora') ??
             false) {
           return [
-            ChatUIKitBottomSheetAction.normal(
+            ChatUIKitEventAction.normal(
               label: DemoLocalizations.multiCallInviteMessageDelete
                   .localString(context),
               onTap: () async {
@@ -336,7 +336,7 @@ class ChatRouteFilter {
         // 表明是呼叫相关cell
         if (model.message.attributes?.containsValue('rtcCallWithAgora') ??
             false) {
-          final theme = ChatUIKitTheme.of(context);
+          final theme = ChatUIKitTheme.instance;
           bool left = model.message.direction == MessageDirection.RECEIVE;
           Color color = left
               ? (theme.color.isDark
@@ -385,7 +385,7 @@ class ChatRouteFilter {
         return (arguments.profile.type == ChatUIKitProfileType.group) &&
             model.message.from != ChatUIKit.instance.currentUserId;
       },
-      onItemTap: (ctx, messageModel) {
+      onItemTap: (ctx, messageModel, rect) {
         if (messageModel.message.bodyType == MessageType.FILE) {
           Navigator.of(ctx).push(
             MaterialPageRoute(
@@ -430,7 +430,7 @@ class ChatRouteFilter {
           if (defaultList?.isNotEmpty == true) {
             actions.addAll(defaultList!);
           }
-          ChatUIKitColor color = ChatUIKitTheme.of(context).color;
+          ChatUIKitColor color = ChatUIKitTheme.instance.color;
           if (!controller.isMultiSelectMode) {
             actions.add(
               ChatUIKitAppBarAction(

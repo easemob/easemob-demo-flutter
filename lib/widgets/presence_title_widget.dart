@@ -17,7 +17,8 @@ class PresenceTitleWidget extends StatefulWidget {
   State<PresenceTitleWidget> createState() => _PresenceTitleWidgetState();
 }
 
-class _PresenceTitleWidgetState extends State<PresenceTitleWidget> with PresenceObserver {
+class _PresenceTitleWidgetState extends State<PresenceTitleWidget>
+    with PresenceObserver, ChatUIKitThemeMixin {
   Presence? _presence;
 
   @override
@@ -57,9 +58,7 @@ class _PresenceTitleWidgetState extends State<PresenceTitleWidget> with Presence
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = ChatUIKitTheme.of(context);
-
+  Widget themeBuilder(BuildContext context, ChatUIKitTheme theme) {
     return SizedBox(
       height: 40,
       child: Column(
@@ -74,7 +73,9 @@ class _PresenceTitleWidgetState extends State<PresenceTitleWidget> with Presence
             style: TextStyle(
               fontSize: theme.font.titleMedium.fontSize,
               fontWeight: theme.font.titleMedium.fontWeight,
-              color: theme.color.isDark ? theme.color.neutralColor98 : theme.color.neutralColor1,
+              color: theme.color.isDark
+                  ? theme.color.neutralColor98
+                  : theme.color.neutralColor1,
             ),
           ),
           _presence != null
@@ -86,7 +87,9 @@ class _PresenceTitleWidgetState extends State<PresenceTitleWidget> with Presence
                   style: TextStyle(
                     fontSize: theme.font.bodyExtraSmall.fontSize,
                     fontWeight: theme.font.bodyExtraSmall.fontWeight,
-                    color: theme.color.isDark ? theme.color.neutralColor6 : theme.color.neutralColor5,
+                    color: theme.color.isDark
+                        ? theme.color.neutralColor6
+                        : theme.color.neutralColor5,
                   ),
                 )
               : const SizedBox(),

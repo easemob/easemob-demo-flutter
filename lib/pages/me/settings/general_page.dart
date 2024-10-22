@@ -14,21 +14,21 @@ class GeneralPage extends StatefulWidget {
   State<GeneralPage> createState() => _GeneralPageState();
 }
 
-class _GeneralPageState extends State<GeneralPage> {
+class _GeneralPageState extends State<GeneralPage> with ChatUIKitThemeMixin {
   @override
-  Widget build(BuildContext context) {
-    final theme = ChatUIKitTheme.of(context);
-
+  Widget themeBuilder(BuildContext context, ChatUIKitTheme theme) {
     Widget content = ListView(
       children: [
         ListItem(
           title: DemoLocalizations.darkMode.localString(context),
           trailingWidget: CupertinoSwitch(
-              value: !AppSettingsNotification.isLight,
+              value: ChatUIKitTheme.instance.color.isDark,
               onChanged: (value) {
-                AppSettingsNotification.isLight = !AppSettingsNotification.isLight;
-                AppSettingsNotification().dispatch(context);
-                setState(() {});
+                if (value) {
+                  ChatUIKitTheme.instance.setColor(ChatUIKitColor.dark());
+                } else {
+                  ChatUIKitTheme.instance.setColor(ChatUIKitColor.light());
+                }
               }),
         ),
         ListItem(
@@ -42,11 +42,14 @@ class _GeneralPageState extends State<GeneralPage> {
         ),
         ListItem(
           title: DemoLocalizations.languageSettings.localString(context),
-          trailingString: SettingsDataStore().currentLanguage == 'zh' ? '中文' : 'English',
+          trailingString:
+              SettingsDataStore().currentLanguage == 'zh' ? '中文' : 'English',
           trailingStyle: TextStyle(
             fontSize: theme.font.labelMedium.fontSize,
             fontWeight: theme.font.labelMedium.fontWeight,
-            color: theme.color.isDark ? theme.color.neutralColor7 : theme.color.neutralColor5,
+            color: theme.color.isDark
+                ? theme.color.neutralColor7
+                : theme.color.neutralColor5,
           ),
           enableArrow: true,
           onTap: () {
@@ -57,13 +60,18 @@ class _GeneralPageState extends State<GeneralPage> {
         ),
         ListItem(
           title: DemoLocalizations.translateTargetLanguage.localString(context),
-          trailingString: SettingsDataStore().translateTargetLanguage == 'zh-Hans'
-              ? DemoLocalizations.translateTargetLanguageChinese.localString(context)
-              : DemoLocalizations.translateTargetLanguageEnglish.localString(context),
+          trailingString:
+              SettingsDataStore().translateTargetLanguage == 'zh-Hans'
+                  ? DemoLocalizations.translateTargetLanguageChinese
+                      .localString(context)
+                  : DemoLocalizations.translateTargetLanguageEnglish
+                      .localString(context),
           trailingStyle: TextStyle(
             fontSize: theme.font.labelMedium.fontSize,
             fontWeight: theme.font.labelMedium.fontWeight,
-            color: theme.color.isDark ? theme.color.neutralColor7 : theme.color.neutralColor5,
+            color: theme.color.isDark
+                ? theme.color.neutralColor7
+                : theme.color.neutralColor5,
           ),
           enableArrow: true,
           onTap: () {
@@ -76,9 +84,13 @@ class _GeneralPageState extends State<GeneralPage> {
     );
 
     content = Scaffold(
-      backgroundColor: theme.color.isDark ? theme.color.neutralColor1 : theme.color.neutralColor98,
+      backgroundColor: theme.color.isDark
+          ? theme.color.neutralColor1
+          : theme.color.neutralColor98,
       appBar: ChatUIKitAppBar(
-        backgroundColor: theme.color.isDark ? theme.color.neutralColor1 : theme.color.neutralColor98,
+        backgroundColor: theme.color.isDark
+            ? theme.color.neutralColor1
+            : theme.color.neutralColor98,
         title: DemoLocalizations.general.localString(context),
         centerTitle: false,
       ),

@@ -42,8 +42,8 @@ class _TokenStatusHandlerWidgetState extends State<TokenStatusHandlerWidget>
   }
 
   @override
-  void onUserDidLoginFromOtherDevice(String deviceName) {
-    debugPrint('onUserDidLoginFromOtherDevice: $deviceName');
+  void onUserDidLoginFromOtherDevice(info) {
+    debugPrint('onUserDidLoginFromOtherDevice: $info');
     showDialogInfo(title: 'Login From Other Device');
   }
 

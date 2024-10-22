@@ -76,7 +76,8 @@ class OnlineStatusHelper with ConnectObserver, PresenceObserver {
   OnlineStatusHelper._internal() {
     ChatUIKit.instance.addObserver(this);
     ChatUIKit.instance.isConnect().then((value) {
-      onlineStatus.value = value ? PresenceStatus.online : PresenceStatus.offline;
+      onlineStatus.value =
+          value ? PresenceStatus.online : PresenceStatus.offline;
     });
   }
 
@@ -91,7 +92,7 @@ class OnlineStatusHelper with ConnectObserver, PresenceObserver {
   }
 
   @override
-  void onUserDidLoginFromOtherDevice(String deviceName) {
+  void onUserDidLoginFromOtherDevice(info) {
     onlineStatus.value = PresenceStatus.offline;
   }
 
@@ -153,7 +154,8 @@ class OnlineStatusHelper with ConnectObserver, PresenceObserver {
   void changeOnlineStatus(PresenceStatus status, {String? custom}) async {
     EasyLoading.show();
     try {
-      await ChatUIKit.instance.publishPresence(custom ?? presenceStatusMap[status] ?? '');
+      await ChatUIKit.instance
+          .publishPresence(custom ?? presenceStatusMap[status] ?? '');
       onlineStatus.value = status;
     } catch (e) {
       EasyLoading.showError('changeOnlineStatus error: $e');

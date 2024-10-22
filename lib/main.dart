@@ -64,6 +64,7 @@ class _MyAppState extends State<MyApp> {
         Map.from(ChatUIKitLocal.en)..addAll(DemoLocalizations.en),
       )
     ];
+
     // 添加语言后需要进行resetLocales操作
     _localization.resetLocales();
   }
@@ -96,16 +97,7 @@ class _MyAppState extends State<MyApp> {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
         ),
-        builder: EasyLoading.init(
-          builder: (context, child) {
-            return ChatUIKitTheme(
-              color: AppSettingsNotification.isLight
-                  ? ChatUIKitColor.light()
-                  : ChatUIKitColor.dark(),
-              child: child!,
-            );
-          },
-        ),
+        builder: EasyLoading.init(),
         home: const WelcomePage(),
         onGenerateRoute: (settings) {
           // 设置路由拦截
