@@ -26,8 +26,8 @@ import 'pages/me/settings/advanced_page.dart';
 void main() async {
   return ChatUIKit.instance
       .init(
-    options: Options(
-      appKey: appKey,
+    options: Options.withAppKey(
+      appKey,
       deleteMessagesAsExitGroup: false,
     ),
   )

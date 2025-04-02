@@ -142,7 +142,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
   Future<void> cropImage(String imagePath) async {
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: imagePath,
-      aspectRatioPresets: [CropAspectRatioPreset.square],
+      // aspectRatioPresets: [CropAspectRatioPreset.square],
       uiSettings: [
         AndroidUiSettings(
           initAspectRatio: CropAspectRatioPreset.square,
@@ -209,7 +209,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
             data = ChatUIKitProfile.contact(
                 id: ChatUIKit.instance.currentUserId!, nickname: value);
           } else {
-            data = data.copyWith(name: value);
+            data = data.copyWith(showName: value);
           }
           return data;
         }
@@ -229,8 +229,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
   Future<void> updateUserInfo(ChatUIKitProfile data) async {
     EasyLoading.show(status: 'Updating...');
     try {
-      await ChatUIKit.instance
-          .updateUserInfo(nickname: data.name, avatarUrl: data.avatarUrl);
+      await ChatUIKit.instance.updateUserInfo(
+          nickname: data.contactShowName, avatarUrl: data.avatarUrl);
       UserDataStore().saveUserData(data);
       ChatUIKitProvider.instance.addProfiles([data]);
       // 刷新会话列表，目的是刷新最后一条消息的显示

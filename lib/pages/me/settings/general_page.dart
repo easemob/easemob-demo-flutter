@@ -1,5 +1,4 @@
 import 'package:chat_uikit_demo/demo_localizations.dart';
-import 'package:chat_uikit_demo/notifications/app_settings_notification.dart';
 import 'package:chat_uikit_demo/tool/settings_data_store.dart';
 import 'package:chat_uikit_demo/widgets/list_item.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';

@@ -34,4 +34,16 @@ class DemoHelper {
       blockList.remove(userId);
     }
   }
+
+  double calculateTextHeight(String text, TextStyle style, double maxWidth) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: style,
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout(maxWidth: maxWidth);
+    return textPainter.size.height;
+  }
 }

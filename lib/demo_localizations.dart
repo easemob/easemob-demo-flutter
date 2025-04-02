@@ -164,6 +164,9 @@ mixin DemoLocalizations {
   static String saveVideo = 'saveVideo';
   static String saveVideoSuccess = 'saveVideoSuccess';
   static String saveVideoFailed = 'saveVideoFailed';
+  static String antiFraud = 'antiFraud';
+  static String clickReport = 'clickReport';
+  static String reportSuccess = 'reportSuccess';
 
   static Map<String, String> zh = {
     confirm: '确认',
@@ -324,6 +327,10 @@ mixin DemoLocalizations {
     saveVideo: '保存视频',
     saveVideoSuccess: '保存视频成功',
     saveVideoFailed: '保存视频失败',
+    antiFraud:
+        '请勿轻信任何关于汇款、中奖等信息，务必提高警惕，谨慎对待来自陌生号码的电话。如遇可疑情况，请及时向相关部门反馈并采取必要的防范措施。',
+    clickReport: '点击举报',
+    reportSuccess: '举报成功',
   };
   static Map<String, String> en = {
     confirm: 'Confirm',
@@ -488,5 +495,9 @@ mixin DemoLocalizations {
     saveVideo: 'Save Video',
     saveVideoSuccess: 'Save Video Success',
     saveVideoFailed: 'Save Video Failed',
+    antiFraud:
+        "Don't trust remittance or prize info. Stay alert for calls from unknown numbers and report anything suspicious.",
+    clickReport: 'Report',
+    reportSuccess: 'Report Success',
   };
 }

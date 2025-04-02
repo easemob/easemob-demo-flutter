@@ -173,7 +173,8 @@ class _HomePageState extends State<HomePage>
   }
 
   @override
-  void onMessagesRecalled(List<Message> recalled, List<Message> replaces) {
+  void onMessagesRecalledInfo(
+      List<RecallMessageInfo> recalled, List<Message> replaces) {
     ChatUIKit.instance.getUnreadMessageCount().then((value) {
       unreadMessageCount.value = value;
     });

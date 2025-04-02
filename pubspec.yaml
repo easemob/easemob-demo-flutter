@@ -17,10 +17,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.1.0
+version: 2.2.0
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ^3.3.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -38,7 +38,7 @@ dependencies:
 
   shared_preferences: ^2.2.2
 
-  image_cropper: ^5.0.1
+  image_cropper: ^9.1.0
 
   image_picker: ^1.0.5
 
@@ -60,14 +60,15 @@ dependencies:
 
   # vibration: ^1.8.4
 
-  permission_handler: ^10.2.0
+  permission_handler: ^11.4.0
 
   em_chat_callkit:
     git: 
       url: https://github.com/easemob/ease-callkit-flutter.git
-      ref: main
+      ref: da13059
 
-  em_chat_uikit:
+  # em_chat_uikit: 2.1.0+5
+  em_chat_uikit: 
     path: ../../chat_uikit/chatuikit-flutter
 
   # em_chat_uikit: ^2.0.3
@@ -76,12 +77,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-# dependency_overrides:
-#   im_flutter_sdk: ^4.6.1+2
+dependency_overrides:
+  im_flutter_sdk: ^4.13.0
+    
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

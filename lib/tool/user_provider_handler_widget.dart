@@ -71,7 +71,8 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
   }
 
   // 返回排序用首字母，比如中文显示时，可以返回首字母以便排序
-  String onAlphabetSortLetterRequest(String ?groupId, String userId, String showName) {
+  String onAlphabetSortLetterRequest(
+      String? groupId, String userId, String showName) {
     return PinyinHelper.getPinyinE(showName,
             defPinyin: '#', format: PinyinFormat.WITHOUT_TONE)
         .substring(0, 1);
@@ -161,7 +162,7 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
       ChatUIKitProfile? profile =
           ChatUIKitProvider.instance.profilesCache[group.groupId];
       if (profile != null) {
-        profile = profile.copyWith(name: group.name);
+        profile = profile.copyWith(showName: group.name);
       } else {
         profile = ChatUIKitProfile.group(
             id: group.groupId,

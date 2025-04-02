@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:chat_uikit_demo/custom/demo_helper.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/custom/call_helper.dart';
@@ -11,6 +13,7 @@ import 'package:chat_uikit_demo/widgets/presence_title_widget.dart';
 
 import 'package:em_chat_uikit/chat_uikit.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -84,7 +87,7 @@ class ChatRouteFilter {
       Group group = await ChatUIKit.instance
           .fetchGroupInfo(groupId: arguments.profile.id);
       ChatUIKitProfile profile = arguments.profile
-          .copyWith(name: group.name, avatarUrl: group.extension);
+          .copyWith(showName: group.name, avatarUrl: group.extension);
       ChatUIKitProvider.instance.addProfiles([profile]);
       UserDataStore().saveUserData(profile);
     }).catchError((e) {
@@ -294,6 +297,8 @@ class ChatRouteFilter {
 
   // 为 MessagesView 添加文件点击下载
   static RouteSettings messagesView(RouteSettings settings) {
+    ChatUIKitViewObserver viewObserver = ChatUIKitViewObserver();
+    bool antiFraud = true;
     MessagesViewArguments arguments =
         settings.arguments as MessagesViewArguments;
     MessagesViewController controller = MessagesViewController(
@@ -303,6 +308,7 @@ class ChatRouteFilter {
     );
     arguments = arguments.copyWith(
       controller: controller,
+      viewObserver: viewObserver,
       onItemLongPressHandler: (context, model, rect, defaultActions) {
         if (model.message.attributes?.containsValue('rtcCallWithAgora') ??
             false) {
@@ -404,7 +410,7 @@ class ChatRouteFilter {
             ? null
             : PresenceTitleWidget(
                 userId: arguments.profile.id,
-                title: arguments.profile.showName,
+                title: arguments.profile.contactShowName,
               ),
         leadingActionsBuilder: (context, defaultList) {
           if (arguments.profile.type == ChatUIKitProfileType.group) {
@@ -447,13 +453,16 @@ class ChatRouteFilter {
                         context, arguments.profile.id);
                   }
                 },
-                child: Image.asset(
-                  'assets/images/call.png',
-                  fit: BoxFit.fill,
-                  width: 24,
-                  height: 24,
-                  color:
-                      color.isDark ? color.neutralColor9 : color.neutralColor3,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Image.asset(
+                    'assets/images/call.png',
+                    color: color.isDark
+                        ? color.neutralColor9
+                        : color.neutralColor3,
+                    width: 24,
+                    height: 24,
+                  ),
                 ),
               ),
             );
@@ -462,6 +471,119 @@ class ChatRouteFilter {
           return actions;
         },
       ),
+      floatingWidget: (ctx) {
+        String tmpText =
+            "${DemoLocalizations.antiFraud.localString(ctx)}  ${DemoLocalizations.clickReport.localString(ctx)}";
+        final style = TextStyle(
+          height: 1.5,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          color: ChatUIKitTheme.instance.color.isDark
+              ? ChatUIKitTheme.instance.color.neutralColor9
+              : ChatUIKitTheme.instance.color.neutralColor3,
+        );
+        const containerMarginPending = 8.0;
+        const containerPadding = 12.0;
+        const iconSize = 16.0;
+        const iconInterval = 8.0;
+        final textHeight = DemoHelper().calculateTextHeight(
+          tmpText,
+          style,
+          MediaQuery.of(ctx).size.width -
+              containerMarginPending * 2 -
+              containerPadding * 2 -
+              iconSize * 2 -
+              iconInterval * 2,
+        );
+        final containerHeight = textHeight + containerPadding * 2;
+        return AnimatedOpacity(
+          opacity: antiFraud ? 1 : 0,
+          duration: const Duration(milliseconds: 150),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              vertical: containerPadding,
+              horizontal: containerPadding,
+            ),
+            margin: const EdgeInsets.only(
+                top: 60,
+                left: containerMarginPending,
+                right: containerMarginPending),
+            height: containerHeight,
+            decoration: BoxDecoration(
+              color: ChatUIKitTheme.instance.color.isDark
+                  ? ChatUIKitTheme.instance.color.neutralColor2
+                  : ChatUIKitTheme.instance.color.neutralSpecialColor9,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  offset: const Offset(0, 2),
+                  blurRadius: 4,
+                ),
+              ],
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.error,
+                  color: ChatUIKitTheme.instance.color.primaryColor5,
+                  size: iconSize,
+                ),
+                const SizedBox(width: iconInterval),
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                            text:
+                                "${DemoLocalizations.antiFraud.localString(ctx)}  ",
+                            style: style),
+                        TextSpan(
+                            text:
+                                DemoLocalizations.clickReport.localString(ctx),
+                            style: TextStyle(
+                              height: 1.5,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: ChatUIKitTheme.instance.color.isDark
+                                  ? ChatUIKitTheme.instance.color.primaryColor6
+                                  : ChatUIKitTheme.instance.color.primaryColor5,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                EasyLoading.show();
+                                Future.delayed(const Duration(seconds: 1), () {
+                                  if (ctx.mounted) {
+                                    EasyLoading.showSuccess(DemoLocalizations
+                                        .reportSuccess
+                                        .localString(ctx));
+                                  }
+                                });
+                              })
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: iconInterval),
+                InkWell(
+                  child: Icon(
+                    Icons.close,
+                    color: ChatUIKitTheme.instance.color.isDark
+                        ? ChatUIKitTheme.instance.color.neutralColor9
+                        : ChatUIKitTheme.instance.color.neutralColor3,
+                    size: iconSize,
+                  ),
+                  onTapUp: (details) {
+                    antiFraud = false;
+                    viewObserver.refresh();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
 
     return RouteSettings(name: settings.name, arguments: arguments);
@@ -482,14 +604,14 @@ class ChatRouteFilter {
             )
           ],
           actionItems: [
+            ChatUIKitDialogAction.cancel(
+              label: DemoLocalizations.createGroupCancel.localString(context),
+            ),
             ChatUIKitDialogAction.inputsConfirm(
               label: DemoLocalizations.createGroupConfirm.localString(context),
               onInputsTap: (inputs) async {
                 Navigator.of(context).pop(inputs.first);
               },
-            ),
-            ChatUIKitDialogAction.cancel(
-              label: DemoLocalizations.createGroupCancel.localString(context),
             ),
           ],
         );
