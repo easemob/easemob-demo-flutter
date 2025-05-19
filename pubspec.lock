@@ -106,13 +106,13 @@ packages:
     source: hosted
     version: "1.4.0"
   chat_uikit_keyboard_panel:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: chat_uikit_keyboard_panel
-      sha256: "842da662584b2c1a0f4c2051de37aa65c48fdaa68e70fa2dab87eb5eb60dbac7"
+      sha256: ddb7ade1143ffb9ab6d1af35aa10c63dcced9a57c6e3bcfefd7267be11500f35
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1"
+    version: "0.1.2"
   chat_uikit_theme:
     dependency: transitive
     description:
@@ -197,9 +197,10 @@ packages:
   em_chat_uikit:
     dependency: "direct main"
     description:
-      path: "../../chat_uikit/chatuikit-flutter"
-      relative: true
-    source: path
+      name: em_chat_uikit
+      sha256: f8c71dd6da3401b7691e6b81ae3d3034240ae7c85eec672a8227fc925efeaed5
+      url: "https://pub.dev"
+    source: hosted
     version: "2.2.0"
   ffi:
     dependency: transitive

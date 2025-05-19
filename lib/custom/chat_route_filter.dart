@@ -31,49 +31,8 @@ class ChatRouteFilter {
       return contactDetail(settings);
     } else if (settings.name == ChatUIKitRouteNames.groupDetailsView) {
       return groupDetail(settings);
-    } else if (settings.name == ChatUIKitRouteNames.showImageView) {
-      return showImageView(settings);
     }
     return settings;
-  }
-
-  static RouteSettings showImageView(RouteSettings settings) {
-    /*
-
-    ShowImageViewArguments arguments =
-        settings.arguments as ShowImageViewArguments;
-    arguments = arguments.copyWith(
-      onLongPressed: (context, message) {
-        showChatUIKitBottomSheet(
-          context: context,
-          items: [
-            ChatUIKitBottomSheetAction.normal(
-              label: DemoLocalizations.saveImage.localString(context),
-              onTap: () async {
-                Navigator.of(context).pop();
-                File file =
-                    File(((message.body) as ImageMessageBody).localPath);
-                if (file.existsSync()) {
-                  ImageGallerySaver.saveFile(file.path).then((value) => {
-                        if (context.mounted)
-                          {
-                            EasyLoading.showSuccess(DemoLocalizations
-                                .saveImageSuccess
-                                .localString(context))
-                          }
-                      });
-                } else {
-                  EasyLoading.showError(
-                      DemoLocalizations.saveImageFailed.localString(context));
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
-    */
-    return RouteSettings(name: settings.name, arguments: settings.arguments);
   }
 
   static RouteSettings groupDetail(RouteSettings settings) {
@@ -298,7 +257,7 @@ class ChatRouteFilter {
   // 为 MessagesView 添加文件点击下载
   static RouteSettings messagesView(RouteSettings settings) {
     ChatUIKitViewObserver viewObserver = ChatUIKitViewObserver();
-    bool antiFraud = true;
+    bool visible = true;
     MessagesViewArguments arguments =
         settings.arguments as MessagesViewArguments;
     MessagesViewController controller = MessagesViewController(
@@ -496,90 +455,96 @@ class ChatRouteFilter {
               iconInterval * 2,
         );
         final containerHeight = textHeight + containerPadding * 2;
-        return AnimatedOpacity(
-          opacity: antiFraud ? 1 : 0,
-          duration: const Duration(milliseconds: 150),
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: containerPadding,
-              horizontal: containerPadding,
-            ),
-            margin: const EdgeInsets.only(
-                top: 60,
-                left: containerMarginPending,
-                right: containerMarginPending),
-            height: containerHeight,
-            decoration: BoxDecoration(
-              color: ChatUIKitTheme.instance.color.isDark
-                  ? ChatUIKitTheme.instance.color.neutralColor2
-                  : ChatUIKitTheme.instance.color.neutralSpecialColor9,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  offset: const Offset(0, 2),
-                  blurRadius: 4,
-                ),
-              ],
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.error,
-                  color: ChatUIKitTheme.instance.color.primaryColor5,
-                  size: iconSize,
-                ),
-                const SizedBox(width: iconInterval),
-                Expanded(
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                            text:
-                                "${DemoLocalizations.antiFraud.localString(ctx)}  ",
-                            style: style),
-                        TextSpan(
-                            text:
-                                DemoLocalizations.clickReport.localString(ctx),
-                            style: TextStyle(
-                              height: 1.5,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: ChatUIKitTheme.instance.color.isDark
-                                  ? ChatUIKitTheme.instance.color.primaryColor6
-                                  : ChatUIKitTheme.instance.color.primaryColor5,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () async {
-                                EasyLoading.show();
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  if (ctx.mounted) {
-                                    EasyLoading.showSuccess(DemoLocalizations
-                                        .reportSuccess
-                                        .localString(ctx));
-                                  }
-                                });
-                              })
-                      ],
-                    ),
+        return IgnorePointer(
+          ignoring: !visible,
+          child: AnimatedOpacity(
+            opacity: visible ? 1 : 0,
+            duration: const Duration(milliseconds: 150),
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: containerPadding,
+                horizontal: containerPadding,
+              ),
+              margin: const EdgeInsets.only(
+                  top: 60,
+                  left: containerMarginPending,
+                  right: containerMarginPending),
+              height: containerHeight,
+              decoration: BoxDecoration(
+                color: ChatUIKitTheme.instance.color.isDark
+                    ? ChatUIKitTheme.instance.color.neutralColor2
+                    : ChatUIKitTheme.instance.color.neutralSpecialColor9,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    offset: const Offset(0, 2),
+                    blurRadius: 4,
                   ),
-                ),
-                const SizedBox(width: iconInterval),
-                InkWell(
-                  child: Icon(
-                    Icons.close,
-                    color: ChatUIKitTheme.instance.color.isDark
-                        ? ChatUIKitTheme.instance.color.neutralColor9
-                        : ChatUIKitTheme.instance.color.neutralColor3,
+                ],
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.error,
+                    color: ChatUIKitTheme.instance.color.primaryColor5,
                     size: iconSize,
                   ),
-                  onTapUp: (details) {
-                    antiFraud = false;
-                    viewObserver.refresh();
-                  },
-                ),
-              ],
+                  const SizedBox(width: iconInterval),
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                              text:
+                                  "${DemoLocalizations.antiFraud.localString(ctx)}  ",
+                              style: style),
+                          TextSpan(
+                              text: DemoLocalizations.clickReport
+                                  .localString(ctx),
+                              style: TextStyle(
+                                height: 1.5,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: ChatUIKitTheme.instance.color.isDark
+                                    ? ChatUIKitTheme
+                                        .instance.color.primaryColor6
+                                    : ChatUIKitTheme
+                                        .instance.color.primaryColor5,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () async {
+                                  EasyLoading.show();
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    if (ctx.mounted) {
+                                      EasyLoading.showSuccess(DemoLocalizations
+                                          .reportSuccess
+                                          .localString(ctx));
+                                    }
+                                  });
+                                })
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: iconInterval),
+                  InkWell(
+                    child: Icon(
+                      Icons.close,
+                      color: ChatUIKitTheme.instance.color.isDark
+                          ? ChatUIKitTheme.instance.color.neutralColor9
+                          : ChatUIKitTheme.instance.color.neutralColor3,
+                      size: iconSize,
+                    ),
+                    onTapUp: (details) {
+                      visible = false;
+                      viewObserver.refresh();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         );

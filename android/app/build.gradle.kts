@@ -27,6 +27,11 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        ndk {
+            // 仅保留 arm64-v8a
+            abiFilters.addAll(listOf("arm64-v8a"))
+        }
     }
 
     buildTypes {
