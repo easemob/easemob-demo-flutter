@@ -2,7 +2,7 @@
 # See https://dart.dev/tools/pub/glossary#lockfile
 packages:
   agora_rtc_engine:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: agora_rtc_engine
       sha256: "458c4b535a619d573915a36aa634feccd076ac72782263004e9666cafc449021"

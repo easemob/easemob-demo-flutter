@@ -26,6 +26,9 @@ mixin DemoLocalizations {
   static String loginInputPhoneHint = 'loginInputPhoneHint';
   static String loginInputSmsHint = 'loginInputSmsHint';
   static String loginSendSms = 'loginSendSms';
+  static String loginUserIdHint = 'loginUserIdHint';
+  static String loginPasswordHint = 'loginPasswordHint';
+  static String loginPleaseInput = 'loginPleaseInput';
   static String loginSendSmsSuccess = 'loginSendSmsSuccess';
   static String loginSendSmsFailed = 'loginSendSmsFailed';
   static String loginPleaseInputPhone = 'loginPleaseInputPhone';
@@ -201,6 +204,9 @@ mixin DemoLocalizations {
     loginPleaseInputPhone: '请输入手机号',
     loginPleaseInputSms: '请输入验证码',
     loginResendSms: '重新发送',
+    loginUserIdHint: '请输入用户ID',
+    loginPasswordHint: '请输入密码',
+    loginPleaseInput: '请输入用户名和密码',
     loggingIn: '登录中...',
     loginCheck: '请选择同意',
     loginTermsOfService: '《环信服务条款》',
@@ -365,6 +371,9 @@ mixin DemoLocalizations {
     loginPleaseInputPhone: 'Please enter the phone number',
     loginPleaseInputSms: 'Please enter the verification code',
     loginResendSms: 'Resend',
+    loginUserIdHint: 'Please enter User ID',
+    loginPasswordHint: 'Please enter Password',
+    loginPleaseInput: 'Please enter User ID and Password',
     loggingIn: 'Logging in...',
     loginCheck: 'Agree to ',
     loginTermsOfService: 'Easemob Terms',

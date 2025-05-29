@@ -570,7 +570,7 @@ class _SingleCallPageState extends State<SingleCallPage>
     return CallButton(
       selected: false,
       callback: () async {
-        await ChatCallKitManager.hangup(widget.callId ?? callId!);
+        await ChatCallKitManager.hangup(widget.callId ?? callId ?? '');
       },
       selectImage: Image.asset("assets/call/hang_up.png"),
       backgroundColor: const Color.fromRGBO(246, 50, 77, 1),

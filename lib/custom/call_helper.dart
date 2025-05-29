@@ -1,3 +1,4 @@
+import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/pages/call/call_pages/multi_call_page.dart';
 import 'package:chat_uikit_demo/pages/call/call_pages/single_call_page.dart';
@@ -5,12 +6,18 @@ import 'package:chat_uikit_demo/pages/call/group_member_select_view.dart';
 import 'package:em_chat_callkit/chat_callkit.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class CallHelper {
   // 弹出 1v1 通话选择框
   static void showSingleCallBottomSheet(
       BuildContext context, String callId, Color color) {
+    if (!DemoConfig.isValid) {
+      EasyLoading.showError(
+          'CallKit is not configured. Please set DemoConfig.');
+      return;
+    }
     showChatUIKitBottomSheet(
       context: context,
       items: [
@@ -69,6 +76,11 @@ class CallHelper {
   // 开始 1v1 通话
   static startSingleCall(
       BuildContext context, String callId, bool isVideoCall) {
+    if (!DemoConfig.isValid) {
+      EasyLoading.showError(
+          'CallKit is not configured. Please set DemoConfig.');
+      return;
+    }
     [Permission.microphone, Permission.camera].request().then((value) {
       if (context.mounted) {
         Navigator.of(context).push(
@@ -91,6 +103,11 @@ class CallHelper {
 
   // 弹出多人通话选择框
   static showMultiCallSelectView(BuildContext context, String groupId) {
+    if (!DemoConfig.isValid) {
+      EasyLoading.showError(
+          'CallKit is not configured. Please set DemoConfig.');
+      return;
+    }
     // 如果是群聊，直接选择联系人
     Navigator.of(context)
         .push(

@@ -60,7 +60,13 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget>
   @override
   Widget build(BuildContext context) {
     // 添加call kit相关初始化
-    return ChatCallKit(agoraAppId: rtcAppId, child: widget.child);
+    if (DemoConfig.isValid) {
+      return ChatCallKit(agoraAppId: DemoConfig.rtcAppId!, child: widget.child);
+    } else {
+      return const Center(
+        child: Text('CallKit is not configured. Please set DemoConfig.'),
+      );
+    }
   }
 
   // 呼叫结束

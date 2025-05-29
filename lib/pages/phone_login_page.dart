@@ -9,14 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class PhoneLoginPage extends StatefulWidget {
+  const PhoneLoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<PhoneLoginPage> createState() => _PhoneLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with ChatUIKitThemeMixin {
+class _PhoneLoginPageState extends State<PhoneLoginPage>
+    with ChatUIKitThemeMixin {
   int timer = 0;
   Timer? _timer;
   final String serviceAgreementURL = 'https://www.easemob.com/agreement';

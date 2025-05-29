@@ -8,7 +8,10 @@ import 'package:flutter/foundation.dart';
 class AppServerHelper {
   // 发送验证码
   static Future<void> sendSmsCodeRequest(String phone) async {
-    String url = '$serverUrl/inside/app/sms/send/$phone';
+    if (!DemoConfig.isValid) {
+      throw Exception('DemoConfig is not valid');
+    }
+    String url = '${DemoConfig.serverUrl!}/inside/app/sms/send/$phone';
     Response response = await Dio().post(url);
     if (response.statusCode != 200) {
       throw Exception('Failed to send sms code: ${response.statusCode}');
@@ -17,8 +20,10 @@ class AppServerHelper {
 
   // 根据验证码获取登录信息
   static Future<LoginUserData> login(String phone, String smsCode) async {
-    String url = '$serverUrl/inside/app/user/login/V2';
-
+    if (!DemoConfig.isValid) {
+      throw Exception('DemoConfig is not valid');
+    }
+    String url = '${DemoConfig.serverUrl!}/inside/app/user/login/V2';
     Response response = await Dio().post(url, data: {
       'phoneNumber': phone,
       'smsCode': smsCode,
@@ -33,10 +38,17 @@ class AppServerHelper {
   }
 
   // 上传头像
-  static Future<String> uploadAvatar(String currentUserId, String avatarPath) async {
+  static Future<String> uploadAvatar(
+      String currentUserId, String avatarPath) async {
+    if (!DemoConfig.isValid) {
+      throw Exception('DemoConfig is not valid');
+    }
     debugPrint('uploadAvatar: $currentUserId, $avatarPath');
-    String url = '$serverUrl/inside/app/user/$currentUserId/avatar/upload';
-    Map<String, dynamic> entry = {'file': await MultipartFile.fromFile(avatarPath)};
+    String url =
+        '${DemoConfig.serverUrl!}/inside/app/user/$currentUserId/avatar/upload';
+    Map<String, dynamic> entry = {
+      'file': await MultipartFile.fromFile(avatarPath)
+    };
     Response response = await Dio().post(url, data: FormData.fromMap(entry));
     if (response.statusCode != 200) {
       throw Exception('Failed to uploadAvatar: ${response.statusCode}');
@@ -47,7 +59,10 @@ class AppServerHelper {
 
   // 获取群组头像
   static Future<String> fetchGroupAvatar(String groupId) async {
-    String url = '$serverUrl/inside/app/group/$groupId/avatarurl';
+    if (!DemoConfig.isValid) {
+      throw Exception('DemoConfig is not valid');
+    }
+    String url = '${DemoConfig.serverUrl!}/inside/app/group/$groupId/avatarurl';
     Response response = await Dio().get(url);
     if (response.statusCode != 200) {
       throw Exception('Failed to fetchGroupAvatar: ${response.statusCode}');
@@ -58,29 +73,44 @@ class AppServerHelper {
 
   // 自动解散群组
   static Future<void> autoDestroyGroup(String groupId) async {
-    String url = '$serverUrl/inside/app/group/$groupId';
-    Response response = await Dio().post(url, queryParameters: {'appkey': appKey});
+    if (!DemoConfig.isValid) {
+      throw Exception('DemoConfig is not valid');
+    }
+    String url = '${DemoConfig.serverUrl!}/inside/app/group/$groupId';
+    Response response =
+        await Dio().post(url, queryParameters: {'appkey': DemoConfig.appKey});
     if (response.statusCode != 200) {
       throw Exception('Failed to auto destroy: ${response.statusCode}');
     }
   }
 
   // 获取呼叫信息
-  static Future<AgoraInfo> fetchAgoraInfo(String userId, {String? channelName}) async {
-    String url = '$serverUrl/inside/token/rtc/channel/${channelName ?? Random().nextInt(99999999)}/user/$userId';
+  static Future<AgoraInfo> fetchAgoraInfo(String userId,
+      {String? channelName}) async {
+    if (!DemoConfig.isValid) {
+      throw Exception('DemoConfig is not valid');
+    }
+    String url =
+        '${DemoConfig.serverUrl!}/inside/token/rtc/channel/${channelName ?? Random().nextInt(99999999)}/user/$userId';
     Response response = await Dio().get(url);
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch agora info: ${response.statusCode}');
     }
-    AgoraInfo agoraInfo = AgoraInfo.fromJson(response.data as Map<String, dynamic>);
+    AgoraInfo agoraInfo =
+        AgoraInfo.fromJson(response.data as Map<String, dynamic>);
     agoraInfo.channelName = channelName;
     return agoraInfo;
   }
 
   // 获取agora uid 和 user id 的映射信息
-  static Future<Map<String, String>> fetchAgoraUidMap(String channelName) async {
-    String url = '$serverUrl/inside/agora/channel/mapper';
-    Response response = await Dio().get(url, queryParameters: {'channelName': channelName});
+  static Future<Map<String, String>> fetchAgoraUidMap(
+      String channelName) async {
+    if (!DemoConfig.isValid) {
+      throw Exception('DemoConfig is not valid');
+    }
+    String url = '${DemoConfig.serverUrl!}/inside/agora/channel/mapper';
+    Response response =
+        await Dio().get(url, queryParameters: {'channelName': channelName});
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch agora uid map: ${response.statusCode}');
     }

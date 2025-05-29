@@ -1,7 +1,7 @@
 import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/pages/home_page.dart';
-import 'package:chat_uikit_demo/pages/login_page.dart';
+import 'package:chat_uikit_demo/pages/phone_login_page.dart';
 import 'package:chat_uikit_demo/notifications/app_settings_notification.dart';
 import 'package:chat_uikit_demo/pages/me/about_page.dart';
 import 'package:chat_uikit_demo/pages/me/personal/personal_info_page.dart';
@@ -11,6 +11,7 @@ import 'package:chat_uikit_demo/pages/me/settings/general_page.dart';
 import 'package:chat_uikit_demo/pages/me/settings/language_page.dart';
 import 'package:chat_uikit_demo/pages/me/settings/translate_page.dart';
 import 'package:chat_uikit_demo/custom/chat_route_filter.dart';
+import 'package:chat_uikit_demo/pages/userid_login_page.dart';
 import 'package:chat_uikit_demo/tool/online_status_helper.dart';
 import 'package:chat_uikit_demo/tool/settings_data_store.dart';
 import 'package:chat_uikit_demo/pages/welcome_page.dart';
@@ -24,12 +25,12 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'pages/me/settings/advanced_page.dart';
 
 void main() async {
+  DemoConfig.setConfig(appKey: 'easemob#easeim');
+  assert(DemoConfig.appKey != null,
+      'DemoConfig.appKey must be set, call DemoConfig.setConfig(appKey: "your_app_key") before runApp');
   return ChatUIKit.instance
       .init(
-    options: Options.withAppKey(
-      appKey,
-      deleteMessagesAsExitGroup: false,
-    ),
+    options: Options.withAppKey(DemoConfig.appKey!),
   )
       .then((value) {
     SettingsDataStore().init();
@@ -109,7 +110,11 @@ class _MyAppState extends State<MyApp> {
                   if (settings.name == '/home') {
                     return const HomePage();
                   } else if (settings.name == '/login') {
-                    return const LoginPage();
+                    if (DemoConfig.isValid) {
+                      return const PhoneLoginPage();
+                    } else {
+                      return const UserIdLoginPage();
+                    }
                   } else if (settings.name == '/personal_info') {
                     return const PersonalInfoPage();
                   } else if (settings.name == '/general_page') {

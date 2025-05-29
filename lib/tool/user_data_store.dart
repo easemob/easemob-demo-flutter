@@ -32,7 +32,7 @@ class UserDataStore {
   Future<void> openDemoDB() async {
     String databasesPath = await getDatabasesPath();
     dbName =
-        '${appKey.replaceAll('#', '_')}_${ChatUIKit.instance.currentUserId!}.db';
+        '${DemoConfig.appKey!.replaceAll('#', '_')}_${ChatUIKit.instance.currentUserId!}.db';
     String path = '$databasesPath/$dbName';
     debugPrint('path: $path');
     await openDatabase(

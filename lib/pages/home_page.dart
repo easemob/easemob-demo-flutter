@@ -1,4 +1,5 @@
 import 'package:chat_uikit_demo/custom/demo_helper.dart';
+import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/pages/call/call_handler_widget.dart';
 import 'package:chat_uikit_demo/pages/contact/contact_page.dart';
@@ -152,7 +153,10 @@ class _HomePageState extends State<HomePage>
 
     content = ToastHandlerWidget(child: content);
     // callkit 相关实现
-    content = CallHandlerWidget(child: content);
+    if (DemoConfig.isValid) {
+      content = CallHandlerWidget(child: content);
+    }
+
     // 用户属性相关实现
     content = UserProviderHandlerWidget(child: content);
     // token状态相关实现
