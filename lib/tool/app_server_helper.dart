@@ -6,18 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class AppServerHelper {
-  // 发送验证码
-  static Future<void> sendSmsCodeRequest(String phone) async {
-    if (!DemoConfig.isValid) {
-      throw Exception('DemoConfig is not valid');
-    }
-    String url = '${DemoConfig.serverUrl!}/inside/app/sms/send/$phone';
-    Response response = await Dio().post(url);
-    if (response.statusCode != 200) {
-      throw Exception('Failed to send sms code: ${response.statusCode}');
-    }
-  }
-
   // 根据验证码获取登录信息
   static Future<LoginUserData> login(String phone, String smsCode) async {
     if (!DemoConfig.isValid) {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/tool/app_server_helper.dart';
+import 'package:chat_uikit_demo/widgets/verify_code_widget.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/gestures.dart';
@@ -27,6 +28,11 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
   TextEditingController codeController = TextEditingController();
 
   bool agreeServiceAgreement = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -228,7 +234,7 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
                   textAlign: TextAlign.center,
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -253,14 +259,18 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
   }
 
   void fetchSmsCode() async {
+    if (timer > 0) {
+      EasyLoading.showInfo(DemoLocalizations.sendSmsWait.localString(context));
+      return;
+    }
+
     if (!checkout()) return;
 
-    EasyLoading.show();
-    AppServerHelper.sendSmsCodeRequest(phoneController.text).then((value) {
-      if (mounted) {
-        EasyLoading.showSuccess(
-            DemoLocalizations.loginSendSmsSuccess.localString(context));
-      }
+    final result = await showVerifyCode(context, phoneController.text);
+    if (!mounted) return;
+    if (result == true) {
+      EasyLoading.showSuccess(
+          DemoLocalizations.sendSmsSuccess.localString(context));
       timer = 60;
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         setState(() {
@@ -270,14 +280,11 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
           }
         });
       });
-    }).catchError((e) {
-      if (mounted) {
-        EasyLoading.showError(
-            DemoLocalizations.loginSendSmsFailed.localString(context));
-      }
-    }).whenComplete(() {
-      EasyLoading.dismiss();
-    });
+    } else {
+      EasyLoading.showError(
+          DemoLocalizations.sendSmsFailed.localString(context));
+    }
+    return;
   }
 
   void login() async {

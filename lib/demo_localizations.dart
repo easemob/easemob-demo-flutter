@@ -9,6 +9,9 @@ mixin DemoLocalizations {
   static String noCameraPermission = 'noCameraPermission';
   static String voiceTypeNotSupported = 'voiceTypeNotSupported';
   static String recordDurationTooShort = 'recordDurationTooShort';
+  static String sendSmsSuccess = 'sendSmsSuccess';
+  static String sendSmsFailed = 'sendSmsFailed';
+  static String sendSmsWait = 'sendSmsWait';
 
   // download file
   static String openFile = 'openFile';
@@ -182,6 +185,9 @@ mixin DemoLocalizations {
     noCameraPermission: '无相机权限',
     voiceTypeNotSupported: '语音格式不支持',
     recordDurationTooShort: '录音时长过短',
+    sendSmsSuccess: '发送成功',
+    sendSmsFailed: '发送失败',
+    sendSmsWait: '请稍后再试',
 
     // download file
     openFile: '打开文件',
@@ -349,6 +355,9 @@ mixin DemoLocalizations {
     noCameraPermission: 'No Camera Permission',
     voiceTypeNotSupported: 'Voice Type Not Supported',
     recordDurationTooShort: 'Record Duration Too Short',
+    sendSmsSuccess: 'Send Success',
+    sendSmsFailed: 'Send Failed',
+    sendSmsWait: 'Please try again later',
 
     // download file
     openFile: 'Open File',

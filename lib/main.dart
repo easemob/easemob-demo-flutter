@@ -24,8 +24,16 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'pages/me/settings/advanced_page.dart';
 
+String appKey = 'easemob#easeim';
+String rtcAppId = '';
+String serverUrl = '';
+
 void main() async {
-  DemoConfig.setConfig(appKey: 'easemob#easeim');
+  DemoConfig.setConfig(
+    appKey: appKey,
+    rtcAppId: rtcAppId,
+    serverUrl: serverUrl,
+  );
   assert(DemoConfig.appKey != null,
       'DemoConfig.appKey must be set, call DemoConfig.setConfig(appKey: "your_app_key") before runApp');
   return ChatUIKit.instance
