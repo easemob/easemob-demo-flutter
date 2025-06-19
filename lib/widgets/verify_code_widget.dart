@@ -1,14 +1,17 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:io';
+
 import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'dart:convert';
 import 'package:encrypt/encrypt.dart' as encrypt;
+import 'dart:async';
 
 /// 显示验证码弹窗
-Future<bool> showVerifyCode(
+Future<bool?> showVerifyCode(
   BuildContext context,
   String phoneNumber,
 ) async {
@@ -37,92 +40,155 @@ class VerifyCodeWidget extends StatefulWidget {
 }
 
 class _VerifyCodeWidgetState extends State<VerifyCodeWidget> {
-  late WebViewController controller;
+  InAppWebViewController? _controller;
+
   bool isLoaded = false;
   Map<String, dynamic>? verifyResult;
 
   @override
   void initState() {
     super.initState();
-    _initializeWebView();
   }
 
-  /// 初始化WebView控制器
-  void _initializeWebView() {
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(Colors.transparent)
-      ..setNavigationDelegate(_createNavigationDelegate())
-      ..addJavaScriptChannel(
-        'encryptData',
-        onMessageReceived: (message) => encryptData(message.message),
-      )
-      ..addJavaScriptChannel(
-        'getVerifyResult',
-        onMessageReceived: (message) => getVerifyResult(message.message),
-      )
-      ..addJavaScriptChannel(
-        'jsErrorChannel',
-        onMessageReceived: (message) => jsErrorChannel(message.message),
-      )
-      ..loadRequest(
-        Uri.parse(
-          "${DemoConfig.verifyCodeURL}?telephone=${widget.phoneNumber}",
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    bool isAndroid = Platform.isAndroid;
+
+    final theme = ChatUIKitTheme.instance;
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: InkWell(
+        onTap: () => Navigator.pop(context),
+        child: Center(
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+            decoration: BoxDecoration(
+              color: theme.color.isDark
+                  ? theme.color.neutralColor1
+                  : theme.color.neutralColor98,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            height: 150,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Stack(
+                children: [
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(
+                      url: WebUri(
+                        "${DemoConfig.verifyCodeURL}?telephone=${widget.phoneNumber}",
+                      ),
+                    ),
+                    initialSettings: InAppWebViewSettings(
+                      initialScale: 1,
+                      useWideViewPort: true,
+                      horizontalScrollBarEnabled: false,
+                      verticalScrollBarEnabled: false,
+                      // 禁用所有缩放相关功能
+                      supportZoom: isAndroid ? false : true,
+                      builtInZoomControls: false,
+                      displayZoomControls: false,
+                      javaScriptEnabled: true,
+                      transparentBackground: true,
+                      disableVerticalScroll: true,
+                      // 禁用长按菜单
+                      disableContextMenu: true,
+                      disallowOverScroll: true,
+                      overScrollMode: OverScrollMode.NEVER,
+                    ),
+                    onWebViewCreated: onWebViewCreated,
+                    onLoadStop: (controller, url) {
+                      if (mounted) setState(() => isLoaded = true);
+                    },
+                    onReceivedError: (controller, request, error) {
+                      if (mounted) {
+                        Navigator.pop(context, false);
+                      }
+                    },
+                  ),
+                  if (!isLoaded)
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                ],
+              ),
+            ),
+          ),
         ),
-      );
+      ),
+    );
   }
 
-  /// 创建导航代理
-  NavigationDelegate _createNavigationDelegate() {
-    return NavigationDelegate(
-      onPageFinished: (url) async {
-        if (mounted) {
-          setState(() => isLoaded = true);
-        }
-      },
-      onWebResourceError: (error) {
-        debugPrint('页面加载错误: ${error.description}');
-        if (mounted) setState(() {});
+  void onWebViewCreated(InAppWebViewController controller) {
+    _controller = controller;
+    controller.addJavaScriptHandler(
+      handlerName: 'encryptData',
+      callback: encryptData,
+    );
+    controller.addJavaScriptHandler(
+      handlerName: 'getVerifyResult',
+      callback: getVerifyResult,
+    );
+    controller.addJavaScriptHandler(
+      handlerName: 'jsErrorChannel',
+      callback: (arguments) {
+        jsErrorChannel(arguments[0]);
       },
     );
   }
 
-  /// 处理加密数据请求（与安卓端一致：收到JS端encryptData请求后，加密并通过window.encryptCallback回传结果）
-  void encryptData(String message) {
+  /// 加密数据并通过 JS 回调 window.encryptCallback 传递结果，生命周期安全
+  Future<void> encryptData(List<dynamic> message) async {
     try {
       final base64Key = DemoConfig.verifyCodeSecret!;
       if (message.isNotEmpty) {
-        final encryptedData = AESGCMEncryptor.encryptGCM(message, base64Key);
+        final encryptedData = AESGCMEncryptor.encryptGCM(message[0], base64Key);
         debugPrint('[Dart->JS] 加密数据: $encryptedData');
-        // Flutter端与安卓端一致：加密完成后通过JS回调window.encryptCallback
-        controller.runJavaScript('''
-          if (typeof window.encryptCallback === 'function') {
-            window.encryptCallback('$encryptedData');
-          }
-        ''');
-        debugPrint("加密成功，数据长度: ${encryptedData.length}");
+        if (mounted && _controller != null) {
+          await _controller!.callAsyncJavaScript(functionBody: '''
+            if (typeof window.encryptCallback === 'function') {
+              window.encryptCallback('$encryptedData');
+            }
+          ''');
+        }
+        return;
       }
     } catch (e) {
       debugPrint('加密处理失败: $e');
-      // 加密失败时，回传空字符串给页面
-      controller.runJavaScript("window.encryptCallback('')");
+      if (mounted && _controller != null) {
+        await _controller!.callAsyncJavaScript(
+          functionBody:
+              "if (typeof window.encryptCallback === 'function') { window.encryptCallback(''); }",
+        );
+      }
+      return;
+    }
+    if (mounted && _controller != null) {
+      await _controller!.callAsyncJavaScript(
+        functionBody:
+            "if (typeof window.encryptCallback === 'function') { window.encryptCallback(''); }",
+      );
     }
   }
 
   /// 处理验证码回调
-  void getVerifyResult(String message) {
+  void getVerifyResult(List<dynamic> info) {
+    String message = info[0];
     try {
-      debugPrint('[JS->Dart] 处理验证码回调 getVerifyResult，内容: $message');
-      debugPrint('收到验证结果: $message');
       Map<String, dynamic> decoded;
       try {
         // 尝试标准JSON解析
         decoded = json.decode(message);
       } catch (_) {
-        // 兼容伪JSON格式：{errorInfo: , code: 200.0}
         final fixed = message
             .replaceAllMapped(
-                RegExp(r'([{\s,])(\w+):'), (m) => '${m[1]}"${m[2]}":')
+                RegExp(r'([{	,])(\w+):'), (m) => '${m[1]}"${m[2]}":')
             .replaceAllMapped(RegExp(r':\s*([^",}{\\s][^,}{]*)'),
                 (m) => ': "${m[1]?.trim()}"')
             .replaceAll("'", '"');
@@ -144,53 +210,11 @@ class _VerifyCodeWidgetState extends State<VerifyCodeWidget> {
     }
   }
 
-  void jsErrorChannel(String message) {
+  void jsErrorChannel(List<dynamic> info) {
+    String message = info[0];
     debugPrint('[JS->Dart] 处理 JS 错误回调 jsErrorChannel，内容: $message');
     debugPrint('收到 JS 错误: $message');
     // 你可以在这里弹窗、上报日志等
-  }
-
-  @override
-  void dispose() {
-    controller.clearCache();
-    controller.clearLocalStorage();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = ChatUIKitTheme.instance;
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: InkWell(
-        onTap: () => Navigator.pop(context),
-        child: Center(
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-            decoration: BoxDecoration(
-              color: theme.color.isDark
-                  ? theme.color.neutralColor1
-                  : theme.color.neutralColor98,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            height: 150,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: isLoaded
-                  ? WebViewWidget(controller: controller)
-                  : Center(
-                      child: CircularProgressIndicator(
-                        color: theme.color.isDark
-                            ? theme.color.primaryColor6
-                            : theme.color.primaryColor5,
-                      ),
-                    ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
 

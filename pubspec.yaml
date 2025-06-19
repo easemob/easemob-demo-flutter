@@ -70,8 +70,9 @@ dependencies:
   em_chat_uikit: 2.2.0
 
   encrypt: ^5.0.1
-  webview_flutter: ^4.13.0
+  
 
+  flutter_inappwebview: ^6.1.5
 
   # em_chat_uikit: ^2.0.3
 

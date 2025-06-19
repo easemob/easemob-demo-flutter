@@ -267,6 +267,7 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
     if (!checkout()) return;
 
     final result = await showVerifyCode(context, phoneController.text);
+    if (result == null) return;
     if (!mounted) return;
     if (result == true) {
       EasyLoading.showSuccess(
