@@ -28,7 +28,7 @@ class DemoConfig {
   }
 
   static bool get isValid {
-    return _rtcAppId != null && _serverUrl != null;
+    return _rtcAppId?.isNotEmpty == true && _serverUrl?.isNotEmpty == true;
   }
 
   static String? get appKey => _appKey;

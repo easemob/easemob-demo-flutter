@@ -11,10 +11,7 @@ import 'package:encrypt/encrypt.dart' as encrypt;
 import 'dart:async';
 
 /// 显示验证码弹窗
-Future<bool?> showVerifyCode(
-  BuildContext context,
-  String phoneNumber,
-) async {
+Future<bool?> showVerifyCode(BuildContext context, String phoneNumber) async {
   return await showDialog(
     context: context,
     builder: (context) => SizedBox(
@@ -31,10 +28,11 @@ class VerifyCodeWidget extends StatefulWidget {
   const VerifyCodeWidget({
     super.key,
     required this.phoneNumber,
+    this.title,
   });
 
   final String phoneNumber;
-
+  final String? title;
   @override
   State<VerifyCodeWidget> createState() => _VerifyCodeWidgetState();
 }
@@ -44,16 +42,6 @@ class _VerifyCodeWidgetState extends State<VerifyCodeWidget> {
 
   bool isLoaded = false;
   Map<String, dynamic>? verifyResult;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,58 +54,70 @@ class _VerifyCodeWidgetState extends State<VerifyCodeWidget> {
         onTap: () => Navigator.pop(context),
         child: Center(
           child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
             decoration: BoxDecoration(
-              color: theme.color.isDark
-                  ? theme.color.neutralColor1
-                  : theme.color.neutralColor98,
-              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
             ),
-            height: 150,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Stack(
-                children: [
-                  InAppWebView(
-                    initialUrlRequest: URLRequest(
-                      url: WebUri(
-                        "${DemoConfig.verifyCodeURL}?telephone=${widget.phoneNumber}",
-                      ),
-                    ),
-                    initialSettings: InAppWebViewSettings(
-                      initialScale: 1,
-                      useWideViewPort: true,
-                      horizontalScrollBarEnabled: false,
-                      verticalScrollBarEnabled: false,
-                      // 禁用所有缩放相关功能
-                      supportZoom: isAndroid ? false : true,
-                      builtInZoomControls: false,
-                      displayZoomControls: false,
-                      javaScriptEnabled: true,
-                      transparentBackground: true,
-                      disableVerticalScroll: true,
-                      // 禁用长按菜单
-                      disableContextMenu: true,
-                      disallowOverScroll: true,
-                      overScrollMode: OverScrollMode.NEVER,
-                    ),
-                    onWebViewCreated: onWebViewCreated,
-                    onLoadStop: (controller, url) {
-                      if (mounted) setState(() => isLoaded = true);
-                    },
-                    onReceivedError: (controller, request, error) {
-                      if (mounted) {
-                        Navigator.pop(context, false);
-                      }
-                    },
+            height: 140,
+            margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+            padding: const EdgeInsets.fromLTRB(3, 0, 3, 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text(
+                  "滑动滑块获取验证码",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
                   ),
-                  if (!isLoaded)
-                    const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 5),
+                SizedBox(
+                  height: 80,
+                  child: Stack(
+                    children: [
+                      InAppWebView(
+                        initialUrlRequest: URLRequest(
+                          url: WebUri(
+                            "${DemoConfig.verifyCodeURL}?telephone=${widget.phoneNumber}",
+                          ),
+                        ),
+                        initialSettings: InAppWebViewSettings(
+                          initialScale: 1,
+                          useWideViewPort: true,
+                          horizontalScrollBarEnabled: false,
+                          verticalScrollBarEnabled: false,
+                          // 禁用所有缩放相关功能
+                          supportZoom: isAndroid ? false : true,
+                          builtInZoomControls: false,
+                          displayZoomControls: false,
+                          javaScriptEnabled: true,
+                          transparentBackground: true,
+                          disableVerticalScroll: true,
+                          // 禁用长按菜单
+                          disableContextMenu: true,
+                          disallowOverScroll: true,
+                          overScrollMode: OverScrollMode.NEVER,
+                        ),
+                        onWebViewCreated: onWebViewCreated,
+                        onLoadStop: (controller, url) {
+                          if (mounted) setState(() => isLoaded = true);
+                        },
+                        onReceivedError: (controller, request, error) {
+                          if (mounted) {
+                            Navigator.pop(context, false);
+                          }
+                        },
+                      ),
+                      if (!isLoaded)
+                        const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),

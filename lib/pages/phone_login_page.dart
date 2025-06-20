@@ -5,7 +5,6 @@ import 'package:chat_uikit_demo/tool/app_server_helper.dart';
 import 'package:chat_uikit_demo/widgets/verify_code_widget.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -50,7 +49,7 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
       fontWeight: FontWeight.w500,
       decorationColor: theme.color.primaryColor5,
     );
-    return Scaffold(
+    Widget content = Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -64,7 +63,7 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 Row(
                   children: [
                     Text(
@@ -89,7 +88,6 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
                     controller: phoneController,
                     keyboardAppearance:
                         theme.color.isDark ? Brightness.dark : Brightness.light,
-                    autofocus: true,
                     style: TextStyle(
                         fontWeight: theme.font.bodyLarge.fontWeight,
                         fontSize: theme.font.bodyLarge.fontSize,
@@ -121,13 +119,12 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
                     controller: codeController,
                     keyboardAppearance:
                         theme.color.isDark ? Brightness.dark : Brightness.light,
-                    autofocus: true,
                     style: TextStyle(
                         fontWeight: theme.font.bodyLarge.fontWeight,
                         fontSize: theme.font.bodyLarge.fontSize,
                         color: theme.color.neutralColor1),
-                    // controller: searchController,
                     scrollPadding: EdgeInsets.zero,
+                    keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       hintText: DemoLocalizations.loginInputSmsHint
                           .localString(context),
@@ -188,50 +185,46 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      WidgetSpan(
-                        child: InkWell(
-                          onTap: () => setState(() {
-                            agreeServiceAgreement = !agreeServiceAgreement;
-                          }),
-                          child: () {
-                            return agreeServiceAgreement
-                                ? Icon(
-                                    Icons.check_box,
-                                    size: 20,
-                                    color: theme.color.primaryColor5,
-                                  )
-                                : Icon(
-                                    Icons.check_box_outline_blank,
-                                    size: 20,
-                                    color: theme.color.primaryColor5,
-                                  );
-                          }(),
-                        ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () => setState(() {
+                        agreeServiceAgreement = !agreeServiceAgreement;
+                      }),
+                      child: () {
+                        return agreeServiceAgreement
+                            ? Icon(
+                                Icons.check_box,
+                                size: 22,
+                                color: theme.color.primaryColor5,
+                              )
+                            : Icon(
+                                Icons.check_box_outline_blank,
+                                size: 22,
+                                color: theme.color.primaryColor5,
+                              );
+                      }(),
+                    ),
+                    Text(DemoLocalizations.loginCheck.localString(context)),
+                    InkWell(
+                      onTap: serviceAgreement,
+                      child: Text(
+                        DemoLocalizations.loginTermsOfService
+                            .localString(context),
+                        style: linkStyle,
                       ),
-                      TextSpan(
-                          text: DemoLocalizations.loginCheck
-                              .localString(context)),
-                      TextSpan(
-                          text: DemoLocalizations.loginTermsOfService
-                              .localString(context),
-                          style: linkStyle,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = serviceAgreement),
-                      TextSpan(
-                          text:
-                              DemoLocalizations.loginAnd.localString(context)),
-                      TextSpan(
-                          text: DemoLocalizations.loginPrivacyPolicy
-                              .localString(context),
-                          style: linkStyle,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = privacyPolicy),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
+                    ),
+                    Text(DemoLocalizations.loginAnd.localString(context)),
+                    InkWell(
+                      onTap: privacyPolicy,
+                      child: Text(
+                        DemoLocalizations.loginPrivacyPolicy
+                            .localString(context),
+                        style: linkStyle,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -239,6 +232,15 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
         ),
       ),
     );
+
+    content = GestureDetector(
+      child: content,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+    );
+
+    return content;
   }
 
   bool checkout() {
@@ -251,7 +253,7 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
 
     if (phoneController.text.isEmpty) {
       EasyLoading.showInfo(
-          DemoLocalizations.loginPleaseInputSms.localString(context));
+          DemoLocalizations.loginPleaseInputPhone.localString(context));
       return false;
     }
 
@@ -266,7 +268,10 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
 
     if (!checkout()) return;
 
-    final result = await showVerifyCode(context, phoneController.text);
+    final result = await showVerifyCode(
+      context,
+      phoneController.text,
+    );
     if (result == null) return;
     if (!mounted) return;
     if (result == true) {
