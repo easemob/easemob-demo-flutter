@@ -1,12 +1,54 @@
-# chat_uikit_demo
+# 环信即时通讯 IM Demo 
 
-本项目是依赖 环信 flutter uikit 和 环信 flutter callkit 实现的完整示例。
-flutter uikit: https://github.com/easemob/chatuikit-flutter
-flutter callkit: https://github.com/easemob/ease-callkit-flutter
+环信即时通讯 IM Demo 提供用户登录、单聊、群组、子区、消息(文字、表情、语音、视频、图片、文件等)发送及管理、会话管理、好友管理、用户属性、用户在线状态（Presence）以及实时音视频通话等功能。
 
-## 项目讲解
+## Demo 体验  
 
-### 项目结构
+你可以进入 [环信官网](https://www.easemob.com/download/demo) 体验即时通讯 IM Demo。
+注意：Demo里登录时获取验证码功能在模拟器上不支持，请使用真机。
+
+## 快速跑通 Demo 源码
+
+### 开发环境要求
+
+- flutter 3.3.0+
+- ios 12+
+- android sdk api 21+
+
+### 跑通步骤
+
+1. [创建应用](https://doc.easemob.com/product/enable_and_configure_IM.html#%E5%88%9B%E5%BB%BA%E5%BA%94%E7%94%A8)。   
+2. [获取应用的 App Key](https://doc.easemob.com/product/enable_and_configure_IM.html#%E8%8E%B7%E5%8F%96%E7%8E%AF%E4%BF%A1%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF-im-%E7%9A%84%E4%BF%A1%E6%81%AF)。
+3. [创建用户](https://doc.easemob.com/product/enable_and_configure_IM.html#%E5%88%9B%E5%BB%BA-im-%E7%94%A8%E6%88%B7)。
+4. [下载即时通讯 IM Demo 项目源码](https://github.com/easemob/easemob-demo-flutter)。
+5. 下载完毕，打开 lib/main.dart
+6. 将你的应用的 App Key 填写到 `appkey` 中。
+7. 编译运行项目。
+8. 使用注册的用户 ID 和密码登录。
+
+
+### App Server
+
+为方便开发者快速体验即时通讯 IM 功能，跑通本工程 Demo 源码默认使用开发者注册的用户 ID 和密码直接登录，不需要依赖部署服务端 App Server。但是在此模式下，手机验证码、用户头像和 EaseCallKit 实时音视频等相关功能不可用，你可以通过部署 App Server 完整体验这些功能。
+
+App Server 为 Demo 提供以下功能：
+
+- 通过手机号获取验证码。
+- 通过手机号和验证码返回环信用户 ID 和环信用户 Token。
+- 上传头像并返回地址。
+- 根据用户的信息生成 [EaseCallKit](https://github.com/easemob/ease-callkit-flutter.git) 登录所需的 Token。
+- 获取音视频通话时环信用户 ID 和 Agora UID 的映射关系。
+
+你通过以下步骤部署 App Server：
+
+1. 部署 App Server。详见 [服务端源码](https://github.com/easemob/easemob-im-app-server/tree/dev-demo)。
+2. 在 lib/main.dart 填写 App Server 的域名 和 rtcAppId。
+
+**服务端中的 App Key 要跟客户端的 App Key 保持一致。**
+
+## Demo 项目结构
+
+### Demo 架构
 
 ```shell
 .
