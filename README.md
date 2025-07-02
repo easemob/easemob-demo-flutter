@@ -102,12 +102,21 @@ App Server 为 Demo 提供以下功能：
     └── user_provider_handler_widget.dart   // 用户数据配置类，用于把用户信息传给uikit和根据 uikit 的请求返回对应用户数据
 ```
 
-## AppServer
+### 核心模块
 
-AppServer 为 Demo 提供
+| 模块               | 描述   | 
+| :------------------- | :----- |
+| 聊天模块    | 展示如何依赖 [ChatUIKit](https://doc.easemob.com/uikit/chatroomuikit/flutter/roomuikit_overview.html) 实现聊天页面，如何发送消息、消息管理、扩展消息类型及如何增加扩展菜单等的逻辑。    | 
+| 会话列表模块 | 展示如何依赖 [ChatUIKit](https://doc.easemob.com/uikit/chatroomuikit/flutter/roomuikit_overview.html) 实现会话列表的逻辑及实现系统消息的具体逻辑。   | 
+| 联系人模块  | 展示如何依赖 [ChatUIKit](https://doc.easemob.com/uikit/chatroomuikit/flutter/roomuikit_overview.html) 实现联系人列表的逻辑。   | 
+| 我的模块  | 账户管理、用户状态管理及APP的一些功能样式设置    | 
+| 开发者模块  | 展示 IM SDK 提供的一些常规的开发者可以设置的功能。   |
 
-1. 通过手机号获取验证码；
-2. 通过验证码和手机号返回环信id和环信token;
-3. 上传头像并返回服务器地址；
-4. 音视频通话时根据环信id，agora channel 返回对应的agora uid;
-5. 音视频通话中根据channel返回参与人的agora uid和环信id;
+## Demo 设计
+
+关于 Demo 的设计，详见 [设计文档](https://www.figma.com/community/file/1327193019424263350/chat-uikit-for-mobile) 。
+
+## Q&A
+
+如有问题请联系环信技术支持或者发邮件到 [issue@easemob.com](mailto:issue@easemob.com)。
+
