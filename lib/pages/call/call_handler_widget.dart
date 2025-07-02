@@ -17,7 +17,8 @@ class CallHandlerWidget extends StatefulWidget {
   State<CallHandlerWidget> createState() => _CallHandlerWidgetState();
 }
 
-class _CallHandlerWidgetState extends State<CallHandlerWidget> with ChatCallKitObserver {
+class _CallHandlerWidgetState extends State<CallHandlerWidget>
+    with ChatCallKitObserver {
   @override
   void initState() {
     super.initState();
@@ -28,7 +29,8 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget> with ChatCallKitO
       Map<String, int> ret = {};
       if (userId != null) {
         try {
-          AgoraInfo info = await AppServerHelper.fetchAgoraInfo(userId, channelName: channel);
+          AgoraInfo info = await AppServerHelper.fetchAgoraInfo(userId,
+              channelName: channel);
           ret[info.agoraToken] = int.parse(info.agoraUid);
         } catch (e) {
           debugPrint('Failed to fetch agora info: $e');
@@ -58,7 +60,13 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget> with ChatCallKitO
   @override
   Widget build(BuildContext context) {
     // 添加call kit相关初始化
-    return ChatCallKit(agoraAppId: rtcAppId, child: widget.child);
+    if (DemoConfig.isValid) {
+      return ChatCallKit(agoraAppId: DemoConfig.rtcAppId!, child: widget.child);
+    } else {
+      return const Center(
+        child: Text('CallKit is not configured. Please set DemoConfig.'),
+      );
+    }
   }
 
   // 呼叫结束
@@ -112,15 +120,17 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget> with ChatCallKitO
       page = SingleCallPage.receive(userIds.first, callId, type: callType);
     }
     [Permission.microphone, Permission.camera].request().then((value) {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) {
-          return page;
-        }),
-      ).then((value) {
-        if (value != null) {
-          debugPrint('call end: $value');
-        }
-      });
+      if (mounted) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) {
+            return page;
+          }),
+        ).then((value) {
+          if (value != null) {
+            debugPrint('call end: $value');
+          }
+        });
+      }
     });
   }
 }

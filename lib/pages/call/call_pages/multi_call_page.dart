@@ -70,7 +70,8 @@ class MultiCallPage extends StatefulWidget {
   State<MultiCallPage> createState() => _MultiCallPageState();
 }
 
-class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver, ChatUIKitProviderObserver {
+class _MultiCallPageState extends State<MultiCallPage>
+    with ChatCallKitObserver, ChatUIKitProviderObserver {
   final PageController _controller = PageController();
   bool mute = false;
   bool cameraOn = true;
@@ -98,13 +99,15 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
       }
       callId = await ChatCallKitManager.startInviteUsers(
         widget.userList!,
-        inviteMessage: DemoLocalizations.multiCallInviteMessage.localString(context),
+        inviteMessage:
+            DemoLocalizations.multiCallInviteMessage.localString(context),
         ext: ext,
       );
     }
 
     currentList?.forEach((element) {
-      ChatUIKitProfile? profile = ChatUIKitProvider.instance.profilesCache[element];
+      ChatUIKitProfile? profile =
+          ChatUIKitProvider.instance.profilesCache[element];
       profile ??= ChatUIKitProfile.contact(id: element);
       list.add(MultiCallItemView(
         profile: profile,
@@ -148,8 +151,10 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
   @override
   void onUserJoined(agoraUid, userId) {
     setState(() {
-      list.removeWhere((element) => element.profile?.id == userId || element.agoraUid == agoraUid);
-      ChatUIKitProfile? profile = ChatUIKitProvider.instance.profilesCache[userId];
+      list.removeWhere((element) =>
+          element.profile?.id == userId || element.agoraUid == agoraUid);
+      ChatUIKitProfile? profile =
+          ChatUIKitProvider.instance.profilesCache[userId];
       list.add(MultiCallItemView(
         agoraUid: agoraUid,
         profile: profile,
@@ -162,7 +167,8 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
   @override
   void onUserLeaved(agoraUid, userId) {
     setState(() {
-      list.removeWhere((element) => element.profile?.id == userId || element.agoraUid == agoraUid);
+      list.removeWhere((element) =>
+          element.profile?.id == userId || element.agoraUid == agoraUid);
     });
   }
 
@@ -276,7 +282,8 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
 
   // 被叫接听前ui
   Widget beforeCallingWidget() {
-    ChatUIKitProfile? profile = ChatUIKitProvider.instance.profilesCache[widget.caller];
+    ChatUIKitProfile? profile =
+        ChatUIKitProvider.instance.profilesCache[widget.caller];
     ChatUIKitAvatar avatar = ChatUIKitAvatar(
       avatarUrl: profile?.avatarUrl,
       size: 100,
@@ -289,7 +296,10 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
         Text(
           profile?.showName ?? widget.caller ?? "",
           style: widget.nicknameTextStyle ??
-              const TextStyle(fontWeight: FontWeight.w600, color: Colors.white, fontSize: 24),
+              const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                  fontSize: 24),
         ),
         const SizedBox(height: 10),
         Text(
@@ -359,7 +369,8 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
           await ChatCallKitManager.cameraOff();
         }
         String? currentUserId = ChatCallKitClient.getInstance.currentUserId;
-        int index = list.indexWhere((element) => currentUserId != null && element.profile?.id == currentUserId);
+        int index = list.indexWhere((element) =>
+            currentUserId != null && element.profile?.id == currentUserId);
         if (index != -1) {
           MultiCallItemView view = list[index];
           view = view.copyWith(muteVideo: !cameraOn);
@@ -369,7 +380,8 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
       },
       selectImage: Image.asset("assets/call/video_on.png"),
       unselectImage: Image.asset("assets/call/video_off.png"),
-      backgroundColor: cameraOn ? const Color.fromRGBO(255, 255, 255, 0.2) : Colors.white,
+      backgroundColor:
+          cameraOn ? const Color.fromRGBO(255, 255, 255, 0.2) : Colors.white,
     );
   }
 
@@ -410,20 +422,24 @@ class _MultiCallPageState extends State<MultiCallPage> with ChatCallKitObserver,
           .then((value) {
         if (value is List<ChatUIKitProfile> && value.isNotEmpty) {
           List<String> userIds = value.map((e) => e.id).toList();
-          ChatCallKitManager.startInviteUsers(
-            userIds,
-            inviteMessage: DemoLocalizations.multiCallInviteMessage.localString(context),
-            ext: {
-              'groupId': widget.groupId!,
-            },
-          ).then((value) {
-            for (var element in userIds) {
-              ChatUIKitProfile? profile = ChatUIKitProvider.instance.profilesCache[element];
-              profile ??= ChatUIKitProfile.contact(id: element);
-              list.add(MultiCallItemView(profile: profile));
-            }
-            setState(() {});
-          });
+          if (mounted) {
+            ChatCallKitManager.startInviteUsers(
+              userIds,
+              inviteMessage:
+                  DemoLocalizations.multiCallInviteMessage.localString(context),
+              ext: {
+                'groupId': widget.groupId!,
+              },
+            ).then((value) {
+              for (var element in userIds) {
+                ChatUIKitProfile? profile =
+                    ChatUIKitProvider.instance.profilesCache[element];
+                profile ??= ChatUIKitProfile.contact(id: element);
+                list.add(MultiCallItemView(profile: profile));
+              }
+              setState(() {});
+            });
+          }
         }
       });
     });

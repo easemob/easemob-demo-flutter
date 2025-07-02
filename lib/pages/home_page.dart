@@ -1,11 +1,14 @@
+import 'package:chat_uikit_demo/custom/demo_helper.dart';
+import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/pages/call/call_handler_widget.dart';
 import 'package:chat_uikit_demo/pages/contact/contact_page.dart';
 import 'package:chat_uikit_demo/pages/conversation/conversation_page.dart';
 import 'package:chat_uikit_demo/pages/me/my_page.dart';
-import 'package:chat_uikit_demo/widgets/toast_handler_widget.dart';
-import 'package:chat_uikit_demo/widgets/token_status_handler_widget.dart';
-import 'package:chat_uikit_demo/widgets/user_provider_handler_widget.dart';
+import 'package:chat_uikit_demo/tool/settings_data_store.dart';
+import 'package:chat_uikit_demo/tool/toast_handler_widget.dart';
+import 'package:chat_uikit_demo/tool/token_status_handler_widget.dart';
+import 'package:chat_uikit_demo/tool/user_provider_handler_widget.dart';
 
 import 'package:em_chat_uikit/chat_uikit.dart';
 
@@ -19,7 +22,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin, ChatObserver, ContactObserver, ChatUIKitEventsObservers, ChatSDKEventsObserver {
+    with
+        AutomaticKeepAliveClientMixin,
+        ChatObserver,
+        ContactObserver,
+        ChatUIKitEventsObservers,
+        ChatSDKEventsObserver,
+        ChatUIKitThemeMixin {
   int _currentIndex = 0;
 
   ValueNotifier<int> unreadMessageCount = ValueNotifier(0);
@@ -31,6 +40,15 @@ class _HomePageState extends State<HomePage>
     ChatUIKit.instance.addObserver(this);
     // 更新未读消息
     onConversationsUpdate();
+    updateSettings();
+  }
+
+  void updateSettings() async {
+    await SettingsDataStore().init();
+    // 获取一遍blockList。目的是为了在点开详情时能准确的显示用户是否在黑名单中。
+    if (SettingsDataStore().enableBlockList) {
+      DemoHelper.fetchBlockList();
+    }
   }
 
   @override
@@ -40,13 +58,12 @@ class _HomePageState extends State<HomePage>
   }
 
   List<Widget> _pages(BuildContext context) {
-    return const [ConversationPage(), ContactPage(), MyPage()];
+    return [const ConversationPage(), const ContactPage(), const MyPage()];
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget themeBuilder(BuildContext context, ChatUIKitTheme theme) {
     super.build(context);
-    final theme = ChatUIKitTheme.of(context);
 
     Widget content = Scaffold(
       body: IndexedStack(
@@ -63,9 +80,15 @@ class _HomePageState extends State<HomePage>
           fontSize: theme.font.labelExtraSmall.fontSize,
           fontWeight: theme.font.labelExtraSmall.fontWeight,
         ),
-        backgroundColor: theme.color.isDark ? theme.color.neutralColor1 : theme.color.neutralColor98,
-        selectedItemColor: theme.color.isDark ? theme.color.primaryColor6 : theme.color.primaryColor5,
-        unselectedItemColor: theme.color.isDark ? theme.color.neutralColor3 : theme.color.neutralColor5,
+        backgroundColor: theme.color.isDark
+            ? theme.color.neutralColor1
+            : theme.color.neutralColor98,
+        selectedItemColor: theme.color.isDark
+            ? theme.color.primaryColor6
+            : theme.color.primaryColor5,
+        unselectedItemColor: theme.color.isDark
+            ? theme.color.neutralColor3
+            : theme.color.neutralColor5,
         onTap: (value) {
           setState(() {
             _currentIndex = value;
@@ -82,11 +105,15 @@ class _HomePageState extends State<HomePage>
                 return ChatUIKitBadge(
                   value,
                   textColor: theme.color.neutralColor98,
-                  backgroundColor: theme.color.isDark ? theme.color.errorColor6 : theme.color.errorColor5,
+                  backgroundColor: theme.color.isDark
+                      ? theme.color.errorColor6
+                      : theme.color.errorColor5,
                 );
               },
             ),
-            borderColor: theme.color.isDark ? theme.color.neutralColor1 : theme.color.neutralColor98,
+            borderColor: theme.color.isDark
+                ? theme.color.neutralColor1
+                : theme.color.neutralColor98,
             isSelect: _currentIndex == 0,
             imageSelectColor: theme.color.primaryColor5,
             imageUnSelectColor: theme.color.neutralColor5,
@@ -100,12 +127,16 @@ class _HomePageState extends State<HomePage>
                 return ChatUIKitBadge(
                   value,
                   textColor: theme.color.neutralColor98,
-                  backgroundColor: theme.color.isDark ? theme.color.errorColor6 : theme.color.errorColor5,
+                  backgroundColor: theme.color.isDark
+                      ? theme.color.errorColor6
+                      : theme.color.errorColor5,
                 );
               },
             ),
             isSelect: _currentIndex == 1,
-            borderColor: theme.color.isDark ? theme.color.neutralColor1 : theme.color.neutralColor98,
+            borderColor: theme.color.isDark
+                ? theme.color.neutralColor1
+                : theme.color.neutralColor98,
             imageSelectColor: theme.color.primaryColor5,
             imageUnSelectColor: theme.color.neutralColor5,
           ),
@@ -122,7 +153,10 @@ class _HomePageState extends State<HomePage>
 
     content = ToastHandlerWidget(child: content);
     // callkit 相关实现
-    content = CallHandlerWidget(child: content);
+    if (DemoConfig.isValid) {
+      content = CallHandlerWidget(child: content);
+    }
+
     // 用户属性相关实现
     content = UserProviderHandlerWidget(child: content);
     // token状态相关实现
@@ -143,7 +177,8 @@ class _HomePageState extends State<HomePage>
   }
 
   @override
-  void onMessagesRecalled(List<Message> recalled, List<Message> replaces) {
+  void onMessagesRecalledInfo(
+      List<RecallMessageInfo> recalled, List<Message> replaces) {
     ChatUIKit.instance.getUnreadMessageCount().then((value) {
       unreadMessageCount.value = value;
     });

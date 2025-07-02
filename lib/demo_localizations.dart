@@ -8,6 +8,10 @@ mixin DemoLocalizations {
   static String noMicrophonePermission = 'noRecordPermission';
   static String noCameraPermission = 'noCameraPermission';
   static String voiceTypeNotSupported = 'voiceTypeNotSupported';
+  static String recordDurationTooShort = 'recordDurationTooShort';
+  static String sendSmsSuccess = 'sendSmsSuccess';
+  static String sendSmsFailed = 'sendSmsFailed';
+  static String sendSmsWait = 'sendSmsWait';
 
   // download file
   static String openFile = 'openFile';
@@ -25,6 +29,9 @@ mixin DemoLocalizations {
   static String loginInputPhoneHint = 'loginInputPhoneHint';
   static String loginInputSmsHint = 'loginInputSmsHint';
   static String loginSendSms = 'loginSendSms';
+  static String loginUserIdHint = 'loginUserIdHint';
+  static String loginPasswordHint = 'loginPasswordHint';
+  static String loginPleaseInput = 'loginPleaseInput';
   static String loginSendSmsSuccess = 'loginSendSmsSuccess';
   static String loginSendSmsFailed = 'loginSendSmsFailed';
   static String loginPleaseInputPhone = 'loginPleaseInputPhone';
@@ -35,7 +42,8 @@ mixin DemoLocalizations {
   static String loginTermsOfService = 'loginTermsOfService';
   static String loginAnd = 'loginAnd';
   static String loginPrivacyPolicy = 'loginPrivacyPolicy';
-  static String loginPleaseAgreeTermsOfServicePrivacyPolicy = 'loginPleaseAgreeTermsOfServicePrivacyPolicy';
+  static String loginPleaseAgreeTermsOfServicePrivacyPolicy =
+      'loginPleaseAgreeTermsOfServicePrivacyPolicy';
 
   // home
   static String chat = 'chat';
@@ -56,13 +64,26 @@ mixin DemoLocalizations {
   static String contactRemarkCancel = 'contactRemarkCancel';
   static String contactRemarkFailed = 'contactRemarkFailed';
 
+  // block contact
+  static String blockContact = 'blockContact';
+  static String blockContent = 'blockContent';
+  static String blockList = 'blockList';
+  static String blocked = 'block';
+  static String blockFailed = 'blockFailed';
+  static String blockConfirm = 'blockConfirm';
+  static String blockCancel = 'blockCancel';
+  static String unblocked = 'unblocked';
+  static String unblockFailed = 'unblockedFailed';
+
   static String me = 'me';
 
   // me
   static String settings = 'settings';
+  static String onlineStatus = 'onlineStatus';
   static String personalInfo = 'personalInfo';
   static String general = 'general';
   static String notification = 'notification';
+  static String secret = 'secret';
   static String about = 'about';
   static String logout = 'logout';
 
@@ -83,8 +104,10 @@ mixin DemoLocalizations {
   static String languageSettings = 'languageSettings';
   static String translateTargetLanguage = 'translateSettings';
   // general translate target language
-  static String translateTargetLanguageChinese = 'translateTargetLanguageChinese';
-  static String translateTargetLanguageEnglish = 'translateTargetLanguageEnglish';
+  static String translateTargetLanguageChinese =
+      'translateTargetLanguageChinese';
+  static String translateTargetLanguageEnglish =
+      'translateTargetLanguageEnglish';
 
   // general switch theme
   static String switchThemeClassic = 'switchThemeClassic';
@@ -99,11 +122,18 @@ mixin DemoLocalizations {
 
   // general feature settings
   static String featureSettingsTranslation = 'featureSettingsTranslation';
-  static String featureSettingsTranslationDesc = 'featureSettingsTranslationDesc';
+  static String featureSettingsTranslationDesc =
+      'featureSettingsTranslationDesc';
   static String featureSettingsThread = 'featureSettingsThread';
   static String featureSettingsThreadDesc = 'featureSettingsThreadDesc';
   static String featureSettingsReaction = 'featureSettingsReaction';
   static String featureSettingsReactionDesc = 'featureSettingsReactionDesc';
+  static String featureSettingsTypingIndicator =
+      'featureSettingsTypingIndicator';
+  static String featureSettingsTypingIndicatorDesc =
+      'featureSettingsTypingIndicatorDesc';
+  static String featureSettingsBlock = 'featureSettingsBlock';
+  static String featureSettingsBlockDesc = 'featureSettingsBlockDesc';
 
   // notification
   static String offlineMessagePush = 'offlineMessagePush';
@@ -131,6 +161,19 @@ mixin DemoLocalizations {
   static String singleVideoCallInviteMessage = 'singleVideoCallInviteMessage';
   static String singleVoiceCallInviteMessage = 'singleVoiceCallInviteMessage';
 
+  // custom
+
+  static String saveImage = 'saveImage';
+  static String saveImageSuccess = 'saveImageSuccess';
+  static String saveImageFailed = 'saveImageFailed';
+
+  static String saveVideo = 'saveVideo';
+  static String saveVideoSuccess = 'saveVideoSuccess';
+  static String saveVideoFailed = 'saveVideoFailed';
+  static String antiFraud = 'antiFraud';
+  static String clickReport = 'clickReport';
+  static String reportSuccess = 'reportSuccess';
+
   static Map<String, String> zh = {
     confirm: '确认',
 
@@ -141,6 +184,10 @@ mixin DemoLocalizations {
     noMicrophonePermission: '无麦克风权限',
     noCameraPermission: '无相机权限',
     voiceTypeNotSupported: '语音格式不支持',
+    recordDurationTooShort: '录音时长过短',
+    sendSmsSuccess: '发送成功',
+    sendSmsFailed: '发送失败',
+    sendSmsWait: '请稍后再试',
 
     // download file
     openFile: '打开文件',
@@ -163,6 +210,9 @@ mixin DemoLocalizations {
     loginPleaseInputPhone: '请输入手机号',
     loginPleaseInputSms: '请输入验证码',
     loginResendSms: '重新发送',
+    loginUserIdHint: '请输入用户ID',
+    loginPasswordHint: '请输入密码',
+    loginPleaseInput: '请输入用户名和密码',
     loggingIn: '登录中...',
     loginCheck: '请选择同意',
     loginTermsOfService: '《环信服务条款》',
@@ -189,13 +239,26 @@ mixin DemoLocalizations {
     contactRemarkCancel: '取消',
     contactRemarkFailed: '更新失败',
 
+    // block contact
+    blockContact: '拉黑联系人',
+    blockContent: '确认拉黑联系人',
+    blockList: '黑名单',
+    blocked: '已拉黑',
+    blockFailed: '拉黑失败',
+    blockConfirm: '确认',
+    blockCancel: '取消',
+    unblocked: '已解除拉黑',
+    unblockFailed: '解除拉黑失败',
+
     me: '我',
 
     // me
     settings: '设置',
+    onlineStatus: '在线状态',
     personalInfo: '个人信息',
     general: '通用',
     notification: '消息通知',
+    secret: '隐私',
     about: '关于',
     logout: '退出登录',
 
@@ -234,6 +297,10 @@ mixin DemoLocalizations {
     featureSettingsThreadDesc: '长按消息创建话题',
     featureSettingsReaction: '表情回复',
     featureSettingsReactionDesc: '长按消息添加表情回应',
+    featureSettingsTypingIndicator: '输入状态',
+    featureSettingsTypingIndicatorDesc: '显示正在输入状态',
+    featureSettingsBlock: '通讯录黑名单',
+    featureSettingsBlockDesc: '将通讯录联系人添加进黑名单',
 
     // general translate target language
     translateTargetLanguageChinese: '简体中文',
@@ -264,6 +331,18 @@ mixin DemoLocalizations {
     multiCallInviteMessage: '邀请你加入多人通话',
     singleVideoCallInviteMessage: '邀请你加入视频通话',
     singleVoiceCallInviteMessage: '邀请你加入语音通话',
+
+    saveImage: '保存图片',
+    saveImageSuccess: '保存图片成功',
+    saveImageFailed: '保存图片失败',
+
+    saveVideo: '保存视频',
+    saveVideoSuccess: '保存视频成功',
+    saveVideoFailed: '保存视频失败',
+    antiFraud:
+        '请勿轻信任何关于汇款、中奖等信息，务必提高警惕，谨慎对待来自陌生号码的电话。如遇可疑情况，请及时向相关部门反馈并采取必要的防范措施。',
+    clickReport: '点击举报',
+    reportSuccess: '举报成功',
   };
   static Map<String, String> en = {
     confirm: 'Confirm',
@@ -275,6 +354,10 @@ mixin DemoLocalizations {
     noMicrophonePermission: 'No Microphone Permission',
     noCameraPermission: 'No Camera Permission',
     voiceTypeNotSupported: 'Voice Type Not Supported',
+    recordDurationTooShort: 'Record Duration Too Short',
+    sendSmsSuccess: 'Send Success',
+    sendSmsFailed: 'Send Failed',
+    sendSmsWait: 'Please try again later',
 
     // download file
     openFile: 'Open File',
@@ -297,12 +380,16 @@ mixin DemoLocalizations {
     loginPleaseInputPhone: 'Please enter the phone number',
     loginPleaseInputSms: 'Please enter the verification code',
     loginResendSms: 'Resend',
+    loginUserIdHint: 'Please enter User ID',
+    loginPasswordHint: 'Please enter Password',
+    loginPleaseInput: 'Please enter User ID and Password',
     loggingIn: 'Logging in...',
     loginCheck: 'Agree to ',
     loginTermsOfService: 'Easemob Terms',
     loginAnd: ' & ',
     loginPrivacyPolicy: 'Privacy',
-    loginPleaseAgreeTermsOfServicePrivacyPolicy: 'Please agree to the Terms of Service and Privacy Policy',
+    loginPleaseAgreeTermsOfServicePrivacyPolicy:
+        'Please agree to the Terms of Service and Privacy Policy',
 
     // home
     chat: 'Chats',
@@ -323,13 +410,26 @@ mixin DemoLocalizations {
     contactRemarkCancel: 'Cancel',
     contactRemarkFailed: 'Update Failed',
 
+    // block contact
+    blockContact: 'Block Contact',
+    blockContent: 'Confirm blocking user ',
+    blockList: 'Block List',
+    blocked: 'Blocked',
+    blockFailed: 'Block Failed',
+    blockConfirm: 'Confirm',
+    blockCancel: 'Cancel',
+    unblocked: 'Unblocked',
+    unblockFailed: 'Unblock Failed',
+
     me: 'Me',
 
     // me
     settings: 'Settings',
+    onlineStatus: 'Online Status',
     personalInfo: 'Profile',
     general: 'General',
     notification: 'Notifications',
+    secret: 'Privacy',
     about: 'About',
     logout: 'Log Out',
 
@@ -363,11 +463,18 @@ mixin DemoLocalizations {
 
     // general feature settings
     featureSettingsTranslation: 'Translation',
-    featureSettingsTranslationDesc: 'Long press to translate message to specified language',
+    featureSettingsTranslationDesc:
+        'Long press to translate message to specified language',
     featureSettingsThread: 'Thread',
-    featureSettingsThreadDesc: 'Create a thread from a message within the group',
+    featureSettingsThreadDesc:
+        'Create a thread from a message within the group',
     featureSettingsReaction: 'Emoji Reaction',
     featureSettingsReactionDesc: 'Long press a message to add emoji reactions',
+    featureSettingsTypingIndicator: 'Typing Indicator',
+    featureSettingsTypingIndicatorDesc:
+        'Show typing indicator when someone is typing',
+    featureSettingsBlock: 'Block list',
+    featureSettingsBlockDesc: 'Add contacts to block list',
 
     // general translate target language
     translateTargetLanguageChinese: 'Simplified Chinese',
@@ -398,5 +505,17 @@ mixin DemoLocalizations {
     multiCallInviteMessage: 'Invite you to join a multi-call',
     singleVideoCallInviteMessage: 'Invite you to join a video call',
     singleVoiceCallInviteMessage: 'Invite you to join a voice call',
+
+    saveImage: 'Save Image',
+    saveImageSuccess: 'Save Image Success',
+    saveImageFailed: 'Save Image Failed',
+
+    saveVideo: 'Save Video',
+    saveVideoSuccess: 'Save Video Success',
+    saveVideoFailed: 'Save Video Failed',
+    antiFraud:
+        "Don't trust remittance or prize info. Stay alert for calls from unknown numbers and report anything suspicious.",
+    clickReport: 'Report',
+    reportSuccess: 'Report Success',
   };
 }

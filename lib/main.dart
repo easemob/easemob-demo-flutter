@@ -1,14 +1,18 @@
 import 'package:chat_uikit_demo/demo_config.dart';
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/pages/home_page.dart';
-import 'package:chat_uikit_demo/pages/login_page.dart';
+import 'package:chat_uikit_demo/pages/phone_login_page.dart';
 import 'package:chat_uikit_demo/notifications/app_settings_notification.dart';
 import 'package:chat_uikit_demo/pages/me/about_page.dart';
 import 'package:chat_uikit_demo/pages/me/personal/personal_info_page.dart';
+import 'package:chat_uikit_demo/pages/me/privacy/block_list_page.dart';
+import 'package:chat_uikit_demo/pages/me/privacy/privacy_page.dart';
 import 'package:chat_uikit_demo/pages/me/settings/general_page.dart';
 import 'package:chat_uikit_demo/pages/me/settings/language_page.dart';
 import 'package:chat_uikit_demo/pages/me/settings/translate_page.dart';
 import 'package:chat_uikit_demo/custom/chat_route_filter.dart';
+import 'package:chat_uikit_demo/pages/userid_login_page.dart';
+import 'package:chat_uikit_demo/tool/online_status_helper.dart';
 import 'package:chat_uikit_demo/tool/settings_data_store.dart';
 import 'package:chat_uikit_demo/pages/welcome_page.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
@@ -20,19 +24,27 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'pages/me/settings/advanced_page.dart';
 
-const bool appDebug = false;
+String appKey = 'easemob#easeim';
+String rtcAppId = '';
+String serverUrl = '';
 
 void main() async {
+  DemoConfig.setConfig(
+    appKey: appKey,
+    rtcAppId: rtcAppId,
+    serverUrl: serverUrl,
+  );
+  assert(DemoConfig.appKey != null,
+      'DemoConfig.appKey must be set, call DemoConfig.setConfig(appKey: "your_app_key") before runApp');
   return ChatUIKit.instance
       .init(
-    options: Options(
-      appKey: appKey,
-      deleteMessagesAsExitGroup: false,
-    ),
+    options: Options.withAppKey(DemoConfig.appKey!),
   )
       .then((value) {
     SettingsDataStore().init();
-    return SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => runApp(const MyApp()));
+    OnlineStatusHelper();
+    return SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+        .then((value) => runApp(const MyApp()));
   });
 }
 
@@ -49,6 +61,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     // 添加 demo 国际化内容
     _localization.defaultLocale = [
       ChatLocal(
@@ -60,8 +73,14 @@ class _MyAppState extends State<MyApp> {
         Map.from(ChatUIKitLocal.en)..addAll(DemoLocalizations.en),
       )
     ];
+
     // 添加语言后需要进行resetLocales操作
     _localization.resetLocales();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -87,25 +106,23 @@ class _MyAppState extends State<MyApp> {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
         ),
-        builder: EasyLoading.init(
-          builder: (context, child) {
-            return ChatUIKitTheme(
-              color: AppSettingsNotification.isLight ? ChatUIKitColor.light() : ChatUIKitColor.dark(),
-              child: child!,
-            );
-          },
-        ),
+        builder: EasyLoading.init(),
         home: const WelcomePage(),
         onGenerateRoute: (settings) {
           // 设置路由拦截
-          RouteSettings newSettings = ChatRouteFilter.chatRouteSettings(settings);
+          RouteSettings newSettings =
+              ChatRouteFilter.chatRouteSettings(settings);
           return ChatUIKitRoute().generateRoute(newSettings) ??
               MaterialPageRoute(
                 builder: (context) {
                   if (settings.name == '/home') {
                     return const HomePage();
                   } else if (settings.name == '/login') {
-                    return const LoginPage();
+                    if (DemoConfig.isValid) {
+                      return const PhoneLoginPage();
+                    } else {
+                      return const UserIdLoginPage();
+                    }
                   } else if (settings.name == '/personal_info') {
                     return const PersonalInfoPage();
                   } else if (settings.name == '/general_page') {
@@ -118,6 +135,10 @@ class _MyAppState extends State<MyApp> {
                     return const AdvancedPage();
                   } else if (settings.name == '/about_page') {
                     return const AboutPage();
+                  } else if (settings.name == '/privacy_page') {
+                    return const PrivacyPage();
+                  } else if (settings.name == '/block_list_page') {
+                    return const BlockListPage();
                   } else {
                     return const SizedBox();
                   }

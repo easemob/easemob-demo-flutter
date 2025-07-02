@@ -8,10 +8,12 @@ class TokenStatusHandlerWidget extends StatefulWidget {
   final Widget child;
 
   @override
-  State<TokenStatusHandlerWidget> createState() => _TokenStatusHandlerWidgetState();
+  State<TokenStatusHandlerWidget> createState() =>
+      _TokenStatusHandlerWidgetState();
 }
 
-class _TokenStatusHandlerWidgetState extends State<TokenStatusHandlerWidget> with ConnectObserver {
+class _TokenStatusHandlerWidgetState extends State<TokenStatusHandlerWidget>
+    with ConnectObserver {
   @override
   void initState() {
     super.initState();
@@ -40,21 +42,23 @@ class _TokenStatusHandlerWidgetState extends State<TokenStatusHandlerWidget> wit
   }
 
   @override
-  void onUserDidLoginFromOtherDevice(String deviceName) {
-    debugPrint('onUserDidLoginFromOtherDevice: $deviceName');
+  void onUserDidLoginFromOtherDevice(info) {
+    debugPrint('onUserDidLoginFromOtherDevice: $info');
     showDialogInfo(title: 'Login From Other Device');
   }
 
   @override
   void onUserDidRemoveFromServer() {
     debugPrint('onUserDidRemoveFromServer');
-    showDialogInfo(title: 'User Removed', content: 'Please contact the administrator');
+    showDialogInfo(
+        title: 'User Removed', content: 'Please contact the administrator');
   }
 
   @override
   void onUserDidForbidByServer() {
     debugPrint('onUserDidForbidByServer');
-    showDialogInfo(title: 'User Forbidden', content: 'Please contact the administrator');
+    showDialogInfo(
+        title: 'User Forbidden', content: 'Please contact the administrator');
   }
 
   @override
@@ -78,7 +82,8 @@ class _TokenStatusHandlerWidgetState extends State<TokenStatusHandlerWidget> wit
   @override
   void onUserAuthenticationFailed() {
     debugPrint('onUserAuthenticationFailed');
-    showDialogInfo(title: 'Authentication Failed', content: 'Please login again');
+    showDialogInfo(
+        title: 'Authentication Failed', content: 'Please login again');
   }
 
   @override
@@ -94,19 +99,25 @@ class _TokenStatusHandlerWidgetState extends State<TokenStatusHandlerWidget> wit
   void showDialogInfo({
     required String title,
     String? content,
-    List<ChatUIKitDialogItem> items = const [],
+    List<ChatUIKitDialogAction> items = const [],
   }) {
-    showChatUIKitDialog(context: context, title: title, content: content, items: [
-      ChatUIKitDialogItem.confirm(
-        label: DemoLocalizations.logoutConfirm.localString(context),
-        onTap: () async {
-          Navigator.of(context).pop();
-          ChatUIKit.instance.logout().then((value) {}).whenComplete(() {
-            Navigator.of(context).popAndPushNamed('/login');
-          });
-        },
-      ),
-    ]);
+    showChatUIKitDialog(
+        context: context,
+        title: title,
+        content: content,
+        actionItems: [
+          ChatUIKitDialogAction.confirm(
+            label: DemoLocalizations.logoutConfirm.localString(context),
+            onTap: () async {
+              Navigator.of(context).pop();
+              ChatUIKit.instance.logout().then((value) {}).whenComplete(() {
+                if (mounted) {
+                  Navigator.of(context).popAndPushNamed('/login');
+                }
+              });
+            },
+          ),
+        ]);
   }
 
   @override

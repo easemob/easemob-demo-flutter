@@ -1,5 +1,7 @@
 import 'package:chat_uikit_demo/demo_localizations.dart';
+import 'package:chat_uikit_demo/tool/online_status_helper.dart';
 import 'package:chat_uikit_demo/widgets/list_item.dart';
+import 'package:chat_uikit_demo/widgets/online_icon_status_widget.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/material.dart';
@@ -13,7 +15,8 @@ class MyPage extends StatefulWidget {
   State<MyPage> createState() => _MyPageState();
 }
 
-class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
+class _MyPageState extends State<MyPage>
+    with ChatUIKitProviderObserver, ChatUIKitThemeMixin {
   ChatUIKitProfile? _userProfile;
   bool isLight = true;
   @override
@@ -39,14 +42,17 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final theme = ChatUIKitTheme.of(context);
+  Widget themeBuilder(BuildContext context, ChatUIKitTheme theme) {
     Widget content = Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: theme.color.isDark ? theme.color.neutralColor1 : theme.color.neutralColor98,
+      backgroundColor: theme.color.isDark
+          ? theme.color.neutralColor1
+          : theme.color.neutralColor98,
       appBar: ChatUIKitAppBar(
         showBackButton: false,
-        backgroundColor: theme.color.isDark ? theme.color.neutralColor1 : theme.color.neutralColor98,
+        backgroundColor: theme.color.isDark
+            ? theme.color.neutralColor1
+            : theme.color.neutralColor98,
       ),
       body: SafeArea(
         top: false,
@@ -59,10 +65,17 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
   }
 
   Widget _buildContent() {
-    final theme = ChatUIKitTheme.of(context);
-    Widget avatar = ChatUIKitAvatar.current(
-      avatarUrl: _userProfile?.avatarUrl,
-      size: 100,
+    Widget avatar = ValueListenableBuilder(
+      valueListenable: OnlineStatusHelper().onlineStatus,
+      builder: (context, value, child) {
+        return OnlineIconStatusWidget(
+          onlineStatus: value,
+          child: ChatUIKitAvatar.current(
+            avatarUrl: _userProfile?.avatarUrl,
+            size: 100,
+          ),
+        );
+      },
     );
 
     Widget name = Text(
@@ -73,7 +86,9 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
       style: TextStyle(
         fontSize: theme.font.headlineLarge.fontSize,
         fontWeight: theme.font.headlineLarge.fontWeight,
-        color: theme.color.isDark ? theme.color.neutralColor100 : theme.color.neutralColor1,
+        color: theme.color.isDark
+            ? theme.color.neutralColor100
+            : theme.color.neutralColor1,
       ),
     );
 
@@ -85,7 +100,9 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
       style: TextStyle(
         fontSize: theme.font.bodySmall.fontSize,
         fontWeight: theme.font.bodySmall.fontWeight,
-        color: theme.color.isDark ? theme.color.neutralColor5 : theme.color.neutralColor7,
+        color: theme.color.isDark
+            ? theme.color.neutralColor5
+            : theme.color.neutralColor7,
       ),
     );
 
@@ -96,7 +113,8 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
         const SizedBox(width: 2),
         InkWell(
           onTap: () {
-            Clipboard.setData(ClipboardData(text: ChatUIKit.instance.currentUserId ?? ''));
+            Clipboard.setData(
+                ClipboardData(text: ChatUIKit.instance.currentUserId ?? ''));
             ChatUIKit.instance.sendChatUIKitEvent(
               ChatUIKitEvent.userIdCopied,
             );
@@ -104,16 +122,23 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
           child: Icon(
             Icons.file_copy_sharp,
             size: 16,
-            color: theme.color.isDark ? theme.color.neutralColor5 : theme.color.neutralColor7,
+            color: theme.color.isDark
+                ? theme.color.neutralColor5
+                : theme.color.neutralColor7,
           ),
         ),
       ],
     );
 
     Widget content = Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 20),
-        avatar,
+        SizedBox(
+          width: 100,
+          height: 100,
+          child: avatar,
+        ),
         const SizedBox(height: 12),
         name,
         const SizedBox(height: 4),
@@ -127,7 +152,14 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
         const SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.only(left: 16, right: 16),
-          child: Text(DemoLocalizations.settings.localString(context), textScaler: TextScaler.noScaling),
+          child: Text(DemoLocalizations.settings.localString(context),
+              textScaler: TextScaler.noScaling),
+        ),
+        ListItem(
+          imageWidget: Image.asset('assets/images/online.png'),
+          title: DemoLocalizations.onlineStatus.localString(context),
+          enableArrow: true,
+          onTap: onlineStatus,
         ),
         ListItem(
           imageWidget: Image.asset('assets/images/personal.png'),
@@ -145,6 +177,12 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
           imageWidget: Image.asset('assets/images/notifications.png'),
           title: DemoLocalizations.notification.localString(context),
           onTap: nonsupport,
+        ),
+        ListItem(
+          imageWidget: Image.asset('assets/images/secret.png'),
+          title: DemoLocalizations.secret.localString(context),
+          enableArrow: true,
+          onTap: secret,
         ),
         ListItem(
           imageWidget: Image.asset('assets/images/info.png'),
@@ -165,7 +203,9 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
               style: TextStyle(
                 fontWeight: theme.font.titleMedium.fontWeight,
                 fontSize: theme.font.titleMedium.fontSize,
-                color: theme.color.isDark ? theme.color.primaryColor6 : theme.color.primaryColor5,
+                color: theme.color.isDark
+                    ? theme.color.primaryColor6
+                    : theme.color.primaryColor5,
               ),
             ),
           ),
@@ -175,6 +215,77 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
 
     return content;
   }
+
+  void onlineStatus() {
+    showChatUIKitBottomSheet(
+      context: context,
+      items: [
+        ChatUIKitEventAction.normal(
+          label: '在线',
+          onTap: () async {
+            Navigator.of(context).pop();
+            OnlineStatusHelper().changeOnlineStatus(PresenceStatus.online);
+          },
+        ),
+        ChatUIKitEventAction.normal(
+          label: '离开',
+          onTap: () async {
+            Navigator.of(context).pop();
+            OnlineStatusHelper().changeOnlineStatus(PresenceStatus.away);
+          },
+        ),
+        ChatUIKitEventAction.normal(
+          label: '忙碌',
+          onTap: () async {
+            Navigator.of(context).pop();
+            OnlineStatusHelper().changeOnlineStatus(PresenceStatus.busy);
+          },
+        ),
+        ChatUIKitEventAction.normal(
+          label: '请勿打扰',
+          onTap: () async {
+            Navigator.of(context).pop();
+            OnlineStatusHelper().changeOnlineStatus(PresenceStatus.notDisturb);
+          },
+        ),
+        ChatUIKitEventAction.normal(
+          label: '自定义',
+          onTap: () async {
+            Navigator.of(context).pop();
+            showChatUIKitDialog(
+              context: context,
+              title: '自定义在线状态',
+              inputItems: [
+                ChatUIKitDialogInputContentItem(
+                  hintText: '',
+                  maxLength: 32,
+                )
+              ],
+              actionItems: [
+                ChatUIKitDialogAction.cancel(
+                  label: '取消',
+                  onTap: () async {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                ChatUIKitDialogAction.inputsConfirm(
+                  label: '确认',
+                  onInputsTap: (inputs) async {
+                    OnlineStatusHelper().changeOnlineStatus(
+                        PresenceStatus.custom,
+                        custom: inputs[0]);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  void changeOnlineState() {}
 
   void pushToPersonalInfoPage() {
     Navigator.of(context).pushNamed('/personal_info').then(
@@ -200,12 +311,20 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
     );
   }
 
+  void secret() {
+    Navigator.of(context).pushNamed('/privacy_page').then(
+      (value) {
+        setState(() {});
+      },
+    );
+  }
+
   void nonsupport() {
     showChatUIKitDialog(
       title: '暂不支持',
       context: context,
-      items: [
-        ChatUIKitDialogItem.confirm(
+      actionItems: [
+        ChatUIKitDialogAction.confirm(
           label: '确定',
           onTap: () async {
             Navigator.of(context).pop();
@@ -219,21 +338,23 @@ class _MyPageState extends State<MyPage> with ChatUIKitProviderObserver {
     showChatUIKitDialog(
       title: DemoLocalizations.logoutTitle.localString(context),
       context: context,
-      items: [
-        ChatUIKitDialogItem.cancel(
+      actionItems: [
+        ChatUIKitDialogAction.cancel(
           label: DemoLocalizations.logoutCancel.localString(context),
           onTap: () async {
             Navigator.of(context).pop();
           },
         ),
-        ChatUIKitDialogItem.confirm(
+        ChatUIKitDialogAction.confirm(
           label: DemoLocalizations.logoutConfirm.localString(context),
           onTap: () async {
             Navigator.of(context).pop();
             EasyLoading.show();
             ChatUIKit.instance.logout().then((value) {
               EasyLoading.dismiss();
-              Navigator.of(context).popAndPushNamed('/login');
+              if (mounted) {
+                Navigator.of(context).popAndPushNamed('/login');
+              }
             });
           },
         ),

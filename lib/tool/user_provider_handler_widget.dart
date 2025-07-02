@@ -11,7 +11,8 @@ class UserProviderHandlerWidget extends StatefulWidget {
   final Widget child;
 
   @override
-  State<UserProviderHandlerWidget> createState() => _UserProviderHandlerWidgetState();
+  State<UserProviderHandlerWidget> createState() =>
+      _UserProviderHandlerWidgetState();
 }
 
 class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
@@ -24,7 +25,8 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
     UserDataStore().init(onOpened: onOpened);
     // 设置Provider回调
     ChatUIKitProvider.instance.profilesHandler = onProfilesRequest;
-    ChatUIKitAlphabetSortHelper.instance.sortHandler = onAlphabetSortLetterRequest;
+    ChatUIKitAlphabetSortHelper.instance.sortHandler =
+        onAlphabetSortLetterRequest;
   }
 
   @override
@@ -54,7 +56,8 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
   Future<void> fetchCurrentUserInfo() async {
     try {
       // 自己的数据不从db中取，每次都从服务区获取最新数据。
-      Map<String, UserInfo> map = await ChatUIKit.instance.fetchUserInfoByIds([ChatUIKit.instance.currentUserId!]);
+      Map<String, UserInfo> map = await ChatUIKit.instance
+          .fetchUserInfoByIds([ChatUIKit.instance.currentUserId!]);
       ChatUIKitProfile profile = ChatUIKitProfile.contact(
         id: map.values.first.userId,
         nickname: map.values.first.nickName,
@@ -68,20 +71,29 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
   }
 
   // 返回排序用首字母，比如中文显示时，可以返回首字母以便排序
-  String onAlphabetSortLetterRequest(String showName) {
-    return PinyinHelper.getPinyinE(showName, defPinyin: '#', format: PinyinFormat.WITHOUT_TONE).substring(0, 1);
+  String onAlphabetSortLetterRequest(
+      String? groupId, String userId, String showName) {
+    return PinyinHelper.getPinyinE(showName,
+            defPinyin: '#', format: PinyinFormat.WITHOUT_TONE)
+        .substring(0, 1);
   }
 
   // uikit 需要展示用户信息时，而缓存不存在时会回调该方法，如果demo缓存中有数据，可以直接返回，如果没有则异步从服务器获取数据，同时把返回null。
   List<ChatUIKitProfile>? onProfilesRequest(List<ChatUIKitProfile> profiles) {
     // 判断是否是用户信息，如果是用户信息，调用fetchUserInfos，具体实现查看 [fetchUserInfos]。
-    List<String> userIds = profiles.where((e) => e.type == ChatUIKitProfileType.contact).map((e) => e.id).toList();
+    List<String> userIds = profiles
+        .where((e) => e.type == ChatUIKitProfileType.contact)
+        .map((e) => e.id)
+        .toList();
     if (userIds.isNotEmpty) {
       fetchUserInfos(userIds);
     }
 
     // 判断是否是群组信息，如果是群组信息，调用updateGroupsProfile，具体实现查看 [updateGroupsProfile]。
-    List<String> groupIds = profiles.where((e) => e.type == ChatUIKitProfileType.group).map((e) => e.id).toList();
+    List<String> groupIds = profiles
+        .where((e) => e.type == ChatUIKitProfileType.group)
+        .map((e) => e.id)
+        .toList();
     if (groupIds.isNotEmpty) {
       updateGroupsProfile(groupIds);
     }
@@ -94,11 +106,13 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
     ChatUIKitProfile? profile;
     try {
       String? avatar = await AppServerHelper.fetchGroupAvatar(group.groupId);
-      profile = ChatUIKitProfile.group(id: group.groupId, groupName: group.name, avatarUrl: avatar);
+      profile = ChatUIKitProfile.group(
+          id: group.groupId, groupName: group.name, avatarUrl: avatar);
     } catch (e) {
       debugPrint('fetchGroupAvatar error: $e');
     } finally {
-      profile ??= ChatUIKitProfile.group(id: group.groupId, groupName: group.name);
+      profile ??=
+          ChatUIKitProfile.group(id: group.groupId, groupName: group.name);
       ChatUIKitProvider.instance.addProfiles([profile]);
       UserDataStore().saveUserData(profile);
     }
@@ -106,10 +120,16 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
 
   @override
   void onGroupNameChangedByMeSelf(Group group) {
-    ChatUIKitProfile? profile = ChatUIKitProvider.instance.profilesCache[group.groupId];
+    ChatUIKitProfile? profile =
+        ChatUIKitProvider.instance.profilesCache[group.groupId];
     if (profile != null) {
       ChatUIKitProvider.instance.addProfiles(
-        [ChatUIKitProfile.group(id: group.groupId, groupName: group.name, avatarUrl: profile.avatarUrl)],
+        [
+          ChatUIKitProfile.group(
+              id: group.groupId,
+              groupName: group.name,
+              avatarUrl: profile.avatarUrl)
+        ],
       );
     } else {
       ChatUIKitProvider.instance.addProfiles(
@@ -139,11 +159,15 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
     List<Group> groups = await ChatUIKit.instance.getJoinedGroups();
     List<ChatUIKitProfile> profiles = [];
     for (var group in groups) {
-      ChatUIKitProfile? profile = ChatUIKitProvider.instance.profilesCache[group.groupId];
+      ChatUIKitProfile? profile =
+          ChatUIKitProvider.instance.profilesCache[group.groupId];
       if (profile != null) {
-        profile = profile.copyWith(name: group.name);
+        profile = profile.copyWith(showName: group.name);
       } else {
-        profile = ChatUIKitProfile.group(id: group.groupId, groupName: group.name, avatarUrl: group.extension);
+        profile = ChatUIKitProfile.group(
+            id: group.groupId,
+            groupName: group.name,
+            avatarUrl: group.extension);
       }
       profiles.add(profile);
     }
@@ -158,8 +182,10 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
     for (var groupId in groupIds) {
       try {
         Group group = await ChatUIKit.instance.fetchGroupInfo(groupId: groupId);
-        ChatUIKitProfile profile =
-            ChatUIKitProfile.group(id: group.groupId, groupName: group.name, avatarUrl: group.extension);
+        ChatUIKitProfile profile = ChatUIKitProfile.group(
+            id: group.groupId,
+            groupName: group.name,
+            avatarUrl: group.extension);
         list.add(profile);
 
         UserDataStore().saveUserDatas(list);
@@ -179,7 +205,8 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
   Future<void> loadUserInfos() async {
     try {
       // 1. 从本地获取所有用户属性填充到uikit中。
-      Map<String, ChatUIKitProfile> map = ChatUIKitProvider.instance.profilesCache;
+      Map<String, ChatUIKitProfile> map =
+          ChatUIKitProvider.instance.profilesCache;
       // 2. 从 sdk中获取所有好友，如果有新的好友从服务器获取新的好友属性保存到本地并填充到uikit中。
       List<Contact> contacts = await ChatUIKit.instance.getAllContacts();
       contacts.removeWhere((element) => map.keys.contains(element.userId));
@@ -194,7 +221,8 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
 
   void fetchUserInfos(List<String> userIds) async {
     try {
-      Map<String, UserInfo> map = await ChatUIKit.instance.fetchUserInfoByIds(userIds);
+      Map<String, UserInfo> map =
+          await ChatUIKit.instance.fetchUserInfoByIds(userIds);
       List<Contact> contacts = await ChatUIKit.instance.getAllContacts();
       List<ChatUIKitProfile> list = [];
       for (var element in map.values) {
