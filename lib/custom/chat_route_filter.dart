@@ -266,290 +266,361 @@ class ChatRouteFilter {
       willSendHandler: arguments.controller?.willSendHandler,
     );
     arguments = arguments.copyWith(
-      controller: controller,
-      viewObserver: viewObserver,
-      onItemLongPressHandler: (context, model, rect, defaultActions) {
-        if (model.message.attributes?.containsValue('rtcCallWithAgora') ??
-            false) {
-          return [
-            ChatUIKitEventAction.normal(
-              label: DemoLocalizations.multiCallInviteMessageDelete
-                  .localString(context),
-              onTap: () async {
-                Navigator.of(context).pop();
-                controller.deleteMessage(model.message.msgId);
+        controller: controller,
+        viewObserver: viewObserver,
+        onItemLongPressHandler: (context, model, rect, defaultActions) {
+          if (model.message.attributes?.containsValue('rtcCallWithAgora') ??
+              false) {
+            return [
+              ChatUIKitEventAction.normal(
+                label: DemoLocalizations.multiCallInviteMessageDelete
+                    .localString(context),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  controller.deleteMessage(model.message.msgId);
+                },
+              )
+            ];
+          } else {
+            return defaultActions;
+          }
+        },
+        bubbleContentBuilder: (context, model) {
+          if (model.message.bodyType == MessageType.TXT) {
+            return ChatUIKitTextBubbleWidget(
+              model: model,
+              onExpTap: (expStr) async {
+                if (!expStr.startsWith('http')) {
+                  expStr = 'https://$expStr';
+                }
+                await launchUrl(Uri.parse(expStr));
               },
-            )
-          ];
-        } else {
-          return defaultActions;
-        }
-      },
-      bubbleContentBuilder: (context, model) {
-        if (model.message.bodyType == MessageType.TXT) {
-          return ChatUIKitTextBubbleWidget(
-            model: model,
-            onExpTap: (expStr) async {
-              if (!expStr.startsWith('http')) {
-                expStr = 'https://$expStr';
-              }
-              await launchUrl(Uri.parse(expStr));
-            },
-          );
-        }
+            );
+          }
 
-        // 表明是呼叫相关cell
-        if (model.message.attributes?.containsValue('rtcCallWithAgora') ??
-            false) {
-          final theme = ChatUIKitTheme.instance;
-          bool left = model.message.direction == MessageDirection.RECEIVE;
-          Color color = left
-              ? (theme.color.isDark
-                  ? theme.color.neutralColor98
-                  : theme.color.neutralColor1)
-              : (theme.color.isDark
-                  ? theme.color.neutralColor1
-                  : theme.color.neutralColor98);
-          return InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              CallHelper.showSingleCallBottomSheet(
-                context,
-                arguments.profile.id,
-                theme.color.isDark
-                    ? theme.color.primaryColor6
-                    : theme.color.primaryColor5,
-              );
-            },
-            child: Text.rich(
-              TextSpan(children: [
-                WidgetSpan(
-                  child: SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: Image.asset(
-                      'assets/images/voice_call.png',
-                      color: color,
+          // 表明是呼叫相关cell
+          if (model.message.attributes?.containsValue('rtcCallWithAgora') ??
+              false) {
+            final theme = ChatUIKitTheme.instance;
+            bool left = model.message.direction == MessageDirection.RECEIVE;
+            Color color = left
+                ? (theme.color.isDark
+                    ? theme.color.neutralColor98
+                    : theme.color.neutralColor1)
+                : (theme.color.isDark
+                    ? theme.color.neutralColor1
+                    : theme.color.neutralColor98);
+            return InkWell(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              onTap: () {
+                CallHelper.showSingleCallBottomSheet(
+                  context,
+                  arguments.profile.id,
+                  theme.color.isDark
+                      ? theme.color.primaryColor6
+                      : theme.color.primaryColor5,
+                );
+              },
+              child: Text.rich(
+                TextSpan(children: [
+                  WidgetSpan(
+                    child: SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: Image.asset(
+                        'assets/images/voice_call.png',
+                        color: color,
+                      ),
                     ),
                   ),
-                ),
-                TextSpan(
-                  text: model.message.textContent,
-                  style: theme.titleMedium(color: color),
-                ),
-              ]),
-            ),
-          );
-        }
-
-        return null;
-      },
-      showMessageItemNickname: (model) {
-        // 只有群组消息并且不是自己发的消息显示昵称
-        return (arguments.profile.type == ChatUIKitProfileType.group) &&
-            model.message.from != ChatUIKit.instance.currentUserId;
-      },
-      onItemTap: (ctx, messageModel, rect) {
-        if (messageModel.message.bodyType == MessageType.FILE) {
-          Navigator.of(ctx).push(
-            MaterialPageRoute(
-              builder: (context) => DownloadFileWidget(
-                message: messageModel.message,
-                key: ValueKey(messageModel.message.localTime),
-              ),
-            ),
-          );
-          return true;
-        }
-        return false;
-      },
-      appBarModel: ChatUIKitAppBarModel(
-        centerWidget: arguments.profile.type == ChatUIKitProfileType.group
-            ? null
-            : PresenceTitleWidget(
-                userId: arguments.profile.id,
-                title: arguments.profile.contactShowName,
-              ),
-        leadingActionsBuilder: (context, defaultList) {
-          if (arguments.profile.type == ChatUIKitProfileType.group) {
-            return defaultList;
-          }
-          if (defaultList?.isNotEmpty == true) {
-            for (var i = 0; i < defaultList!.length; i++) {
-              ChatUIKitAppBarAction item = defaultList[i];
-              if (item.actionType == ChatUIKitActionType.avatar) {
-                defaultList[i] = item.copyWith(
-                  child: PresenceIconStatusWidget(
-                    userId: arguments.profile.id,
-                    child: item.child,
+                  TextSpan(
+                    text: model.message.textContent,
+                    style: theme.titleMedium(color: color),
                   ),
-                );
-              }
-            }
-          }
-          return defaultList;
-        },
-        trailingActionsBuilder: (context, defaultList) {
-          List<ChatUIKitAppBarAction>? actions = [];
-          if (defaultList?.isNotEmpty == true) {
-            actions.addAll(defaultList!);
-          }
-          ChatUIKitColor color = ChatUIKitTheme.instance.color;
-          if (!controller.isMultiSelectMode) {
-            actions.add(
-              ChatUIKitAppBarAction(
-                onTap: (context) {
-                  // 如果是单聊，弹出选择语音通话和视频通话
-                  if (arguments.profile.type == ChatUIKitProfileType.contact) {
-                    CallHelper.showSingleCallBottomSheet(
-                      context,
-                      arguments.profile.id,
-                      color.isDark ? color.primaryColor6 : color.primaryColor5,
-                    );
-                  } else {
-                    CallHelper.showMultiCallSelectView(
-                        context, arguments.profile.id);
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Image.asset(
-                    'assets/images/call.png',
-                    color: color.isDark
-                        ? color.neutralColor9
-                        : color.neutralColor3,
-                    width: 24,
-                    height: 24,
-                  ),
-                ),
+                ]),
               ),
             );
           }
 
-          return actions;
+          return null;
         },
-      ),
-      floatingWidget: (ctx) {
-        String tmpText =
-            "${DemoLocalizations.antiFraud.localString(ctx)}  ${DemoLocalizations.clickReport.localString(ctx)}";
-        final style = TextStyle(
-          height: 1.5,
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          color: ChatUIKitTheme.instance.color.isDark
-              ? ChatUIKitTheme.instance.color.neutralColor9
-              : ChatUIKitTheme.instance.color.neutralColor3,
-        );
-        const containerMarginPending = 8.0;
-        const containerPadding = 12.0;
-        const iconSize = 16.0;
-        const iconInterval = 8.0;
-        final textHeight = DemoHelper().calculateTextHeight(
-          tmpText,
-          style,
-          MediaQuery.of(ctx).size.width -
-              containerMarginPending * 2 -
-              containerPadding * 2 -
-              iconSize * 2 -
-              iconInterval * 2,
-        );
-        final containerHeight = textHeight + containerPadding * 2;
-        return IgnorePointer(
-          ignoring: !visible,
-          child: AnimatedOpacity(
-            opacity: visible ? 1 : 0,
-            duration: const Duration(milliseconds: 150),
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: containerPadding,
-                horizontal: containerPadding,
-              ),
-              margin: const EdgeInsets.only(
-                  top: 60,
-                  left: containerMarginPending,
-                  right: containerMarginPending),
-              height: containerHeight,
-              decoration: BoxDecoration(
-                color: ChatUIKitTheme.instance.color.isDark
-                    ? ChatUIKitTheme.instance.color.neutralColor2
-                    : ChatUIKitTheme.instance.color.neutralSpecialColor9,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    offset: const Offset(0, 2),
-                    blurRadius: 4,
+        alertItemBuilder: (context, child, model) {
+          if (model.message.isAlertCustomMessage) {
+            String? alert = model.message.customBodyParams?['warning'];
+            return Center(
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 3),
+                padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+                // decoration: BoxDecoration(
+                //   color: Colors.grey,
+                //   borderRadius: BorderRadius.circular(3),
+                // ),
+                child: Text(
+                  alert ?? '演示功能，无真实数据，仅供体验',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
                   ),
-                ],
+                ),
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.error,
-                    color: ChatUIKitTheme.instance.color.primaryColor5,
-                    size: iconSize,
-                  ),
-                  const SizedBox(width: iconInterval),
-                  Expanded(
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                              text:
-                                  "${DemoLocalizations.antiFraud.localString(ctx)}  ",
-                              style: style),
-                          TextSpan(
-                              text: DemoLocalizations.clickReport
-                                  .localString(ctx),
-                              style: TextStyle(
-                                height: 1.5,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: ChatUIKitTheme.instance.color.isDark
-                                    ? ChatUIKitTheme
-                                        .instance.color.primaryColor6
-                                    : ChatUIKitTheme
-                                        .instance.color.primaryColor5,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () async {
-                                  EasyLoading.show();
-                                  Future.delayed(const Duration(seconds: 1),
-                                      () {
-                                    if (ctx.mounted) {
-                                      EasyLoading.showSuccess(DemoLocalizations
-                                          .reportSuccess
-                                          .localString(ctx));
-                                    }
-                                  });
-                                })
-                        ],
-                      ),
+            );
+          } else {
+            return Container(
+              //color: const Color.fromARGB(255, 97, 96, 96),
+              child: child,
+            );
+          }
+        },
+        showMessageItemNickname: (model) {
+          // 只有群组消息并且不是自己发的消息显示昵称
+          return (arguments.profile.type == ChatUIKitProfileType.group) &&
+              model.message.from != ChatUIKit.instance.currentUserId;
+        },
+        onItemTap: (ctx, messageModel, rect) {
+          if (messageModel.message.bodyType == MessageType.FILE) {
+            Navigator.of(ctx).push(
+              MaterialPageRoute(
+                builder: (context) => DownloadFileWidget(
+                  message: messageModel.message,
+                  key: ValueKey(messageModel.message.localTime),
+                ),
+              ),
+            );
+            return true;
+          }
+          return false;
+        },
+        appBarModel: ChatUIKitAppBarModel(
+          centerWidget: arguments.profile.type == ChatUIKitProfileType.group
+              ? null
+              : PresenceTitleWidget(
+                  userId: arguments.profile.id,
+                  title: arguments.profile.contactShowName,
+                ),
+          leadingActionsBuilder: (context, defaultList) {
+            if (arguments.profile.type == ChatUIKitProfileType.group) {
+              return defaultList;
+            }
+            if (defaultList?.isNotEmpty == true) {
+              for (var i = 0; i < defaultList!.length; i++) {
+                ChatUIKitAppBarAction item = defaultList[i];
+                if (item.actionType == ChatUIKitActionType.avatar) {
+                  defaultList[i] = item.copyWith(
+                    child: PresenceIconStatusWidget(
+                      userId: arguments.profile.id,
+                      child: item.child,
+                    ),
+                  );
+                }
+              }
+            }
+            return defaultList;
+          },
+          trailingActionsBuilder: (context, defaultList) {
+            List<ChatUIKitAppBarAction>? actions = [];
+            if (defaultList?.isNotEmpty == true) {
+              actions.addAll(defaultList!);
+            }
+            ChatUIKitColor color = ChatUIKitTheme.instance.color;
+            if (!controller.isMultiSelectMode) {
+              actions.add(
+                ChatUIKitAppBarAction(
+                  onTap: (context) {
+                    // 如果是单聊，弹出选择语音通话和视频通话
+                    if (arguments.profile.type ==
+                        ChatUIKitProfileType.contact) {
+                      CallHelper.showSingleCallBottomSheet(
+                        context,
+                        arguments.profile.id,
+                        color.isDark
+                            ? color.primaryColor6
+                            : color.primaryColor5,
+                      );
+                    } else {
+                      CallHelper.showMultiCallSelectView(
+                          context, arguments.profile.id);
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Image.asset(
+                      'assets/images/call.png',
+                      color: color.isDark
+                          ? color.neutralColor9
+                          : color.neutralColor3,
+                      width: 24,
+                      height: 24,
                     ),
                   ),
-                  const SizedBox(width: iconInterval),
-                  InkWell(
-                    child: Icon(
-                      Icons.close,
-                      color: ChatUIKitTheme.instance.color.isDark
-                          ? ChatUIKitTheme.instance.color.neutralColor9
-                          : ChatUIKitTheme.instance.color.neutralColor3,
+                ),
+              );
+            }
+
+            return actions;
+          },
+        ),
+        floatingWidget: (ctx) {
+          String tmpText =
+              "${DemoLocalizations.antiFraud.localString(ctx)}  ${DemoLocalizations.clickReport.localString(ctx)}";
+          final style = TextStyle(
+            height: 1.5,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: ChatUIKitTheme.instance.color.isDark
+                ? ChatUIKitTheme.instance.color.neutralColor9
+                : ChatUIKitTheme.instance.color.neutralColor3,
+          );
+          const containerMarginPending = 8.0;
+          const containerPadding = 12.0;
+          const iconSize = 16.0;
+          const iconInterval = 8.0;
+          final textHeight = DemoHelper().calculateTextHeight(
+            tmpText,
+            style,
+            MediaQuery.of(ctx).size.width -
+                containerMarginPending * 2 -
+                containerPadding * 2 -
+                iconSize * 2 -
+                iconInterval * 2,
+          );
+          final containerHeight = textHeight + containerPadding * 2;
+          return IgnorePointer(
+            ignoring: !visible,
+            child: AnimatedOpacity(
+              opacity: visible ? 1 : 0,
+              duration: const Duration(milliseconds: 150),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: containerPadding,
+                  horizontal: containerPadding,
+                ),
+                margin: const EdgeInsets.only(
+                    top: 60,
+                    left: containerMarginPending,
+                    right: containerMarginPending),
+                height: containerHeight,
+                decoration: BoxDecoration(
+                  color: ChatUIKitTheme.instance.color.isDark
+                      ? ChatUIKitTheme.instance.color.neutralColor2
+                      : ChatUIKitTheme.instance.color.neutralSpecialColor9,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      offset: const Offset(0, 2),
+                      blurRadius: 4,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.error,
+                      color: ChatUIKitTheme.instance.color.primaryColor5,
                       size: iconSize,
                     ),
-                    onTapUp: (details) {
-                      visible = false;
-                      viewObserver.refresh();
-                    },
-                  ),
-                ],
+                    const SizedBox(width: iconInterval),
+                    Expanded(
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                                text:
+                                    "${DemoLocalizations.antiFraud.localString(ctx)}  ",
+                                style: style),
+                            TextSpan(
+                                text: DemoLocalizations.clickReport
+                                    .localString(ctx),
+                                style: TextStyle(
+                                  height: 1.5,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: ChatUIKitTheme.instance.color.isDark
+                                      ? ChatUIKitTheme
+                                          .instance.color.primaryColor6
+                                      : ChatUIKitTheme
+                                          .instance.color.primaryColor5,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    EasyLoading.show();
+                                    Future.delayed(const Duration(seconds: 1),
+                                        () {
+                                      if (ctx.mounted) {
+                                        EasyLoading.showSuccess(
+                                            DemoLocalizations.reportSuccess
+                                                .localString(ctx));
+                                      }
+                                    });
+                                  })
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: iconInterval),
+                    InkWell(
+                      child: Icon(
+                        Icons.close,
+                        color: ChatUIKitTheme.instance.color.isDark
+                            ? ChatUIKitTheme.instance.color.neutralColor9
+                            : ChatUIKitTheme.instance.color.neutralColor3,
+                        size: iconSize,
+                      ),
+                      onTapUp: (details) {
+                        visible = false;
+                        viewObserver.refresh();
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
+          );
+        },
+        backgroundWidget: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text(
+                '您使用的是',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                '演示 DEMO',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                '仅限体验功能',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(height: 2),
+              Text(
+                '数据全部为虚拟内容',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
           ),
-        );
-      },
-    );
+        ));
 
     return RouteSettings(name: settings.name, arguments: arguments);
   }
