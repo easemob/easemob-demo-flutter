@@ -206,9 +206,7 @@ class _SingleCallPageState extends State<SingleCallPage>
   }
 
   @override
-  void onProfilesUpdate(
-    Map<String, ChatUIKitProfile> map,
-  ) {
+  void onProfilesUpdate(Map<String, ChatUIKitProfile> map, [String? belongId]) {
     if (map.containsKey(profile!.id)) {
       profile = map[profile!.id];
       setState(() {});
