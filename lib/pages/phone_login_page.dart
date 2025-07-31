@@ -185,46 +185,55 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
                   ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () => setState(() {
-                        agreeServiceAgreement = !agreeServiceAgreement;
-                      }),
-                      child: () {
-                        return agreeServiceAgreement
-                            ? Icon(
-                                Icons.check_box,
-                                size: 22,
-                                color: theme.color.primaryColor5,
-                              )
-                            : Icon(
-                                Icons.check_box_outline_blank,
-                                size: 22,
-                                color: theme.color.primaryColor5,
-                              );
-                      }(),
-                    ),
-                    Text(DemoLocalizations.loginCheck.localString(context)),
-                    InkWell(
-                      onTap: serviceAgreement,
-                      child: Text(
-                        DemoLocalizations.loginTermsOfService
-                            .localString(context),
-                        style: linkStyle,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () => setState(() {
+                          agreeServiceAgreement = !agreeServiceAgreement;
+                        }),
+                        child: () {
+                          return agreeServiceAgreement
+                              ? Icon(
+                                  Icons.check_box,
+                                  size: 20, // 从22减小到20
+                                  color: theme.color.primaryColor5,
+                                )
+                              : Icon(
+                                  Icons.check_box_outline_blank,
+                                  size: 20, // 从22减小到20
+                                  color: theme.color.primaryColor5,
+                                );
+                        }(),
                       ),
-                    ),
-                    Text(DemoLocalizations.loginAnd.localString(context)),
-                    InkWell(
-                      onTap: privacyPolicy,
-                      child: Text(
-                        DemoLocalizations.loginPrivacyPolicy
-                            .localString(context),
-                        style: linkStyle,
+                      Text(
+                        DemoLocalizations.loginCheck.localString(context),
+                        style: const TextStyle(fontSize: 13), // 添加较小字体
                       ),
-                    ),
-                  ],
+                      InkWell(
+                        onTap: serviceAgreement,
+                        child: Text(
+                          DemoLocalizations.loginTermsOfService
+                              .localString(context),
+                          style: linkStyle.copyWith(fontSize: 13), // 添加较小字体
+                        ),
+                      ),
+                      Text(
+                        DemoLocalizations.loginAnd.localString(context),
+                        style: const TextStyle(fontSize: 13), // 添加较小字体
+                      ),
+                      InkWell(
+                        onTap: privacyPolicy,
+                        child: Text(
+                          DemoLocalizations.loginPrivacyPolicy
+                              .localString(context),
+                          style: linkStyle.copyWith(fontSize: 13), // 添加较小字体
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
