@@ -151,7 +151,7 @@ class _VerifyCodeWidgetState extends State<VerifyCodeWidget> {
         final encryptedData = AESGCMEncryptor.encryptGCM(message[0], base64Key);
         debugPrint('[Dart->JS] 加密数据: $encryptedData');
         if (mounted && _controller != null) {
-          await _controller!.callAsyncJavaScript(functionBody: '''
+          await _controller!.evaluateJavascript(source: '''
             if (typeof window.encryptCallback === 'function') {
               window.encryptCallback('$encryptedData');
             }

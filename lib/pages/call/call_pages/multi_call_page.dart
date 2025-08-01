@@ -114,7 +114,8 @@ class _MultiCallPageState extends State<MultiCallPage>
       ));
     });
 
-    ChatUIKitProfile? current = ChatUIKitProvider.instance.currentUserProfile;
+    ChatUIKitProfile? current = ChatUIKitProvider.instance
+        .getProfileById(ChatUIKit.instance.currentUserId!);
     current ??= ChatUIKitProfile.contact(id: ChatUIKit.instance.currentUserId!);
     list.insert(
         0,
@@ -193,9 +194,7 @@ class _MultiCallPageState extends State<MultiCallPage>
   }
 
   @override
-  void onProfilesUpdate(
-    Map<String, ChatUIKitProfile> map,
-  ) {
+  void onProfilesUpdate(Map<String, ChatUIKitProfile> map, [String? belongId]) {
     bool needReload = false;
     for (var i = 0; i < list.length; i++) {
       if (map.containsKey(list[i].profile?.id)) {

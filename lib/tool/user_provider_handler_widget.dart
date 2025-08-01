@@ -79,7 +79,8 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
   }
 
   // uikit 需要展示用户信息时，而缓存不存在时会回调该方法，如果demo缓存中有数据，可以直接返回，如果没有则异步从服务器获取数据，同时把返回null。
-  List<ChatUIKitProfile>? onProfilesRequest(List<ChatUIKitProfile> profiles) {
+  List<ChatUIKitProfile>? onProfilesRequest(List<ChatUIKitProfile> profiles,
+      [String? belongId]) {
     // 判断是否是用户信息，如果是用户信息，调用fetchUserInfos，具体实现查看 [fetchUserInfos]。
     List<String> userIds = profiles
         .where((e) => e.type == ChatUIKitProfileType.contact)
