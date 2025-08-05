@@ -221,11 +221,10 @@ packages:
   em_chat_uikit:
     dependency: "direct main"
     description:
-      name: em_chat_uikit
-      sha256: f8c71dd6da3401b7691e6b81ae3d3034240ae7c85eec672a8227fc925efeaed5
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
+      path: "/Users/yuqiang/Workspace/Flutter/easemob-uikit-flutter"
+      relative: false
+    source: path
+    version: "2.3.0-dev.1"
   encrypt:
     dependency: "direct main"
     description:
@@ -461,34 +460,34 @@ packages:
     dependency: "direct overridden"
     description:
       name: im_flutter_sdk
-      sha256: "00d40a6666fd0b331c2a146b68dd07a8d74c1e4e09fbfb68db87ade97155618e"
+      sha256: cdc155b1bb4629daa3b675a3f8d09a79714ce89fb2f806614cb5d230e538bf50
       url: "https://pub.dev"
     source: hosted
-    version: "4.13.0+1"
+    version: "4.15.0"
   im_flutter_sdk_android:
     dependency: transitive
     description:
       name: im_flutter_sdk_android
-      sha256: "7a2eb9aad81ee0b18996dc592a56094f3470b2f9a40551645760747308f81308"
+      sha256: b9921ca2245b454b7ddda2515cb023fd6a79e683f61207b3fc479c0b5cea6627
       url: "https://pub.dev"
     source: hosted
-    version: "4.13.0+1"
+    version: "4.15.0+2"
   im_flutter_sdk_interface:
     dependency: transitive
     description:
       name: im_flutter_sdk_interface
-      sha256: "990751cc02d20479d45a859a6e542252f27ebaa05d5135e2e9e928c28b32d313"
+      sha256: "196bac53c26305ae280f75ed76c356b5f0865dc81fc5b86670ef638d6c3aeb61"
       url: "https://pub.dev"
     source: hosted
-    version: "4.13.0+1"
+    version: "4.15.0+2"
   im_flutter_sdk_ios:
     dependency: transitive
     description:
       name: im_flutter_sdk_ios
-      sha256: "4c8b5ef4df1b581d5917e3917ea4f445f908c4ac726013dcd5fbcbf2cfd5a2f6"
+      sha256: "578bac36b827836d77bd8713e425e27df473b192df916f3d10b63b3ab51bce17"
       url: "https://pub.dev"
     source: hosted
-    version: "4.13.0+1"
+    version: "4.15.0+2"
   image_cropper:
     dependency: "direct main"
     description:
@@ -581,10 +580,10 @@ packages:
     dependency: transitive
     description:
       name: intl
-      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.19.0"
+    version: "0.20.2"
   iris_method_channel:
     dependency: transitive
     description:
