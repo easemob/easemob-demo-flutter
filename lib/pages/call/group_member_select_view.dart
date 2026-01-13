@@ -19,7 +19,8 @@ class _GroupMemberSelectViewState extends State<GroupMemberSelectView>
   @override
   void initState() {
     super.initState();
-    ChatUIKitProfile? profile = ChatUIKitProvider.instance.currentUserProfile;
+    ChatUIKitProfile? profile = ChatUIKitProvider.instance
+        .getProfileById(ChatUIKit.instance.currentUserId!);
     profile ??= ChatUIKitProfile.contact(id: ChatUIKit.instance.currentUserId!);
     currentProfile = profile;
     selected.add(profile);

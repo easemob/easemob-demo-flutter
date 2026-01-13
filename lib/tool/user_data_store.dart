@@ -68,8 +68,9 @@ class UserDataStore {
   Future<void> saveUserDatas(List<ChatUIKitProfile> profiles) async {
     Batch? batch = _db?.batch();
     for (var profile in profiles) {
+      final userIdWithQuotes = '"${ChatUIKit.instance.currentUserId!}"';
       batch?.insert(
-        ChatUIKit.instance.currentUserId!,
+        userIdWithQuotes,
         {
           'id': profile.id,
           'nickname': profile.showName,

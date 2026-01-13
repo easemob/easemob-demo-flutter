@@ -23,7 +23,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
   void initState() {
     super.initState();
     ChatUIKitProvider.instance.addObserver(this);
-    _userData = ChatUIKitProvider.instance.currentUserProfile;
+    _userData = ChatUIKitProvider.instance
+        .getProfileById(ChatUIKit.instance.currentUserId ?? '');
   }
 
   @override
@@ -33,9 +34,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
   }
 
   @override
-  void onProfilesUpdate(
-    Map<String, ChatUIKitProfile> map,
-  ) {
+  void onProfilesUpdate(Map<String, ChatUIKitProfile> map, [String? belongId]) {
     if (map.keys.contains(ChatUIKit.instance.currentUserId)) {
       ChatUIKitProfile? userData = map[ChatUIKit.instance.currentUserId];
       setState(() {
@@ -169,7 +168,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
       EasyLoading.show(status: 'Updating...');
       String url = await AppServerHelper.uploadAvatar(
           ChatUIKit.instance.currentUserId!, path);
-      ChatUIKitProfile? data = ChatUIKitProvider.instance.currentUserProfile;
+      ChatUIKitProfile? data = ChatUIKitProvider.instance
+          .getProfileById(ChatUIKit.instance.currentUserId!);
       if (data == null) {
         data = ChatUIKitProfile.contact(
             id: ChatUIKit.instance.currentUserId!, avatarUrl: url);
@@ -193,7 +193,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
         inputTextCallback: () {
           return Future(
             () {
-              return ChatUIKitProvider.instance.currentUserProfile?.showName ??
+              return ChatUIKitProvider.instance
+                      .getProfileById(ChatUIKit.instance.currentUserId!)
+                      ?.showName ??
                   ChatUIKit.instance.currentUserId ??
                   '';
             },
@@ -203,8 +205,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage>
     ).then(
       (value) {
         if (value is String) {
-          ChatUIKitProfile? data =
-              ChatUIKitProvider.instance.currentUserProfile;
+          ChatUIKitProfile? data = ChatUIKitProvider.instance
+              .getProfileById(ChatUIKit.instance.currentUserId!);
           if (data == null) {
             data = ChatUIKitProfile.contact(
                 id: ChatUIKit.instance.currentUserId!, nickname: value);
