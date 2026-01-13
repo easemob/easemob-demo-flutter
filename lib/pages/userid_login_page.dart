@@ -161,50 +161,54 @@ class _UserIdLoginPageState extends State<UserIdLoginPage>
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      WidgetSpan(
-                        child: InkWell(
-                          onTap: () => setState(() {
-                            agreeServiceAgreement = !agreeServiceAgreement;
-                          }),
-                          child: () {
-                            return agreeServiceAgreement
-                                ? Icon(
-                                    Icons.check_box,
-                                    size: 20,
-                                    color: theme.color.primaryColor5,
-                                  )
-                                : Icon(
-                                    Icons.check_box_outline_blank,
-                                    size: 20,
-                                    color: theme.color.primaryColor5,
-                                  );
-                          }(),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text.rich(
+                    TextSpan(
+                      style: const TextStyle(fontSize: 13), // 设置基础字体大小
+                      children: [
+                        WidgetSpan(
+                          child: InkWell(
+                            onTap: () => setState(() {
+                              agreeServiceAgreement = !agreeServiceAgreement;
+                            }),
+                            child: () {
+                              return agreeServiceAgreement
+                                  ? Icon(
+                                      Icons.check_box,
+                                      size: 18, // 从20减小到18
+                                      color: theme.color.primaryColor5,
+                                    )
+                                  : Icon(
+                                      Icons.check_box_outline_blank,
+                                      size: 18, // 从20减小到18
+                                      color: theme.color.primaryColor5,
+                                    );
+                            }(),
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                          text: DemoLocalizations.loginCheck
-                              .localString(context)),
-                      TextSpan(
-                          text: DemoLocalizations.loginTermsOfService
-                              .localString(context),
-                          style: linkStyle,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = serviceAgreement),
-                      TextSpan(
-                          text:
-                              DemoLocalizations.loginAnd.localString(context)),
-                      TextSpan(
-                          text: DemoLocalizations.loginPrivacyPolicy
-                              .localString(context),
-                          style: linkStyle,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = privacyPolicy),
-                    ],
+                        TextSpan(
+                            text: DemoLocalizations.loginCheck
+                                .localString(context)),
+                        TextSpan(
+                            text: DemoLocalizations.loginTermsOfService
+                                .localString(context),
+                            style: linkStyle.copyWith(fontSize: 13), // 添加较小字体
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = serviceAgreement),
+                        TextSpan(
+                            text: DemoLocalizations.loginAnd
+                                .localString(context)),
+                        TextSpan(
+                            text: DemoLocalizations.loginPrivacyPolicy
+                                .localString(context),
+                            style: linkStyle.copyWith(fontSize: 13), // 添加较小字体
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = privacyPolicy),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ],
             )
