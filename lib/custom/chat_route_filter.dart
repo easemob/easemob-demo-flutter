@@ -286,7 +286,10 @@ class ChatRouteFilter {
           }
         },
         bubbleContentBuilder: (context, model) {
-          if (model.message.bodyType == MessageType.TXT) {
+          bool rtcCallMessage =
+              model.message.attributes?.containsValue('rtcCallWithAgora') ??
+                  false;
+          if (model.message.bodyType == MessageType.TXT && !rtcCallMessage) {
             return ChatUIKitTextBubbleWidget(
               model: model,
               onExpTap: (expStr) async {
@@ -299,8 +302,7 @@ class ChatRouteFilter {
           }
 
           // 表明是呼叫相关cell
-          if (model.message.attributes?.containsValue('rtcCallWithAgora') ??
-              false) {
+          if (rtcCallMessage) {
             final theme = ChatUIKitTheme.instance;
             bool left = model.message.direction == MessageDirection.RECEIVE;
             Color color = left
@@ -310,6 +312,10 @@ class ChatRouteFilter {
                 : (theme.color.isDark
                     ? theme.color.neutralColor1
                     : theme.color.neutralColor98);
+            final text = CallHelper.getCallEndReason(
+              context,
+              model.message,
+            );
             return InkWell(
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
@@ -323,22 +329,24 @@ class ChatRouteFilter {
                 );
               },
               child: Text.rich(
-                TextSpan(children: [
-                  WidgetSpan(
-                    child: SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: Image.asset(
-                        'assets/images/voice_call.png',
-                        color: color,
+                TextSpan(
+                  children: [
+                    WidgetSpan(
+                      child: SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: Image.asset(
+                          'assets/images/voice_call.png',
+                          color: color,
+                        ),
                       ),
                     ),
-                  ),
-                  TextSpan(
-                    text: model.message.textContent,
-                    style: theme.titleMedium(color: color),
-                  ),
-                ]),
+                    TextSpan(
+                      text: text,
+                      style: theme.titleMedium(color: color),
+                    ),
+                  ],
+                ),
               ),
             );
           }

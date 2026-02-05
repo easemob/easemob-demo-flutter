@@ -174,7 +174,7 @@ class _MultiCallPageState extends State<MultiCallPage>
   }
 
   @override
-  void onCallEnd(callId, reason) {
+  void onCallEnd(call, reason) {
     Navigator.of(context).pop();
   }
 

@@ -160,6 +160,17 @@ mixin DemoLocalizations {
   static String multiCallInviteMessage = 'multiCallInviteMessage';
   static String singleVideoCallInviteMessage = 'singleVideoCallInviteMessage';
   static String singleVoiceCallInviteMessage = 'singleVoiceCallInviteMessage';
+  static String callDuration = "callDuration";
+  static String otherPartyBusy = "otherPartyBusy";
+  static String otherPartyRefused = "otherPartyRefused";
+  static String refused = "refused";
+  static String otherPartyNoResponse = "otherPartyNoResponse";
+  static String callEndedAbnormally = "callEndedAbnormally";
+  static String callEnd = "callEnd";
+  static String callCanceled = "callCanceled";
+  static String callHandledOnOtherDevice = "callHandledOnOtherDevice";
+  static String noResponse = "noResponse";
+  static String otherPartyCanceled = "otherPartyCanceled";
 
   // custom
 
@@ -343,6 +354,18 @@ mixin DemoLocalizations {
         '请勿轻信任何关于汇款、中奖等信息，务必提高警惕，谨慎对待来自陌生号码的电话。如遇可疑情况，请及时向相关部门反馈并采取必要的防范措施。',
     clickReport: '点击举报',
     reportSuccess: '举报成功',
+    callDuration: "通话时长为",
+    otherPartyBusy: "对方忙碌",
+    otherPartyRefused: "对方拒绝",
+    refused: "已拒绝",
+    otherPartyNoResponse: "对方未响应",
+    callEndedAbnormally: "通话异常结束",
+    callEnd: "通话结束",
+    callCanceled: "通话已取消",
+    callHandledOnOtherDevice: "通话已在其它设备处理",
+    otherPartyNoResponse: "对方未响应",
+    noResponse: "未接听",
+    otherPartyCanceled: "对方已取消",
   };
   static Map<String, String> en = {
     confirm: 'Confirm',
@@ -517,5 +540,17 @@ mixin DemoLocalizations {
         "Don't trust remittance or prize info. Stay alert for calls from unknown numbers and report anything suspicious.",
     clickReport: 'Report',
     reportSuccess: 'Report Success',
+    callDuration: "Call Duration",
+    otherPartyBusy: "Other Party Busy",
+    otherPartyRefused: "Other Party Refused",
+    refused: "Refused",
+    otherPartyNoResponse: "Other Party No Response",
+    callEndedAbnormally: "Call Ended Abnormally",
+    callEnd: "Call End",
+    callCanceled: "Call Canceled",
+    callHandledOnOtherDevice: "Call Handled on Other Device",
+    otherPartyNoResponse: "Other Party No Response",
+    noResponse: "No Response",
+    otherPartyCanceled: "Other Party Canceled",
   };
 }
