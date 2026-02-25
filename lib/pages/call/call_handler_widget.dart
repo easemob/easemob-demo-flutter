@@ -71,8 +71,10 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget>
 
   // 呼叫结束
   @override
-  void onCallEnd(String? callId, ChatCallKitCallEndReason reason) {
+  void onCallEnd(ChatCallKitCall? call, ChatCallKitCallEndReason reason) {
     FlutterRingtonePlayer().stop();
+    // 通知消息列表刷新，以显示通话记录消息
+    _updateMessage(call?.inviteMessageId);
   }
 
   // 收到呼叫邀请
@@ -104,6 +106,17 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget>
   void onInviteMessageWillSend(ChatCallKitMessage message) {
     // ignore: invalid_use_of_protected_member
     ChatUIKit.instance.onMessagesReceived([message]);
+  }
+
+  void _updateMessage(String? inviteMessageId) async {
+    if (inviteMessageId != null) {
+      final message =
+          await Client.getInstance.chatManager.loadMessage(inviteMessageId);
+      if (message != null) {
+        // ignore: invalid_use_of_protected_member
+        ChatUIKit.instance.onMessagesReceived([message]);
+      }
+    }
   }
 
   void pushToCallPage(

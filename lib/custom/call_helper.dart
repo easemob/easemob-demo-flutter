@@ -139,4 +139,58 @@ class CallHelper {
       }
     });
   }
+
+  static String getCallEndReason(BuildContext context, Message message) {
+    Map<String, dynamic> ext = Map.from(message.attributes ?? {});
+    final raw = ext["call_end_reason"] as int?;
+    String callEndReason = (message.body as TextMessageBody?)?.content ?? '';
+    if (raw == null) {
+      return callEndReason;
+    }
+    switch (raw) {
+      case 0: // hangup
+        int? duration = ext["call_duration"] as int?;
+        callEndReason = "";
+        if (duration != null) {
+          // 将秒数转换为时分秒格式
+          int hours = duration ~/ 3600;
+          int minutes = (duration % 3600) ~/ 60;
+          int seconds = duration % 60;
+          String formattedDuration =
+              '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+          callEndReason =
+              ' ${DemoLocalizations.callDuration.localString(context)} $formattedDuration';
+        }
+        break;
+      case 1: // cancel
+        callEndReason = DemoLocalizations.callCanceled.localString(context);
+        break;
+      case 2: // remoteCancel
+        callEndReason =
+            DemoLocalizations.otherPartyCanceled.localString(context);
+        break;
+      case 3: // refuse
+        callEndReason = DemoLocalizations.refused.localString(context);
+        break;
+      case 4: // otherPartyRefused
+        callEndReason =
+            DemoLocalizations.otherPartyRefused.localString(context);
+        break;
+      case 5: // busy
+        callEndReason = DemoLocalizations.otherPartyBusy.localString(context);
+        break;
+      case 7: // remoteNoResponse
+        callEndReason = DemoLocalizations.noResponse.localString(context);
+        break;
+      case 8: // handleOnOtherDevice
+        callEndReason =
+            DemoLocalizations.callHandledOnOtherDevice.localString(context);
+        break;
+      default:
+        callEndReason =
+            DemoLocalizations.callEndedAbnormally.localString(context);
+        break;
+    }
+    return callEndReason;
+  }
 }
