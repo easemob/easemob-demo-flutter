@@ -114,7 +114,7 @@ class _CallHandlerWidgetState extends State<CallHandlerWidget>
           await Client.getInstance.chatManager.loadMessage(inviteMessageId);
       if (message != null) {
         // ignore: invalid_use_of_protected_member
-        ChatUIKit.instance.onMessagesReceived([message]);
+        ChatUIKit.instance.onMessageUpdate(message);
       }
     }
   }
