@@ -118,5 +118,5 @@ App Server 为 Demo 提供以下功能：
 
 ## Q&A
 
-如有问题请联系环信技术支持或者发邮件到 [issue@easemob.com](mailto:issue@easemob.com)。
+如有问题请联系环信技术支持或者发邮件到 [issues@easemob.com](mailto:issues@easemob.com)。
 
