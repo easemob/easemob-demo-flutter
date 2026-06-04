@@ -106,9 +106,9 @@ App Server 为 Demo 提供以下功能：
 
 | 模块               | 描述   | 
 | :------------------- | :----- |
-| 聊天模块    | 展示如何依赖 [ChatUIKit](https://doc.easemob.com/uikit/chatroomuikit/flutter/roomuikit_overview.html) 实现聊天页面，如何发送消息、消息管理、扩展消息类型及如何增加扩展菜单等的逻辑。    | 
-| 会话列表模块 | 展示如何依赖 [ChatUIKit](https://doc.easemob.com/uikit/chatroomuikit/flutter/roomuikit_overview.html) 实现会话列表的逻辑及实现系统消息的具体逻辑。   | 
-| 联系人模块  | 展示如何依赖 [ChatUIKit](https://doc.easemob.com/uikit/chatroomuikit/flutter/roomuikit_overview.html) 实现联系人列表的逻辑。   | 
+| 聊天模块    | 展示如何依赖 [ChatUIKit](https://doc.easemob.com/uikit/chatuikit/flutter/chatuikit_chat_intro.html) 实现聊天页面，如何发送消息、消息管理、扩展消息类型及如何增加扩展菜单等的逻辑。    |
+| 会话列表模块 | 展示如何依赖 [ChatUIKit](https://doc.easemob.com/uikit/chatuikit/flutter/chatuikit_conversation_list_intro.html) 实现会话列表的逻辑及实现系统消息的具体逻辑。   |
+| 联系人模块  | 展示如何依赖 [ChatUIKit](https://doc.easemob.com/uikit/chatuikit/flutter/chatuikit_contactlist_intro.html#概述) 实现联系人列表的逻辑。   |
 | 我的模块  | 账户管理、用户状态管理及APP的一些功能样式设置    | 
 | 开发者模块  | 展示 IM SDK 提供的一些常规的开发者可以设置的功能。   |
 
