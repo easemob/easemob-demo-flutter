@@ -74,14 +74,12 @@ dependencies:
 
   flutter_inappwebview: ^6.1.5
 
-  # em_chat_uikit: ^2.0.3
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
 dependency_overrides:
-  im_flutter_sdk: 4.15.2
+  im_flutter_sdk: 4.19.3
   chat_uikit_keyboard_panel: 0.1.2
   agora_rtc_engine: 6.5.1
     

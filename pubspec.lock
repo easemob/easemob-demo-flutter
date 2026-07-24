@@ -117,10 +117,10 @@ packages:
     dependency: transitive
     description:
       name: characters
-      sha256: f71061c654a3380576a52b451dd5532377954cf9dbd272a78fc8479606670803
+      sha256: faf38497bda5ead2a8c7615f4f7939df04333478bf32e4173fcb06d428b5716b
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.4.1"
   chat_uikit_keyboard_panel:
     dependency: "direct overridden"
     description:
@@ -213,11 +213,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: da13059
-      resolved-ref: da1305912418618a11afeaf873efaf162eea9fe2
+      ref: "0.0.2"
+      resolved-ref: "17b406c59027f13bebb5888b5c133aae5a748aea"
       url: "https://github.com/easemob/ease-callkit-flutter.git"
     source: git
-    version: "0.0.1"
+    version: "0.0.2+2"
   em_chat_uikit:
     dependency: "direct main"
     description:
@@ -461,34 +461,34 @@ packages:
     dependency: "direct overridden"
     description:
       name: im_flutter_sdk
-      sha256: "5f81988c5edf14a4e3868b9c47f01de2ee355e2203ae5bd95d7cacfe30e15d97"
+      sha256: ecd1ff77ee2387b200257a5b235e1437ca1d7a12cf308d77c2b9fb4d2b46b9d9
       url: "https://pub.dev"
     source: hosted
-    version: "4.15.2"
+    version: "4.19.3"
   im_flutter_sdk_android:
     dependency: transitive
     description:
       name: im_flutter_sdk_android
-      sha256: ce4e01f1374a6cf20bb46f6774e1effbde5c014fd1cd3003b6604813e4fe9e71
+      sha256: "228364c8db465c297a5c8ff8de5deecd8e5592388533f07a6883522d83eea598"
       url: "https://pub.dev"
     source: hosted
-    version: "4.15.2"
+    version: "4.19.3"
   im_flutter_sdk_interface:
     dependency: transitive
     description:
       name: im_flutter_sdk_interface
-      sha256: "08ad3ce9fc935e24272bce34aebfd9b3c3c30aab2b9e7d4b2e759acf4a4874f5"
+      sha256: "10e297179646afd9acf67beb7d47ea282a8d2fa1e84e24ec8d82d7290516bcd4"
       url: "https://pub.dev"
     source: hosted
-    version: "4.15.2"
+    version: "4.19.3"
   im_flutter_sdk_ios:
     dependency: transitive
     description:
       name: im_flutter_sdk_ios
-      sha256: "11300c086f5821730224932c28860198ef5d879f7941f9158dddee499f7bb60e"
+      sha256: "91f10fbf83fc1bf6a3ec493cd1d4e83ecb53ffc53c2ba1325eec12f5a4ec5225"
       url: "https://pub.dev"
     source: hosted
-    version: "4.15.2"
+    version: "4.19.3"
   image_cropper:
     dependency: "direct main"
     description:
@@ -629,18 +629,18 @@ packages:
     dependency: transitive
     description:
       name: material_color_utilities
-      sha256: f7142bb1154231d7ea5f96bc7bde4bda2a0945d2806bb11670e30b850d56bdec
+      sha256: "9c337007e82b1889149c82ed242ed1cb24a66044e30979c44912381e9be4c48b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.1"
+    version: "0.13.0"
   meta:
     dependency: transitive
     description:
       name: meta
-      sha256: e3641ec5d63ebf0d9b41bd43201a66e3fc79a65db5f61fc181f04cd27aab950c
+      sha256: "23f08335362185a5ea2ad3a4e597f1375e78bce8a040df5c600c8d3552ef2394"
       url: "https://pub.dev"
     source: hosted
-    version: "1.16.0"
+    version: "1.17.0"
   mime:
     dependency: transitive
     description:
@@ -1231,5 +1231,5 @@ packages:
     source: hosted
     version: "1.1.0"
 sdks:
-  dart: ">=3.8.0-0 <4.0.0"
+  dart: ">=3.9.0-0 <4.0.0"
   flutter: ">=3.27.0"
