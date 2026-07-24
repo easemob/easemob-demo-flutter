@@ -12,8 +12,8 @@
 ### 开发环境要求
 
 - Dart SDK ^3.3.0
-- iOS 12+
-- Android SDK API 21+
+- iOS 13.0+
+- Android SDK API 24+
 
 ### 跑通步骤
 
@@ -130,4 +130,3 @@ App Server 为 Demo 提供以下功能：
 ## Q&A
 
 如有问题请联系环信技术支持或者发邮件到 [issues@easemob.com](mailto:issues@easemob.com)。
-
