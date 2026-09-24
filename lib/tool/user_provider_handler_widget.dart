@@ -108,12 +108,12 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
     try {
       String? avatar = await AppServerHelper.fetchGroupAvatar(group.groupId);
       profile = ChatUIKitProfile.group(
-          id: group.groupId, groupName: group.name, avatarUrl: avatar);
+          id: group.groupId, groupName: group.groupName, avatarUrl: avatar);
     } catch (e) {
       debugPrint('fetchGroupAvatar error: $e');
     } finally {
       profile ??=
-          ChatUIKitProfile.group(id: group.groupId, groupName: group.name);
+          ChatUIKitProfile.group(id: group.groupId, groupName: group.groupName);
       ChatUIKitProvider.instance.addProfiles([profile]);
       UserDataStore().saveUserData(profile);
     }
@@ -128,13 +128,13 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
         [
           ChatUIKitProfile.group(
               id: group.groupId,
-              groupName: group.name,
+              groupName: group.groupName,
               avatarUrl: profile.avatarUrl)
         ],
       );
     } else {
       ChatUIKitProvider.instance.addProfiles(
-        [ChatUIKitProfile.group(id: group.groupId, groupName: group.name)],
+        [ChatUIKitProfile.group(id: group.groupId, groupName: group.groupName)],
       );
     }
   }
@@ -143,7 +143,7 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
   void onSpecificationDidUpdate(Group group) async {
     ChatUIKitProfile profile = ChatUIKitProfile.group(
       id: group.groupId,
-      groupName: group.name,
+      groupName: group.groupName,
       avatarUrl: group.extension,
     );
     ChatUIKitProvider.instance.addProfiles([profile]);
@@ -163,11 +163,11 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
       ChatUIKitProfile? profile =
           ChatUIKitProvider.instance.profilesCache[group.groupId];
       if (profile != null) {
-        profile = profile.copyWith(showName: group.name);
+        profile = profile.copyWith(showName: group.groupName);
       } else {
         profile = ChatUIKitProfile.group(
             id: group.groupId,
-            groupName: group.name,
+            groupName: group.groupName,
             avatarUrl: group.extension);
       }
       profiles.add(profile);
@@ -185,7 +185,7 @@ class _UserProviderHandlerWidgetState extends State<UserProviderHandlerWidget>
         Group group = await ChatUIKit.instance.fetchGroupInfo(groupId: groupId);
         ChatUIKitProfile profile = ChatUIKitProfile.group(
             id: group.groupId,
-            groupName: group.name,
+            groupName: group.groupName,
             avatarUrl: group.extension);
         list.add(profile);
 

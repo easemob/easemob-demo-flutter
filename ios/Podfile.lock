@@ -99,11 +99,11 @@ PODS:
     - Flutter
   - flutter_ringtone_player (0.0.1):
     - Flutter
-  - HyphenateChat (4.19.1):
+  - HyphenateChat (4.25.0):
     - ShengwangInfra_iOS (~> 1.3.0)
-  - im_flutter_sdk_ios (4.15.2):
+  - im_flutter_sdk_ios (4.25.0):
     - Flutter
-    - HyphenateChat (= 4.19.1)
+    - HyphenateChat (= 4.25.0)
   - image_cropper (0.0.4):
     - Flutter
     - TOCropViewController (~> 2.7.4)
@@ -127,7 +127,7 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - ShengwangInfra_iOS (1.3.5)
+  - ShengwangInfra_iOS (1.3.16)
   - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
@@ -240,14 +240,14 @@ SPEC CHECKSUMS:
   em_chat_callkit: ca429d670ddcf56cee59b4e6728a958f53f8f510
   em_chat_uikit: fa9729ca530000280c78962ec31a7895bab62df0
   file_picker: a0560bc09d61de87f12d246fc47d2119e6ef37be
-  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
   flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   flutter_localization: 72299fb6cb4e51cae587bd953ed0b958040b71e6
   flutter_ringtone_player: a77c42464250845611eaa44c27e8714acc800138
-  HyphenateChat: 6e84d205716ada52bd955ae56a2ace1735d255de
-  im_flutter_sdk_ios: 8cc34d8a82136bd35a9ff59fff6bc6736ff45c23
+  HyphenateChat: ea10cee23c4855b4cc6b8cf95d15a2f54a39fb9b
+  im_flutter_sdk_ios: f31bccbac9c17e8968d0c652173bf3e363eb18f4
   image_cropper: c4326ea50132b1e1564499e5d32a84f01fb03537
-  image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
+  image_picker_ios: e0ece4aa2a75771a7de3fa735d26d90817041326
   iris_method_channel: b9db2053dac3dc84e256c8792eff6f11323a53bd
   open_file_ios: 5ff7526df64e4394b4fe207636b67a95e83078bb
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
@@ -256,7 +256,7 @@ SPEC CHECKSUMS:
   record_ios: f75fa1d57f840012775c0e93a38a7f3ceea1a374
   SDWebImage: d0184764be51240d49c761c37f53dd017e1ccaaf
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
-  ShengwangInfra_iOS: 0ae2d429ec428cdbaebb39ac883ec64c5c20f7bb
+  ShengwangInfra_iOS: b72ce9eb087e6056e3f2bb8c4869c1f335a09267
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
   TOCropViewController: 80b8985ad794298fb69d3341de183f33d1853654
@@ -264,6 +264,6 @@ SPEC CHECKSUMS:
   video_compress: f2133a07762889d67f0711ac831faa26f956980e
   video_player_avfoundation: 2cef49524dd1f16c5300b9cd6efd9611ce03639b
 
-PODFILE CHECKSUM: 48b77973334bec0b34a2629d86076278720a8dba
+PODFILE CHECKSUM: ea003631573a480019ce60784f4e93892b6514c4
 
 COCOAPODS: 1.16.2
