@@ -68,7 +68,6 @@ class _ToastHandlerWidgetState extends State<ToastHandlerWidget>
         event == ChatSDKEvent.setSilentMode ||
         event == ChatSDKEvent.createGroup ||
         event == ChatSDKEvent.fetchChatThreadMembers ||
-        event == ChatSDKEvent.reportMessage ||
         event == ChatSDKEvent.clearSilentMode ||
         event == ChatSDKEvent.fetchPinnedMessages) {
       EasyLoading.show();
@@ -88,7 +87,6 @@ class _ToastHandlerWidgetState extends State<ToastHandlerWidget>
         event == ChatSDKEvent.clearSilentMode ||
         event == ChatSDKEvent.fetchChatThreadMembers ||
         event == ChatSDKEvent.addReaction ||
-        event == ChatSDKEvent.reportMessage ||
         event == ChatSDKEvent.modifyMessage ||
         event == ChatSDKEvent.fetchPinnedMessages) {
       EasyLoading.dismiss();

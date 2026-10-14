@@ -87,52 +87,12 @@ class OnlineStatusHelper with ConnectObserver, PresenceObserver {
   }
 
   @override
-  void onDisconnected() {
-    onlineStatus.value = PresenceStatus.offline;
-  }
-
-  @override
-  void onUserDidLoginFromOtherDevice(info) {
-    onlineStatus.value = PresenceStatus.offline;
-  }
-
-  @override
-  void onUserDidRemoveFromServer() {
-    onlineStatus.value = PresenceStatus.offline;
-  }
-
-  @override
-  void onUserDidForbidByServer() {
-    onlineStatus.value = PresenceStatus.offline;
-  }
-
-  @override
-  void onUserDidChangePassword() {
-    onlineStatus.value = PresenceStatus.offline;
-  }
-
-  @override
-  void onUserDidLoginTooManyDevice() {
-    onlineStatus.value = PresenceStatus.offline;
-  }
-
-  @override
-  void onUserKickedByOtherDevice() {
-    onlineStatus.value = PresenceStatus.offline;
-  }
-
-  @override
-  void onUserAuthenticationFailed() {
+  void onDisconnected(int? errorCode, LoginExtensionInfo? info) {
     onlineStatus.value = PresenceStatus.offline;
   }
 
   @override
   void onTokenDidExpire() {
-    onlineStatus.value = PresenceStatus.offline;
-  }
-
-  @override
-  void onAppActiveNumberReachLimit() {
     onlineStatus.value = PresenceStatus.offline;
   }
 

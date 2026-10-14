@@ -1,4 +1,5 @@
 import 'package:chat_uikit_demo/demo_localizations.dart';
+import 'package:chat_uikit_demo/tool/login_data_store.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/material.dart';
@@ -18,17 +19,23 @@ class _WelcomePageState extends State<WelcomePage> with ChatUIKitThemeMixin {
   }
 
   void startShowTimer() async {
-    Future.delayed(const Duration(seconds: 2)).then((value) {
-      return ChatUIKit.instance.isLoginBefore();
-    }).then((value) {
-      if (mounted) {
-        if (value) {
-          Navigator.of(context).pushReplacementNamed('/home');
-        } else {
-          Navigator.of(context).pushReplacementNamed('/login');
-        }
+    await Future.delayed(const Duration(seconds: 2));
+    final credential = await LoginDataStore.load();
+    var loginSucceeded = false;
+    if (credential != null) {
+      try {
+        await ChatUIKit.instance.loginWithToken(
+          userId: credential.userId,
+          token: credential.token,
+        );
+        loginSucceeded = true;
+      } catch (e) {
+        debugPrint('Restore login failed: $e');
       }
-    });
+    }
+    if (!mounted) return;
+    Navigator.of(context)
+        .pushReplacementNamed(loginSucceeded ? '/home' : '/login');
   }
 
   @override

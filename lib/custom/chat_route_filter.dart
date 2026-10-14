@@ -46,7 +46,7 @@ class ChatRouteFilter {
       Group group = await ChatUIKit.instance
           .fetchGroupInfo(groupId: arguments.profile.id);
       ChatUIKitProfile profile = arguments.profile
-          .copyWith(showName: group.name, avatarUrl: group.extension);
+          .copyWith(showName: group.groupName, avatarUrl: group.extension);
       ChatUIKitProvider.instance.addProfiles([profile]);
       UserDataStore().saveUserData(profile);
     }).catchError((e) {
@@ -685,7 +685,7 @@ class ChatRouteFilter {
                     ChatUIKitRouteNames.messagesView,
                     MessagesViewArguments(
                       profile: ChatUIKitProfile.group(
-                          id: group.groupId, groupName: group.name),
+                          id: group.groupId, groupName: group.groupName),
                     ),
                   );
                 }

@@ -99,11 +99,11 @@ PODS:
     - Flutter
   - flutter_ringtone_player (0.0.1):
     - Flutter
-  - HyphenateChat (4.25.0):
+  - HyphenateChat (5.0.0):
     - ShengwangInfra_iOS (~> 1.3.0)
-  - im_flutter_sdk_ios (4.25.0):
+  - im_flutter_sdk_ios (5.0.0):
     - Flutter
-    - HyphenateChat (= 4.25.0)
+    - HyphenateChat (= 5.0.0)
   - image_cropper (0.0.4):
     - Flutter
     - TOCropViewController (~> 2.7.4)
@@ -238,14 +238,14 @@ SPEC CHECKSUMS:
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   em_chat_callkit: ca429d670ddcf56cee59b4e6728a958f53f8f510
-  em_chat_uikit: fa9729ca530000280c78962ec31a7895bab62df0
+  em_chat_uikit: ef3cdfaa8a693a3b5c5f3a09166e253c1d0fd5a3
   file_picker: a0560bc09d61de87f12d246fc47d2119e6ef37be
   Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
   flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   flutter_localization: 72299fb6cb4e51cae587bd953ed0b958040b71e6
   flutter_ringtone_player: a77c42464250845611eaa44c27e8714acc800138
-  HyphenateChat: ea10cee23c4855b4cc6b8cf95d15a2f54a39fb9b
-  im_flutter_sdk_ios: f31bccbac9c17e8968d0c652173bf3e363eb18f4
+  HyphenateChat: 32bb7305bfb333d3902ef9497b6892470bf1fa61
+  im_flutter_sdk_ios: b7fbdb018ca9feefcee370b8ed48f908ee218093
   image_cropper: c4326ea50132b1e1564499e5d32a84f01fb03537
   image_picker_ios: e0ece4aa2a75771a7de3fa735d26d90817041326
   iris_method_channel: b9db2053dac3dc84e256c8792eff6f11323a53bd

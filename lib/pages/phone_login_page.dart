@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/tool/app_server_helper.dart';
+import 'package:chat_uikit_demo/tool/login_data_store.dart';
 import 'package:chat_uikit_demo/widgets/verify_code_widget.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
@@ -323,6 +324,7 @@ class _PhoneLoginPageState extends State<PhoneLoginPage>
           userId: data.userId,
           token: data.token,
         );
+        await LoginDataStore.save(userId: data.userId, token: data.token);
       } catch (e) {
         debugPrint(e.toString());
         rethrow;

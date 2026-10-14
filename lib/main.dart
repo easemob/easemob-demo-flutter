@@ -26,7 +26,7 @@ import 'pages/me/settings/advanced_page.dart';
 
 String appKey = 'easemob#easeim';
 String rtcAppId = '';
-String serverUrl = '';
+String serverUrl = 'https://appserver.easesdk.com';
 
 void main() async {
   DemoConfig.setConfig(
@@ -38,7 +38,12 @@ void main() async {
       'DemoConfig.appKey must be set, call DemoConfig.setConfig(appKey: "your_app_key") before runApp');
   return ChatUIKit.instance
       .init(
-    options: Options.withAppKey(DemoConfig.appKey!),
+    options: Options.withAppKey(
+      DemoConfig.appKey!,
+      dataSyncType: ChatDataSyncType.conversations |
+          ChatDataSyncType.contacts |
+          ChatDataSyncType.joinedGroups,
+    ),
   )
       .then((value) {
     SettingsDataStore().init();

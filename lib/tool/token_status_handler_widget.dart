@@ -1,4 +1,5 @@
 import 'package:chat_uikit_demo/demo_localizations.dart';
+import 'package:chat_uikit_demo/tool/login_data_store.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 import 'package:flutter/material.dart';
 
@@ -37,53 +38,55 @@ class _TokenStatusHandlerWidgetState extends State<TokenStatusHandlerWidget>
   }
 
   @override
-  void onDisconnected() {
-    debugPrint('onDisconnected');
-  }
-
-  @override
-  void onUserDidLoginFromOtherDevice(info) {
-    debugPrint('onUserDidLoginFromOtherDevice: $info');
-    showDialogInfo(title: 'Login From Other Device');
-  }
-
-  @override
-  void onUserDidRemoveFromServer() {
-    debugPrint('onUserDidRemoveFromServer');
-    showDialogInfo(
-        title: 'User Removed', content: 'Please contact the administrator');
-  }
-
-  @override
-  void onUserDidForbidByServer() {
-    debugPrint('onUserDidForbidByServer');
-    showDialogInfo(
-        title: 'User Forbidden', content: 'Please contact the administrator');
-  }
-
-  @override
-  void onUserDidChangePassword() {
-    debugPrint('onUserDidChangePassword');
-    showDialogInfo(title: 'Password Changed', content: 'Please login again');
-  }
-
-  @override
-  void onUserDidLoginTooManyDevice() {
-    debugPrint('onUserDidLoginTooManyDevice');
-    showDialogInfo(title: 'LoginTooManyDevice');
-  }
-
-  @override
-  void onUserKickedByOtherDevice() {
-    debugPrint('onUserKickedByOtherDevice');
-    showDialogInfo(title: 'KickedByOtherDevice');
-  }
-
-  @override
-  void onUserAuthenticationFailed() {
-    debugPrint('onUserAuthenticationFailed');
-    showDialogInfo(
-        title: 'Authentication Failed', content: 'Please login again');
+  void onDisconnected(int? errorCode, LoginExtensionInfo? info) {
+    debugPrint('onDisconnected: $errorCode');
+    switch (errorCode) {
+      case ChatDisconnectErrorCode.USER_LOGIN_ANOTHER_DEVICE:
+        _handleLoggedOut(
+          title: 'Login From ${info?.deviceName ?? 'Other Device'}',
+        );
+        return;
+      case ChatDisconnectErrorCode.USER_REMOVED:
+        _handleLoggedOut(
+          title: 'User Removed',
+          content: 'Please contact the administrator',
+        );
+        return;
+      case ChatDisconnectErrorCode.USER_LOGIN_TOO_MANY_DEVICES:
+        _handleLoggedOut(title: 'Login Too Many Devices');
+        return;
+      case ChatDisconnectErrorCode.USER_KICKED_BY_OTHER_DEVICE:
+        _handleLoggedOut(title: 'Kicked By Other Device');
+        return;
+      case ChatDisconnectErrorCode.USER_KICKED_BY_CHANGE_PASSWORD:
+        _handleLoggedOut(
+          title: 'Login Credential Changed',
+          content: 'Please login again',
+        );
+        return;
+      case ChatDisconnectErrorCode.APP_ACTIVE_NUMBER_REACH_LIMITATION:
+        _handleLoggedOut(title: 'App Active Number Reached Limit');
+        return;
+      case ChatDisconnectErrorCode.SERVER_SERVICE_RESTRICTED:
+        _handleLoggedOut(
+          title: 'Service Restricted',
+          content: 'Please contact the administrator',
+        );
+        return;
+      case ChatDisconnectErrorCode.INVALID_TOKEN:
+      case ChatDisconnectErrorCode.INVALID_PARAM:
+      case ChatDisconnectErrorCode.USER_NOT_FOUND:
+      case ChatDisconnectErrorCode.USER_BIND_ANOTHER_DEVICE:
+      case ChatDisconnectErrorCode.USER_DEVICE_CHANGED:
+      case ChatDisconnectErrorCode.SERVER_GET_DNSLIST_FAILED:
+        _handleLoggedOut(
+          title: 'Authentication Failed',
+          content: 'Please login again',
+        );
+        return;
+      default:
+        return;
+    }
   }
 
   @override
@@ -93,7 +96,13 @@ class _TokenStatusHandlerWidgetState extends State<TokenStatusHandlerWidget>
 
   @override
   void onTokenDidExpire() {
-    showDialogInfo(title: 'Token Expired', content: 'Please login again');
+    _handleLoggedOut(title: 'Token Expired', content: 'Please login again');
+  }
+
+  void _handleLoggedOut({required String title, String? content}) async {
+    await LoginDataStore.clear();
+    if (!mounted) return;
+    showDialogInfo(title: title, content: content);
   }
 
   void showDialogInfo({
@@ -112,16 +121,14 @@ class _TokenStatusHandlerWidgetState extends State<TokenStatusHandlerWidget>
               Navigator.of(context).pop();
               ChatUIKit.instance.logout().then((value) {}).whenComplete(() {
                 if (mounted) {
-                  Navigator.of(context).popAndPushNamed('/login');
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/login',
+                    (route) => false,
+                  );
                 }
               });
             },
           ),
         ]);
-  }
-
-  @override
-  void onAppActiveNumberReachLimit() {
-    debugPrint('onAppActiveNumberReachLimit');
   }
 }

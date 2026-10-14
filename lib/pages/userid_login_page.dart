@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chat_uikit_demo/demo_localizations.dart';
+import 'package:chat_uikit_demo/tool/login_data_store.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
 
 import 'package:flutter/gestures.dart';
@@ -23,7 +24,7 @@ class _UserIdLoginPageState extends State<UserIdLoginPage>
   final String privacyPolicyURL = 'https://www.easemob.com/protocol';
 
   TextEditingController userIdController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController tokenController = TextEditingController();
 
   bool agreeServiceAgreement = false;
 
@@ -31,7 +32,7 @@ class _UserIdLoginPageState extends State<UserIdLoginPage>
   void dispose() {
     _timer?.cancel();
     userIdController.dispose();
-    passwordController.dispose();
+    tokenController.dispose();
     super.dispose();
   }
 
@@ -110,7 +111,7 @@ class _UserIdLoginPageState extends State<UserIdLoginPage>
                   padding:
                       const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
                   child: TextField(
-                    controller: passwordController,
+                    controller: tokenController,
                     keyboardAppearance:
                         theme.color.isDark ? Brightness.dark : Brightness.light,
                     autofocus: true,
@@ -121,8 +122,8 @@ class _UserIdLoginPageState extends State<UserIdLoginPage>
                     // controller: searchController,
                     scrollPadding: EdgeInsets.zero,
                     decoration: InputDecoration(
-                      hintText: DemoLocalizations.loginPasswordHint
-                          .localString(context),
+                      hintText:
+                          DemoLocalizations.loginTokenHint.localString(context),
                       contentPadding: EdgeInsets.zero,
                       isDense: true,
                       hintStyle: TextStyle(
@@ -232,7 +233,7 @@ class _UserIdLoginPageState extends State<UserIdLoginPage>
   void login() async {
     if (!checkout()) return;
 
-    if (passwordController.text.isEmpty || userIdController.text.isEmpty) {
+    if (tokenController.text.isEmpty || userIdController.text.isEmpty) {
       EasyLoading.showInfo(
           DemoLocalizations.loginPleaseInput.localString(context));
       return;
@@ -242,9 +243,13 @@ class _UserIdLoginPageState extends State<UserIdLoginPage>
 
     Future(() async {
       try {
-        await ChatUIKit.instance.loginWithPassword(
+        await ChatUIKit.instance.loginWithToken(
           userId: userIdController.text,
-          password: passwordController.text,
+          token: tokenController.text,
+        );
+        await LoginDataStore.save(
+          userId: userIdController.text,
+          token: tokenController.text,
         );
       } catch (e) {
         debugPrint(e.toString());

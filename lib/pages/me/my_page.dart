@@ -1,5 +1,6 @@
 import 'package:chat_uikit_demo/demo_localizations.dart';
 import 'package:chat_uikit_demo/tool/online_status_helper.dart';
+import 'package:chat_uikit_demo/tool/login_data_store.dart';
 import 'package:chat_uikit_demo/widgets/list_item.dart';
 import 'package:chat_uikit_demo/widgets/online_icon_status_widget.dart';
 import 'package:em_chat_uikit/chat_uikit.dart';
@@ -351,10 +352,14 @@ class _MyPageState extends State<MyPage>
           onTap: () async {
             Navigator.of(context).pop();
             EasyLoading.show();
-            ChatUIKit.instance.logout().then((value) {
+            ChatUIKit.instance.logout().then((value) async {
+              await LoginDataStore.clear();
               EasyLoading.dismiss();
               if (mounted) {
-                Navigator.of(context).popAndPushNamed('/login');
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/login',
+                  (route) => false,
+                );
               }
             });
           },

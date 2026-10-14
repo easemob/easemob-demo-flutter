@@ -24,12 +24,14 @@
 5. 下载完毕，打开 lib/main.dart。
 6. 将你的应用的 App Key 填写到 `appKey` 中。
 7. 编译运行项目。
-8. 使用注册的用户 ID 和密码登录。
+8. 使用注册的用户 ID 和 Token 登录。
 
 
 ### App Server
 
-为方便开发者快速体验即时通讯 IM 功能，跑通本工程 Demo 源码默认使用开发者注册的用户 ID 和密码直接登录，不需要依赖部署服务端 App Server。但是在此模式下，手机验证码、用户头像和 EaseCallKit 实时音视频等相关功能不可用，你可以通过部署 App Server 完整体验这些功能。
+为方便开发者快速体验即时通讯 IM 功能，跑通本工程 Demo 源码可以使用开发者注册的用户 ID 和 Token 直接登录，不需要依赖部署服务端 App Server。但是在此模式下，手机验证码、用户头像和 EaseCallKit 实时音视频等相关功能不可用，你可以通过部署 App Server 完整体验这些功能。
+
+IM SDK 5.0.0 不再提供密码登录和 SDK 自动登录。Demo 会在 Token 登录成功后保存用户 ID 和 Token，并在下次启动时主动调用 Token 登录；显式退出、Token 过期或鉴权失效时会清除保存的登录信息。该存储方式仅用于 Demo，生产环境请使用安全存储方案。
 
 App Server 为 Demo 提供以下功能：
 
@@ -98,6 +100,7 @@ App Server 为 Demo 提供以下功能：
 ├── tool
 │   ├── app_server_helper.dart              // appServer 请求封装，用于封装向 AppServer 的请求
 │   ├── format_time_tool.dart               // 时间工具，用于格式化通话时间
+│   ├── login_data_store.dart                // Demo 登录用户 ID 和 Token 存储工具
 │   ├── online_status_helper.dart           // 在线状态工具类
 │   ├── presence_status_helper.dart         // Presence 状态工具类
 │   ├── settings_data_store.dart            // 配置存储工具
