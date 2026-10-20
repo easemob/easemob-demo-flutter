@@ -223,14 +223,14 @@ packages:
       path: "/Users/asterisk/Codes/zuoyu_flutter/ease-callkit-flutter"
       relative: false
     source: path
-    version: "0.0.5"
+    version: "0.1.0"
   em_chat_uikit:
     dependency: "direct main"
     description:
       path: "/Users/asterisk/Codes/zuoyu_flutter/easemob-uikit-flutter"
       relative: false
     source: path
-    version: "2.4.0"
+    version: "3.0.0"
   encrypt:
     dependency: "direct main"
     description:
