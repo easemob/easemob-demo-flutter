@@ -65,9 +65,9 @@ dependencies:
   em_chat_callkit:
     git: 
       url: https://github.com/easemob/ease-callkit-flutter.git
-      ref: '0.0.5'
+      ref: '0.1.0'
 
-  em_chat_uikit: 2.4.0
+  em_chat_uikit: 3.0.0
 
   encrypt: ^5.0.1
   
